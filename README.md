@@ -2,6 +2,8 @@
 
 Connect events from components to functions of other components, to properties or trigger (basic) events  of other components in a declarative way.
 
+[DEMO/Doc](https://veith.github.io/flowbased-behaviour/components/flowbased-behaviour/)
+
 
 Installation:
 ```
