@@ -1,0 +1,92 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="behaviour.html">
+<!--
+`flowbased-behaviour`
+Connect events from components to other components or to properties without coding
+
+Usage:
+ - add a @ƒ-<event>="<connector/property>" to emmiting component.
+ - add a ƒ-<function/event>="<connector/property>" to the receiving component.
+
+ event.detail will be passed to the receiver function and to the proprty <connector/property>
+
+@author veith
+@demo demo/index.html
+
+-->
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<script>
+    PolymerFlowBasedProgramming = {
+        properties: {
+            _PolymerFlowBasedProgrammingRegistry: {
+                type: array,
+                value: function () {
+                    return [];
+                }()
+            }
+        },
+        ready: function () {
+            var self = this;
+            var methodwirebundle = {};
+
+            // get all elements which live in the host
+            Polymer.dom(this.root).querySelectorAll('*').forEach(function (element) {
+                for (var i = 0; i < element.attributes.length; i++) {
+
+                    // collect receiving tags
+                    if (element.attributes[i].name.startsWith('ƒ-')) {
+
+                        var methodname = element.attributes[i].name.substr(2);
+                        var mwire = element.attributes[i].value;
+                        if (!methodwirebundle[mwire]) {
+                            methodwirebundle[mwire] = [];
+                        }
+                        // collect receiver
+                        methodwirebundle[mwire].push({"element": element, "method": methodname});
+                    }
+
+                    // collect sending tags
+                    if (element.attributes[i].name.startsWith('@ƒ-')) {
+
+                        var eventname = element.attributes[i].name.substr(3);
+                        var wire = element.attributes[i].value;
+
+                        /**
+                         * register event on current element
+                         * @param eventname
+                         * TODO: veith implement event unregister
+                         */
+                        function registerEvent(eventname) {
+                            var handler = function (e) {
+                                // Werte setzen
+                                self.set(wire, e.detail, self);
+                                // Methoden aufrufen
+                                if (methodwirebundle[wire]) {
+                                    methodwirebundle[wire].forEach(function (receiver) {
+                                        if (typeof receiver.element[receiver.method] === 'function') {
+                                            receiver.element[receiver.method](e.detail);
+                                        } else {
+                                            console.warn(receiver.method + ' is neither a listener nor a function of ' + receiver.element.nodeName)
+                                        }
+
+                                    });
+                                }
+                            };
+
+                            element.addEventListener(eventname, handler,false);
+                        }
+
+                        registerEvent(eventname);
+                        // register click on tap event like polymer
+                        if (eventname === 'tap') {
+                            registerEvent('click');
+                        }
+                    }
+                }
+            })
+
+        },
+
+    };
+</script>
