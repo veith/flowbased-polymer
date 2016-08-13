@@ -19,14 +19,14 @@ Usage:
 <script>
     PolymerFlowBasedProgramming = {
         properties: {
-            _PolymerFlowBasedProgrammingRegistry: {
-                type: array,
+            _PolymerFlowBasedProgrammingEvents: {
+                type: Array,
                 value: function () {
                     return [];
                 }()
             }
         },
-        ready: function () {
+        attached: function () {
             var self = this;
             var methodwirebundle = {};
 
@@ -75,6 +75,7 @@ Usage:
                             };
 
                             element.addEventListener(eventname, handler,false);
+                            self._PolymerFlowBasedProgrammingEvents.push({"element": element, "event": eventname, "handler":handler});
                         }
 
                         registerEvent(eventname);
@@ -87,6 +88,13 @@ Usage:
             })
 
         },
+        detached:function () {
+            var self = this;
+            // remove event listeners
+            this._PolymerFlowBasedProgrammingEvents.forEach(function (e) {
+                e.element.removeEventListener(e.event, e.hadler);
+            })
+        }
 
     };
 </script>
