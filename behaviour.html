@@ -1,5 +1,4 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="behaviour.html">
 <!--
 `flowbased-behaviour`
 Connect events from components to other components or to properties without coding
@@ -14,9 +13,12 @@ Usage:
 @demo demo/index.html
 
 -->
-<link rel="import" href="/bower_components/polymer/polymer.html">
 
 <script>
+    /**
+     * Kommentar
+     @polymerBehavior PolymerFlowBasedProgramming
+     */
     PolymerFlowBasedProgramming = {
         properties: {
             _PolymerFlowBasedProgrammingEvents: {
@@ -55,7 +57,6 @@ Usage:
                         /**
                          * register event on current element
                          * @param eventname
-                         * TODO: veith implement event unregister
                          */
                         function registerEvent(eventname) {
                             var handler = function (e) {
