@@ -1,23 +1,20 @@
 <link rel="import" href="../polymer/polymer.html">
-<!--
-`flowbased-behaviour`
-Connect events from components to other components or to properties without coding
-
-Usage:
- - add a @ƒ-<event>="<connector/property>" to emmiting component.
- - add a ƒ-<function/event>="<connector/property>" to the receiving component.
-
- event.detail will be passed to the receiver function and to the proprty <connector/property>
-
-@author veith
-@demo demo/index.html
-
--->
 
 <script>
     /**
-     * Kommentar
-     @polymerBehavior PolymerFlowBasedProgramming
+     * `flowbased-behaviour`
+     * Connect events from components to other components or to properties without coding
+     *
+     * Usage:
+     * - add a ```@ƒ-<event>="<connector/property>"``` to emmiting component.
+     * - add a ```ƒ-<function/event>="<connector/property>"``` to the receiving component.
+     *
+     * event.detail will be passed to the receiver function and to the proprty <connector/property>
+     *
+     * @author veith
+     * @demo demo/index.html
+     *
+     * @polymerBehavior PolymerFlowBasedProgramming
      */
     PolymerFlowBasedProgramming = {
         properties: {
@@ -35,11 +32,10 @@ Usage:
             // get all elements which live in the host
             Polymer.dom(this.root).querySelectorAll('*').forEach(function (element) {
                 for (var i = 0; i < element.attributes.length; i++) {
-
                     // collect receiving tags
                     if (element.attributes[i].name.startsWith('ƒ-')) {
-
-                        var methodname = element.attributes[i].name.substr(2);
+                        // get method name and convert to camel case
+                        var methodname = element.attributes[i].name.substr(2).replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
                         var mwire = element.attributes[i].value;
                         if (!methodwirebundle[mwire]) {
                             methodwirebundle[mwire] = [];
@@ -75,8 +71,12 @@ Usage:
                                 }
                             };
 
-                            element.addEventListener(eventname, handler,false);
-                            self._PolymerFlowBasedProgrammingEvents.push({"element": element, "event": eventname, "handler":handler});
+                            element.addEventListener(eventname, handler, false);
+                            self._PolymerFlowBasedProgrammingEvents.push({
+                                "element": element,
+                                "event": eventname,
+                                "handler": handler
+                            });
                         }
 
                         registerEvent(eventname);
@@ -89,7 +89,7 @@ Usage:
             })
 
         },
-        detached:function () {
+        detached: function () {
             var self = this;
             // remove event listeners
             this._PolymerFlowBasedProgrammingEvents.forEach(function (e) {

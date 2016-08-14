@@ -1,0 +1,36 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../iron-ajax/iron-ajax.html">
+<link rel="import" href="../behaviour.html">
+
+
+
+<dom-module id="demo-component">
+
+    <template>
+
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <button @ƒ-tap="go">Request Ajax</button>
+        <iron-ajax
+            ƒ-generate-request="go"
+            url="../bower.json"
+            handle-as="json"
+            @ƒ-response="receivedResponse"></iron-ajax>
+        <br>
+        <br>
+        receivedResponse.response.version = {{receivedResponse.response.version}}
+    </template>
+
+    <script>
+
+        Polymer({
+            is: 'demo-component',
+            properties: {},
+            behaviors: [PolymerFlowBasedProgramming],
+        });
+    </script>
+</dom-module>

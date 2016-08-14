@@ -8,8 +8,9 @@
 
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="demo-component.html">
 
-    <link rel="import" href="../behaviour.html">
+
 
     <style is="custom-style" include="demo-pages-shared-styles">
     </style>
@@ -19,8 +20,24 @@
     <div class="vertical-section-container centered">
       <h3>Basic flowbased-behaviour Demo</h3>
       <demo-snippet>
-        <template>
-          No demo at the moment.
+        <template >
+<demo-component></demo-component>
+
+
+<!--
+demo-component contains:
+
+<button @ƒ-tap="requestButtonClicked">Request Ajax</button>
+<iron-ajax
+    ƒ-generate-request="requestButtonClicked"
+    url="../bower.json"
+    handle-as="json"
+    @ƒ-response="receivedResponse"
+></iron-ajax>
+<br>
+<br>
+receivedResponse.response.version = {{receivedResponse.response.version}}
+-->
 
         </template>
       </demo-snippet>
