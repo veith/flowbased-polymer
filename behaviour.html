@@ -34,11 +34,15 @@
                             return g[1].toUpperCase();
                         });
                         var mwire = element.attributes[i].value;
-                        if (!methodwirebundle[mwire]) {
-                            methodwirebundle[mwire] = [];
-                        }
+
                         // collect receiver
-                        methodwirebundle[mwire].push({"element": element, "method": methodname});
+                        mwire.split(',').forEach(function (w) {
+                            if (!methodwirebundle[w.trim()]) {
+                                methodwirebundle[w.trim()] = [];
+                            }
+                            methodwirebundle[w.trim()].push({"element": element, "method": methodname});
+                        });
+
                     }
 
                     // collect sending tags
