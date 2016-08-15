@@ -29,7 +29,11 @@
 
         Polymer({
             is: 'ddemo-component',
-            properties: {},
+            properties: {
+                receivedResponse:{
+                    type: Object
+                }
+            },
             behaviors: [PolymerFlowBasedProgramming],
         });
     </script>
