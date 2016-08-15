@@ -5,18 +5,17 @@
 <h1>flowbased-behaviour</h1>
 Connect events from components to functions of other components, to properties or trigger (basic) events  of other components in a declarative way.
 
-Usage:
-
+<h3>Usage</h3>
 ```
 <link rel="import" href="../../bower_components/flowbased-behaviour/behaviour.html">
 
 ```
  - add behaviour to your component **behaviors: [PolymerFlowBasedProgramming,...]**.
 
- - add a ```@ƒ-event-name="connector"``` to the emmiting component.
- - or a ```@ƒ-event-name="((property))"``` to the emmiting component.
- - add a ```ƒ-function-name="connector"``` to the receiving component.
- - add a ```ƒ-event-name="connector"``` to the receiving component.
+ - add a ```@ƒ-event-name="connector"``` or  ```@ƒ-event-name="((property))"``` to the emmiting component.
+
+ - add a ```ƒ-function-name="connector"``` or ```ƒ-event-name="connector"``` to the receiving component(s).
+
 
 The content of **event.detail** will be passed to the receiver function and to the property.
 
@@ -38,7 +37,9 @@ Exapmple above is aequivalent to following example
 ```
 <emmiting-component id="emmiter" on-response="handleResponseFromSomewhere"></emmiting-component>
 <emmiting-component id="emmiterB" on-response="handleOtherResponseFromSomewhere"></emmiting-component>
+
 <receiving-component id="receiver"></receiving-component>
+{{responseFromSomewhere}}
 
 Polymer({
     is: 'my-component',
