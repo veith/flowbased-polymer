@@ -35,7 +35,9 @@
                     // collect receiving tags
                     if (element.attributes[i].name.startsWith('ƒ-')) {
                         // get method name and convert to camel case
-                        var methodname = element.attributes[i].name.substr(2).replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+                        var methodname = element.attributes[i].name.substr(2).replace(/-([a-z])/g, function (g) {
+                            return g[1].toUpperCase();
+                        });
                         var mwire = element.attributes[i].value;
                         if (!methodwirebundle[mwire]) {
                             methodwirebundle[mwire] = [];
@@ -48,7 +50,16 @@
                     if (element.attributes[i].name.startsWith('@ƒ-')) {
 
                         var eventname = element.attributes[i].name.substr(3);
-                        var wire = element.attributes[i].value;
+                        var useSetter = false;
+                        var wire;
+
+                        if (element.attributes[i].value.startsWith('{')) {
+                            wire = element.attributes[i].value.substring(1, element.attributes[i].value.length - 1);
+                            useSetter = true;
+                        } else {
+                            wire = element.attributes[i].value;
+                        }
+
 
                         /**
                          * register event on current element
@@ -57,17 +68,21 @@
                         function registerEvent(eventname) {
                             var handler = function (e) {
                                 // Werte setzen
-                                self.set(wire, e.detail, self);
-                                // Methoden aufrufen
-                                if (methodwirebundle[wire]) {
-                                    methodwirebundle[wire].forEach(function (receiver) {
-                                        if (typeof receiver.element[receiver.method] === 'function') {
-                                            receiver.element[receiver.method](e.detail);
-                                        } else {
-                                            console.warn(receiver.method + ' is neither a listener nor a function of ' + receiver.element.nodeName)
-                                        }
+                                if (useSetter) {
+                                    self.set(wire, e.detail, self);
+                                } else {
 
-                                    });
+                                    // Methoden aufrufen
+                                    if (methodwirebundle[wire]) {
+                                        methodwirebundle[wire].forEach(function (receiver) {
+                                            if (typeof receiver.element[receiver.method] === 'function') {
+                                                receiver.element[receiver.method](e.detail);
+                                            } else {
+                                                console.warn(receiver.method + ' is neither a listener nor a function of ' + receiver.element.nodeName)
+                                            }
+
+                                        });
+                                    }
                                 }
                             };
 

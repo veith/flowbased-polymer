@@ -4,7 +4,7 @@
 
 
 
-<dom-module id="demo-component">
+<dom-module id="ddemo-component">
 
     <template>
 
@@ -19,7 +19,7 @@
             ƒ-generate-request="go"
             url="../bower.json"
             handle-as="json"
-            @ƒ-response="receivedResponse"></iron-ajax>
+            @ƒ-response="{receivedResponse}"></iron-ajax>
         <br>
         <br>
         receivedResponse.response.version = {{receivedResponse.response.version}}
@@ -28,7 +28,7 @@
     <script>
 
         Polymer({
-            is: 'demo-component',
+            is: 'ddemo-component',
             properties: {},
             behaviors: [PolymerFlowBasedProgramming],
         });
