@@ -40,7 +40,7 @@
                           ƒ-generate-request="requestButtonTap"
                           url="../bower.json"
                           handle-as="json"
-                          @ƒ-response="{{receivedResponse}}"></iron-ajax>
+                          @ƒ-response="((receivedResponse))"></iron-ajax>
                       <br>
                       <br>
                       receivedResponse.response.version = {{receivedResponse.response.version}}
@@ -58,7 +58,6 @@
           </template>
       </demo-snippet>
     </div>
-
 
   </body>
 </html>

@@ -13,19 +13,22 @@ Usage:
 ```
  - add behaviour to your component **behaviors: [PolymerFlowBasedProgramming,...]**.
 
- - add a ```@ƒ-<event>="<connector>"``` to the emmiting component.
- - or a ```@ƒ-<event>="</{property}>"``` to the emmiting component.
- - add a ```ƒ-<function/event>="<connector/property>"``` to the receiving component.
+ - add a ```@ƒ-event-name="connector"``` to the emmiting component.
+ - or a ```@ƒ-event-name="((property))"``` to the emmiting component.
+ - add a ```ƒ-function-name="connector"``` to the receiving component.
+ - add a ```ƒ-event-name="connector"``` to the receiving component.
 
-The content of **event.detail** will be passed to the receiver function and to the property <connector/property>
+The content of **event.detail** will be passed to the receiver function and to the property.
 
 <h3>Attention</h3>
 Keep in mind that the "ƒ" symbol is not a regular "f". Press [alt] + f on mac.
 
 <h3>example</h3>
 ```
-<emmiting-component @ƒ-response="responseFromSomewhere"></emmiting-component>
-<receiving-component ƒ-show="responseFromSomewhere"></receiving-component>
+<emmiting-component @ƒ-response="((responseFromSomewhere))"></emmiting-component>
+<emmiting-component @ƒ-response="otherResponse"></emmiting-component>
+
+<receiving-component ƒ-show-data="otherResponse"></receiving-component>
 {{responseFromSomewhere}}
 
 ```
@@ -34,6 +37,7 @@ Exapmple above is aequivalent to following example
 
 ```
 <emmiting-component id="emmiter" on-response="handleResponseFromSomewhere"></emmiting-component>
+<emmiting-component id="emmiterB" on-response="handleOtherResponseFromSomewhere"></emmiting-component>
 <receiving-component id="receiver"></receiving-component>
 
 Polymer({
@@ -45,8 +49,10 @@ Polymer({
         }
     },
     handleResponseFromSomewhere:function(event){
-        this.$.receiver.show(event.detail);
         this.set(responseFromSomewhere, event.detail);
+    },
+    handleOtherResponseFromSomewhere:function(event){
+        this.$.receiverB.showData(event.detail);
     }
 
 });

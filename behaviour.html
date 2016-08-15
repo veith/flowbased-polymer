@@ -5,11 +5,6 @@
      * `flowbased-behaviour`
      * Connect events from components to other components or to properties without coding
      *
-     * Usage:
-     * - add a ```@ƒ-<event>="<connector/property>"``` to emmiting component.
-     * - add a ```ƒ-<function/event>="<connector/property>"``` to the receiving component.
-     *
-     * event.detail will be passed to the receiver function and to the proprty <connector/property>
      *
      * @author veith
      * @demo demo/index.html
@@ -53,8 +48,8 @@
                         var useSetter = false;
                         var wire;
 
-                        if (element.attributes[i].value.startsWith('{')) {
-                            wire = element.attributes[i].value.substring(1, element.attributes[i].value.length - 1);
+                        if (element.attributes[i].value.startsWith('((')) {
+                            wire = element.attributes[i].value.substring(2, element.attributes[i].value.length - 2);
                             useSetter = true;
                         } else {
                             wire = element.attributes[i].value;
