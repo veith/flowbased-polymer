@@ -1,0 +1,39 @@
+<link rel="import" href="../polymer/polymer.html">
+
+
+<!--
+
+@author veith
+@date 16.08.16
+-->
+
+<dom-module id="value-observer">
+
+    <template>
+
+        <style>
+            :host {
+                display: none;
+            }
+        </style>
+    </template>
+
+    <script>
+
+        Polymer({
+            is: 'value-observer',
+            properties: {
+                /**
+                 * Value to observe. fires value-changed on change
+                 * Use @ƒ-value-changed="connector-name" to trigger something
+                 */
+                observe:{}
+            },
+
+            observers: ['_change(observe)'],
+            _change: function (v) {
+                this.fire('value-changed',this.observe)
+            }
+        });
+    </script>
+</dom-module>

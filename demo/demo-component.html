@@ -1,39 +1,34 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../iron-ajax/iron-ajax.html">
 <link rel="import" href="../behaviour.html">
-
-
+<link rel="import" href="call-function.html">
 
 <dom-module id="ddemo-component">
 
     <template>
-
         <style>
             :host {
                 display: block;
             }
         </style>
 
-        <button @ƒ-tap="go">Request Ajax</button>
+        <button @ƒ-tap="connector-button-request-ajax">Request Ajax</button>
         <iron-ajax
-            ƒ-generate-request="go"
+            ƒ-generate-request="connector-button-request-ajax"
+            @ƒ-response="((_response))"
             url="../bower.json"
-            handle-as="json"
-            @ƒ-response="((receivedResponse))"></iron-ajax>
-        <br>
-        <br>
-        receivedResponse.response.version = {{receivedResponse.response.version}}
+            handle-as="json"></iron-ajax>
+        <hr>
+        <call-function ƒ-func="_response-changed"></call-function>
+        <value-observer observe="[[_response]]" @ƒ-value-changed="_response-changed"></value-observer>
+
+        receivedResponse.response.version = {{_response.response.version}}
     </template>
 
     <script>
 
         Polymer({
             is: 'ddemo-component',
-            properties: {
-                receivedResponse:{
-                    type: Object
-                }
-            },
             behaviors: [PolymerFlowBasedProgramming],
         });
     </script>

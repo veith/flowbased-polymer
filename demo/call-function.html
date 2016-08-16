@@ -1,0 +1,47 @@
+<link rel="import" href="../../polymer/polymer.html">
+
+<!--
+Example component with a function func
+
+@author veith
+@date 16.08.16
+-->
+
+<dom-module id="call-function">
+
+  <template>
+
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    [[_message]]{{_val}}
+  </template>
+
+  <script>
+
+    Polymer({
+      is: 'call-function',
+      /**
+       * Fired when menu button is pressed.
+       *
+       * @event superclick
+       */
+
+      properties: {},
+      func:function (v) {
+          if(this._times){
+
+              this.set('_times', this._times + 1)
+          }else{
+              this.set('_times', 1)
+          }
+          this.set('_message','The function func was called ' + this._times + ' times because the value changed to:');
+          this.set('_val',v);
+
+      }
+    });
+  </script>
+</dom-module>

@@ -19,42 +19,58 @@
 
     <div class="vertical-section-container ">
       <h3>Basic flowbased-behaviour Demo</h3>
+        <p>When you press the button, it will trigger iron-ajax because of the connection <i>connector-button-request-ajax</i>
+            which is set on the tap event of the button with <b>@ƒ-tap="connector-button-request-ajax"</b> (sender) and the generate-request function on the iron-ajax with
+        <b>ƒ-generate-request="connector-button-request-ajax"</b></p>
+
+        <p>The response event from iron-ajax is connected to the local value <b>{{_response}}</b> with <br>
+        <b>@ƒ-response="((_response))"</b>.
+        </p>
+
+        <p>The value-observer observes the changes for <b>_request</b> and triggers a <b>value-changed</b> event. Which is connected to call-function via
+        <b>@ƒ-value-changed="_response-changed"</b> ---> <b>ƒ-func="_response-changed"</b> and this will trigger the method func of call-function.
+        </p>
+
+        <h4>Schematics</h4>
+    <pre>@ƒ-tap="connector-button-request-ajax" ---> ƒ-generate-request="connector-button-request-ajax"
+@ƒ-response="((_response))" ---> this._response
+@ƒ-value-changed="_response-changed" ---> ƒ-func="_response-changed"
+    </pre>
       <demo-snippet>
           <ddemo-component></ddemo-component>
           <template>
               <link rel="import" href="../../polymer/polymer.html">
               <link rel="import" href="../../iron-ajax/iron-ajax.html">
               <link rel="import" href="../behaviour.html">
-              <dom-module id="demo-component">
+              <link rel="import" href="call-function.html">
+
+              <dom-module id="ddemo-component">
 
                   <template>
+                      <style></style>
 
-                      <style>
-                          :host {
-                              display: block;
-                          }
-                      </style>
-
-                      <button @ƒ-tap="requestButtonTap">Request Ajax</button>
+                      <button @ƒ-tap="connector-button-request-ajax">Request Ajax</button>
                       <iron-ajax
-                          ƒ-generate-request="requestButtonTap"
+                          ƒ-generate-request="connector-button-request-ajax"
+                          @ƒ-response="((_response))"
                           url="../bower.json"
-                          handle-as="json"
-                          @ƒ-response="((receivedResponse))"></iron-ajax>
-                      <br>
-                      <br>
-                      receivedResponse.response.version = {{receivedResponse.response.version}}
+                          handle-as="json"></iron-ajax>
+
+                      <call-function ƒ-func="_response-changed"></call-function>
+                      <value-observer observe="[[_response]]" @ƒ-value-changed="_response-changed"></value-observer>
+
+                      receivedResponse.response.version = {{_response.response.version}}
                   </template>
 
                   <script>
 
                       Polymer({
-                          is: 'demo-component',
-                          properties: {},
+                          is: 'ddemo-component',
                           behaviors: [PolymerFlowBasedProgramming],
                       });
                   </script>
               </dom-module>
+
           </template>
       </demo-snippet>
     </div>
