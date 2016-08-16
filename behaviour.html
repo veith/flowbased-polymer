@@ -93,11 +93,13 @@
                             });
                         }
 
-                        registerEvent(eventname);
                         // register click on tap event like polymer
                         if (eventname === 'tap') {
-                            registerEvent('click');
+                            eventname = 'click';
                         }
+
+                        registerEvent(eventname);
+
                     }
                 }
             })
