@@ -48,9 +48,9 @@
                     }
 
                     // collect sending tags
-                    if (element.attributes[i].name.startsWith('@ƒ-')) {
+                    if (element.attributes[i].name.startsWith('@-')) {
 
-                        var eventname = element.attributes[i].name.substr(3);
+                        var eventname = element.attributes[i].name.substr(2);
                         var useSetter = false;
                         var wire;
 

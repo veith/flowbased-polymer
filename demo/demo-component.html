@@ -12,15 +12,15 @@
             }
         </style>
 
-        <button @ƒ-tap="connector-button-request-ajax">Request Ajax</button>
+        <button @-tap="connector-button-request-ajax">Request Ajax</button>
         <iron-ajax
             ƒ-generate-request="connector-button-request-ajax"
-            @ƒ-response="((_response))"
+            @-response="((_response))"
             url="../bower.json"
             handle-as="json"></iron-ajax>
         <hr>
         <call-function ƒ-func="_response-changed"></call-function>
-        <value-observer observe="[[_response]]" @ƒ-value-changed="_response-changed"></value-observer>
+        <value-observer observe="[[_response]]" @-value-changed="_response-changed"></value-observer>
 
         receivedResponse.response.version = {{_response.response.version}}
     </template>

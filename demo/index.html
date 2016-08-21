@@ -20,21 +20,21 @@
     <div class="vertical-section-container ">
       <h3>Basic flowbased-behaviour Demo</h3>
         <p>When you press the button, it will trigger iron-ajax because of the connection <i>connector-button-request-ajax</i>
-            which is set on the tap event of the button with <b>@ƒ-tap="connector-button-request-ajax"</b> (sender) and the generate-request function on the iron-ajax with
+            which is set on the tap event of the button with <b>@-tap="connector-button-request-ajax"</b> (sender) and the generate-request function on the iron-ajax with
         <b>ƒ-generate-request="connector-button-request-ajax"</b></p>
 
         <p>The response event from iron-ajax is connected to the local value <b>{{_response}}</b> with <br>
-        <b>@ƒ-response="((_response))"</b>.
+        <b>@-response="((_response))"</b>.
         </p>
 
         <p>The value-observer observes the changes for <b>_request</b> and triggers a <b>value-changed</b> event. Which is connected to call-function via
-        <b>@ƒ-value-changed="_response-changed"</b> ---> <b>ƒ-func="_response-changed"</b> and this will trigger the method func of call-function.
+        <b>@-value-changed="_response-changed"</b> ---> <b>ƒ-func="_response-changed"</b> and this will trigger the method func of call-function.
         </p>
 
         <h4>Schematics</h4>
-    <pre>@ƒ-tap="connector-button-request-ajax" ---> ƒ-generate-request="connector-button-request-ajax"
-@ƒ-response="((_response))" ---> this._response
-@ƒ-value-changed="_response-changed" ---> ƒ-func="_response-changed"
+    <pre>@-tap="connector-button-request-ajax" ---> ƒ-generate-request="connector-button-request-ajax"
+@-response="((_response))" ---> this._response
+@-value-changed="_response-changed" ---> ƒ-func="_response-changed"
     </pre>
       <demo-snippet>
           <ddemo-component></ddemo-component>
@@ -49,15 +49,15 @@
                   <template>
                       <style></style>
 
-                      <button @ƒ-tap="connector-button-request-ajax">Request Ajax</button>
+                      <button @-tap="connector-button-request-ajax">Request Ajax</button>
                       <iron-ajax
                           ƒ-generate-request="connector-button-request-ajax"
-                          @ƒ-response="((_response))"
+                          @-response="((_response))"
                           url="../bower.json"
                           handle-as="json"></iron-ajax>
 
                       <call-function ƒ-func="_response-changed"></call-function>
-                      <value-observer observe="[[_response]]" @ƒ-value-changed="_response-changed"></value-observer>
+                      <value-observer observe="[[_response]]" @-value-changed="_response-changed"></value-observer>
 
                       receivedResponse.response.version = {{_response.response.version}}
                   </template>

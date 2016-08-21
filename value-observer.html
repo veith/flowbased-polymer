@@ -19,13 +19,20 @@
     </template>
 
     <script>
+        /**
+         * Fired when observed value changed.
+         * event.detail will contain the new value
+         *
+         * @event value-changed
+         */
+
 
         Polymer({
             is: 'value-observer',
             properties: {
                 /**
                  * Value to observe. fires value-changed on change
-                 * Use @ƒ-value-changed="connector-name" to trigger something
+                 * Use @-value-changed="connector-name" to trigger something
                  */
                 observe:{}
             },

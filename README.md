@@ -19,7 +19,7 @@ bower install flowbased-behaviour --save
 ```
  - add behaviour to your component **behaviors: [PolymerFlowBasedProgramming,...]**.
 
- - add a ```@ƒ-event-name="connector"``` or  ```@ƒ-event-name="((property))"``` to the emmiting component.
+ - add a ```@-event-name="connector"``` or  ```@-event-name="((property))"``` to the emmiting component.
 
  - add a ```ƒ-function-name="connector"``` or ```ƒ-event-name="connector"``` to the receiving component(s).
 
@@ -31,8 +31,8 @@ Keep in mind that the "ƒ" symbol is not a regular "f". Press [alt] + f on mac.
 
 <h3>example</h3>
 ```
-<emmiting-component @ƒ-response="((responseFromSomewhere))"></emmiting-component>
-<emmiting-component @ƒ-response="otherResponse"></emmiting-component>
+<emmiting-component @-response="((responseFromSomewhere))"></emmiting-component>
+<emmiting-component @-response="otherResponse"></emmiting-component>
 
 <receiving-component ƒ-show-data="otherResponse"></receiving-component>
 {{responseFromSomewhere}}
