@@ -54,22 +54,16 @@
                         var useSetter = false;
                         var wire;
 
-                        if (element.attributes[i].value.startsWith('((')) {
-                            wire = element.attributes[i].value.substring(2, element.attributes[i].value.length - 2);
-                            useSetter = true;
-                        } else {
-                            wire = element.attributes[i].value;
-                        }
-
 
                         /**
                          * register event on current element
                          * @param eventname
                          */
-                        function registerEvent(eventname) {
+                        function registerEvent(eventname, useSetter, wire) {
                             var handler = function (e) {
                                 // Werte setzen
                                 if (useSetter) {
+
                                     self.set(wire, e.detail, self);
                                 } else {
 
@@ -95,12 +89,28 @@
                             });
                         }
 
-                        // register click on tap event like polymer
-                        if (eventname === 'tap') {
-                            eventname = 'click';
-                        }
+                        //----
 
-                        registerEvent(eventname);
+                        var fwires = element.attributes[i].value;
+                        fwires.split(',').forEach(function (fwire) {
+                            useSetter = false;
+                            var trimmedWire = fwire.trim();
+                            if (trimmedWire.startsWith('((')) {
+                                wire = trimmedWire.substring(2, trimmedWire.length - 2);
+                                useSetter = true;
+
+                            } else {
+                                wire = trimmedWire;
+                            }
+
+                            // register click on tap event like polymer
+                            if (eventname === 'tap') {
+                                eventname = 'click';
+                            }
+
+                            registerEvent(eventname,useSetter, wire);
+                        });
+
 
                     }
                 }

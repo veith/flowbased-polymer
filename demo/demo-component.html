@@ -20,9 +20,13 @@
             handle-as="json"></iron-ajax>
         <hr>
         <call-function ƒ-func="_response-changed"></call-function>
-        <value-observer observe="[[_response]]" @-value-changed="_response-changed"></value-observer>
+        <value-observer observe="[[_response]]" @-value-changed="_response-changed, ((testb)), ((test))"></value-observer>
+
 
         receivedResponse.response.version = {{_response.response.version}}
+        <br>
+        <br>
+        {{test}} {{testb}}
     </template>
 
     <script>
@@ -30,6 +34,16 @@
         Polymer({
             is: 'ddemo-component',
             behaviors: [PolymerFlowBasedProgramming],
+            properties:{
+                test:{
+                    type:String,
+                    value:"TEST"
+                },
+                testb:{
+                    type:String,
+                    value:"TESTB"
+                }
+            }
         });
     </script>
 </dom-module>
