@@ -24,7 +24,7 @@
         attached: function () {
             var self = this;
             var wirebundle = {};
-
+            var tmp_PolymerFlowBasedProgrammingEvents = new Array;
             // get all elements which live in the host
             Polymer.dom(this.root).querySelectorAll('*').forEach(function (element) {
                 for (var i = 0; i < element.attributes.length; i++) {
@@ -82,7 +82,7 @@
                             };
 
                             element.addEventListener(eventname, handler, false);
-                            self._PolymerFlowBasedProgrammingEvents.push({
+                            tmp_PolymerFlowBasedProgrammingEvents.push({
                                 "element": element,
                                 "event": eventname,
                                 "handler": handler
@@ -114,7 +114,9 @@
 
                     }
                 }
-            })
+            });
+            self._PolymerFlowBasedProgrammingEvents = tmp_PolymerFlowBasedProgrammingEvents;
+
 
         },
         detached: function () {
