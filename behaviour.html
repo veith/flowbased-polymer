@@ -19,9 +19,16 @@
                 value: function () {
                     return [];
                 }()
+            },
+            _PolymerFlowBasedProgrammingTraceFlow: {
+                type: Boolean,
+                value: false
             }
         },
         attached: function () {
+            var plantUMLArray = [];
+            var WSources = {};
+            var WTargets = {};
             var self = this;
             var wirebundle = {};
             var tmp_PolymerFlowBasedProgrammingEvents = new Array;
@@ -43,6 +50,14 @@
                                 wirebundle[receivingWire] = [];
                             }
                             wirebundle[receivingWire].push({"element": element, "method": methodname});
+                            if (self._PolymerFlowBasedProgrammingTraceFlow) {
+
+
+                                if (!WTargets[receivingWire]) {
+                                    WTargets[receivingWire] = [];
+                                }
+                                WTargets[receivingWire].push({"target": element.nodeName, "event": methodname, "path": self.getElementPath(element)});
+                            }
                         });
 
                     }
@@ -98,9 +113,25 @@
                             if (trimmedWire.startsWith('((')) {
                                 wire = trimmedWire.substring(2, trimmedWire.length - 2);
                                 useSetter = true;
+                                if (self._PolymerFlowBasedProgrammingTraceFlow) {
+                                    plantUMLArray.push({
+                                        type: "setValue",
+                                        sourceElement: element.nodeName,
+                                        sourceEvent: eventname,
+                                        wire: null,
+                                        targetElement: wire,
+                                        targetEvent: null
+                                    })
+                                }
 
                             } else {
                                 wire = trimmedWire;
+                                if (!WSources[element.nodeName]) {
+                                    WSources[element.nodeName] = [];
+                                }
+                                WSources[element.nodeName].push({"wire": wire, "event": eventname, "path": self.getElementPath(element)});
+
+
                             }
 
                             // register click on tap event like polymer
@@ -118,6 +149,34 @@
             self._PolymerFlowBasedProgrammingEvents = tmp_PolymerFlowBasedProgrammingEvents;
 
 
+            if (self._PolymerFlowBasedProgrammingTraceFlow) {
+                for (var sourceElement in WSources) {
+                    if (WSources.hasOwnProperty(sourceElement)) {
+                        WSources[sourceElement].forEach(function (s) {
+                            if (WTargets[s.wire]) {
+                                WTargets[s.wire].forEach(function (t) {
+                                    plantUMLArray.push({
+                                        sourceElement: sourceElement,
+                                        sourceEvent: s.event,
+                                        wire: s.wire,
+                                        targetElement: t.target, targetEvent: t.event
+                                    });
+                                });
+                            } else {
+                                // no corresponding wire available
+                                plantUMLArray.push({
+                                    type: "noTarget",
+                                    sourceElement: sourceElement,
+                                    sourceEvent: s.event,
+                                    wire: s.wire,
+                                    targetElement: undefined, targetEvent: undefined
+                                });
+                            }
+                        })
+                    }
+                }
+                self._makePUML(plantUMLArray);
+            }
         },
         detached: function () {
             var self = this;
@@ -125,7 +184,106 @@
             this._PolymerFlowBasedProgrammingEvents.forEach(function (e) {
                 e.element.removeEventListener(e.event, e.hadler);
             })
+        },
+        _makePUML: function (data) {
+            var UML = '@startuml\nleft to right direction\n skinparam interface {\n backgroundColor lightgrey \nborderColor black\n}\n' +
+                'skinparam component {\nArrowColor #225522\nArrowFontColor #666666\n}\n';
+            // nodes listen
+            var toCamel = function (str) {
+                return str.toLowerCase().replace(/-([a-z])/g, function (g) {
+                    return g[1].toUpperCase();
+                });
+            };
+
+            var alreadyDeclaredNode = [];
+            data.forEach(function (interaction) {
+                var sourceElement = toCamel(interaction.sourceElement);
+                if (interaction.targetElement) {
+                    var targetElement = toCamel(interaction.targetElement);
+
+
+                    if (interaction.type === "setValue") {
+                        if (alreadyDeclaredNode.indexOf(targetElement) == -1) {
+                            UML = UML + 'database ' + targetElement + ' #lightgray\n';
+                            alreadyDeclaredNode.push(targetElement);
+                        }
+                    } else {
+                        if (alreadyDeclaredNode.indexOf(targetElement) == -1) {
+                            UML = UML + 'node ' + targetElement + ' #white\n';
+                            alreadyDeclaredNode.push(targetElement);
+                        }
+                    }
+                    if (alreadyDeclaredNode.indexOf(sourceElement) == -1) {
+                        UML = UML + 'node ' + sourceElement + ' #white\n';
+                        alreadyDeclaredNode.push(sourceElement);
         }
 
-    };
+                    if (alreadyDeclaredNode.indexOf(toCamel('interface-' + interaction.sourceEvent)) == -1) {
+                        UML = UML + 'interface ' + toCamel(interaction.sourceEvent) + ' as ' + toCamel('interface-' + interaction.sourceEvent) + ' \n';
+                        UML = UML + sourceElement + ' .. ' + toCamel('interface-' + interaction.sourceEvent) + ' #gray\n';
+
+                        alreadyDeclaredNode.push(toCamel('interface-' + interaction.sourceEvent));
+                    }
+                    if (interaction.type != "setValue" && alreadyDeclaredNode.indexOf(toCamel('interface-' + interaction.targetEvent)) == -1) {
+                        UML = UML + 'interface ' + toCamel(interaction.targetEvent) + ' as ' + toCamel('interface-' + interaction.targetEvent) + ' \n';
+                        UML = UML + toCamel('interface-' + interaction.targetEvent) + ' .. ' + targetElement + ' #gray\n';
+                        alreadyDeclaredNode.push(toCamel('interface-' + interaction.targetEvent));
+                    }
+                } else {
+                    // ins nirvana
+
+                    UML = UML + 'interface ' + toCamel(interaction.sourceEvent) + ' as ' + toCamel('interface-' + interaction.sourceEvent) + ' \n';
+                    UML = UML + sourceElement + ' ~~ ' + toCamel('interface-' + interaction.sourceEvent) + ' #red\n';
+
+                    alreadyDeclaredNode.push(toCamel('interface-' + interaction.sourceEvent));
+                    if(alreadyDeclaredNode.indexOf("nirvana") == -1){
+                        UML = UML + 'cloud "no Target" as nirvana #red\n';
+                        alreadyDeclaredNode.push("nirvana");
+                    }
+                }
+
+            });
+
+            // interfaces mit Elementen verbinden
+
+
+            // verbinder machen
+            data.forEach(function (interaction) {
+                if (interaction.targetElement) {
+                    var targetElement = interaction.targetElement.toLowerCase().replace(/-([a-z])/g, function (g) {
+                        return g[1].toUpperCase();
+                    });
+                    var sourceElement = interaction.sourceElement.toLowerCase().replace(/-([a-z])/g, function (g) {
+                        return g[1].toUpperCase();
+                    });
+                    if (interaction.type === "setValue") {
+                        UML = UML + toCamel('interface-' + interaction.sourceEvent) + ' --> ' + toCamel( interaction.targetElement) + '\n';
+
+                    } else if (interaction.type === "noTarget") {
+                        UML = UML + toCamel('interface-' + interaction.sourceEvent) + ' -- . :' + toCamel(interaction.wire) + '\n';
+
+                    } else {
+                        UML = UML + toCamel('interface-' + interaction.sourceEvent) + ' --> ' + toCamel('interface-' + interaction.targetEvent) + ' :' + toCamel(interaction.wire) + '\n';
+                    }
+                } else {
+                    // ins nirvana
+                    UML = UML + toCamel('interface-' + interaction.sourceEvent) + ' .>> nirvana\n';
+                }
+
+            });
+            UML = UML + '@enduml';
+            console.log(UML)
+        },
+         getElementPath :function(el){
+            var path = el.nodeName;
+            var parent = el.parentNode;
+            while(parent){
+                path = parent.nodeName + '/' + path;
+                parent = parent.parentNode;
+            }
+            return path;
+        }
+
+    }
+    ;
 </script>
