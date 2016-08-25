@@ -217,8 +217,7 @@
             })
         },
         _makePUML: function (data) {
-            var UML = '@startuml\nleft to right direction\n skinparam interface {\n backgroundColor lightgrey \nborderColor black\n}\n' +
-                'skinparam component {\nArrowColor #225522\nArrowFontColor #666666\n}\n';
+            var UML = '@startuml\nleft to right direction\n skinparam interface {\nbackgroundColor lightgrey\nborderColor grey\n}\nskinparam component {\nArrowColor #339900\nborderColor #222255\n}\nskinparam agent {\nArrowFontColor #666666\nborderColor #999999\n}\n';
 
             var toCamel = function (str) {
                 return str.toLowerCase().replace(/-([a-z])/g, function (g) {
@@ -235,19 +234,19 @@
                 if (interaction.type === "setValue") {
                     if (alreadyDeclaredNode.indexOf(interaction.targetElement) == -1) {
                         var theValue = toCamel('valueElement' + interaction.targetElement);
-                        UML = UML + 'database ' + interaction.targetElement + ' as ' + theValue + ' #white\n';
+                        UML = UML + 'agent ' + interaction.targetElement + ' as ' + theValue + ' #white\n';
                         alreadyDeclaredNode.push(interaction.targetElement);
                     }
                 }
                 if (interaction.targetElement) {
                     var targetElement = toCamel(interaction.targetElement);
                     if (alreadyDeclaredNode.indexOf(targetElement) == -1) {
-                        UML = UML + 'node ' + targetElement + ' #white\n';
+                        UML = UML + 'component ' + targetElement + ' #white\n';
                         alreadyDeclaredNode.push(targetElement);
                     }
                 }
                 if (alreadyDeclaredNode.indexOf(sourceElement) == -1) {
-                    UML = UML + 'node ' + sourceElement + ' #white\n';
+                    UML = UML + 'component ' + sourceElement + ' #white\n';
                     alreadyDeclaredNode.push(sourceElement);
                 }
 
@@ -298,11 +297,11 @@
                 if (interaction.type === 'noTarget') {
                     // nirvana element
                     if (alreadyDeclaredNode.indexOf("XXXXXnirvanaXXXXX") == -1) {
-                        UML = UML + 'cloud "no Target" as XXXXXnirvanaXXXXX #red\n';
+                        UML = UML + 'boundary "no Target" as XXXXXnirvanaXXXXX #red\n';
                         alreadyDeclaredNode.push("XXXXXnirvanaXXXXX");
                     }
-                    UML = UML + theInterface + ' .>>  XXXXXnirvanaXXXXX :' + interaction.wire + ' #red\n';
-                    alreadyDeclaredNode.push("-----nirvana-----");
+                    UML = UML + theInterface + ' --->  XXXXXnirvanaXXXXX  #red :' + interaction.wire + '\n';
+
                 }
 
             });
