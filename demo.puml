@@ -1,0 +1,317 @@
+data: Array[12]
+0
+:
+Object
+sourceElement
+:
+"IRON-AJAX"
+sourceEvent
+:
+"response"
+targetElement
+:
+"_response"
+targetEvent
+:
+null
+type
+:
+"setValue"
+wire
+:
+null
+__proto__
+:
+Object
+1
+:
+Object
+sourceElement
+:
+"VALUE-OBSERVER"
+sourceEvent
+:
+"xxxxxxxxx"
+targetElement
+:
+"testjjjjb"
+targetEvent
+:
+null
+type
+:
+"setValue"
+wire
+:
+null
+__proto__
+:
+Object
+2
+:
+Object
+sourceElement
+:
+"VALUE-OBSERVER"
+sourceEvent
+:
+"value-changed"
+targetElement
+:
+"testb"
+targetEvent
+:
+null
+type
+:
+"setValue"
+wire
+:
+null
+__proto__
+:
+Object
+3
+:
+Object
+sourceElement
+:
+"VALUE-OBSERVER2"
+sourceEvent
+:
+"set-the-value"
+targetElement
+:
+"testb"
+targetEvent
+:
+null
+type
+:
+"setValue"
+wire
+:
+null
+__proto__
+:
+Object
+4
+:
+Object
+sourceElement
+:
+"VALUE-OBSERVER2"
+sourceEvent
+:
+"set-the-value"
+targetElement
+:
+"test"
+targetEvent
+:
+null
+type
+:
+"setValue"
+wire
+:
+null
+__proto__
+:
+Object
+5
+:
+Object
+sourceElement
+:
+"VALUE-OBSERVER3"
+sourceEvent
+:
+"value-changed"
+targetElement
+:
+"test"
+targetEvent
+:
+null
+type
+:
+"setValue"
+wire
+:
+null
+__proto__
+:
+Object
+6
+:
+Object
+sourceElement
+:
+"BUTTON"
+sourceEvent
+:
+"tap"
+targetElement
+:
+"IRON-AJAX"
+targetEvent
+:
+"generateRequest"
+type
+:
+"connection"
+wire
+:
+"connector-button-request-ajax"
+__proto__
+:
+Object
+7
+:
+Object
+sourceElement
+:
+"BUTTON"
+sourceEvent
+:
+"tap"
+targetElement
+:
+"VALUE-OBSERVER2"
+targetEvent
+:
+"valueChanged"
+type
+:
+"connection"
+wire
+:
+"connector-button-request-ajax"
+__proto__
+:
+Object
+8
+:
+Object
+sourceElement
+:
+"VALUE-OBSERVER"
+sourceEvent
+:
+"value-changed"
+targetElement
+:
+"IRON-AJAX"
+targetEvent
+:
+"generateRequest"
+type
+:
+"connection"
+wire
+:
+"connector-button-request-ajax"
+__proto__
+:
+Object
+9
+:
+Object
+10
+:
+Object
+11
+:
+Object
+length
+:
+12
+__proto__
+:
+Array[0]
+Call Stack
+Not Paused
+Scope
+Not Paused
+Breakpoints
+
+behaviour.html:220
++
+DOM Breakpoints
+XHR Breakpoints
+
+Event Listener Breakpoints
+Event Listeners
+
+
+
+
+
+
+
+
+Async
+
+Console
+
+
+
+
+
+Preserve log
+
+Show all messages
+﻿
+behaviour.html:326 @startuml
+left to right direction
+ skinparam interface {
+ backgroundColor lightgrey
+borderColor black
+}
+skinparam component {
+ArrowColor #225522
+ArrowFontColor #666666
+}
+database _response as valueelement_response #white
+node ironAjax #white
+database testjjjjb as valueelementtestjjjjb #white
+node valueObserver #white
+database testb as valueelementtestb #white
+node valueObserver2 #white
+database test as valueelementtest #white
+node valueObserver3 #white
+node button #white
+node valueObserver4 #white
+interface generaterequest as interfaceGeneraterequestironAjax  #white
+interfaceGeneraterequestironAjax .. ironAjax
+interface valuechanged as interfaceValuechangedvalueObserver2  #white
+interfaceValuechangedvalueObserver2 .. valueObserver2
+interface response as interfaceResponseironAjax #lightgray
+ironAjax .. interfaceResponseironAjax
+interfaceResponseironAjax ...> valueelement_response #green
+interface xxxxxxxxx as interfaceXxxxxxxxxvalueObserver #lightgray
+valueObserver .. interfaceXxxxxxxxxvalueObserver
+interfaceXxxxxxxxxvalueObserver ...> valueelementtestjjjjb #green
+interface valueChanged as interfaceValueChangedvalueObserver #lightgray
+valueObserver .. interfaceValueChangedvalueObserver
+interfaceValueChangedvalueObserver ...> valueelementtestb #green
+interface setTheValue as interfaceSetTheValuevalueObserver2 #lightgray
+valueObserver2 .. interfaceSetTheValuevalueObserver2
+interfaceSetTheValuevalueObserver2 ...> valueelementtestb #orange
+interfaceSetTheValuevalueObserver2 ...> valueelementtest #green
+interface valueChanged as interfaceValueChangedvalueObserver3 #lightgray
+valueObserver3 .. interfaceValueChangedvalueObserver3
+interfaceValueChangedvalueObserver3 ...> valueelementtest #green
+interface tap as interfaceTapbutton #lightgray
+button .. interfaceTapbutton
+cloud "no Target" as XXXXXnirvanaXXXXX #red
+
+interface valueChanged as interfaceValueChangedvalueObserver4 #lightgray
+valueObserver4 .. interfaceValueChangedvalueObserver4
+interfaceValueChangedvalueObserver4 ...>>  XXXXXnirvanaXXXXX :_unknownWire #red
+interfaceTapbutton --> interfaceGeneraterequestironAjax :connectorButtonRequestAjax
+interfaceTapbutton --> interfaceValuechangedvalueObserver2 :connectorButtonRequestAjax
+interfaceValueChangedvalueObserver --> interfaceGeneraterequestironAjax :connectorButtonRequestAjax
+interfaceValueChangedvalueObserver --> interfaceValuechangedvalueObserver2 :connectorButtonRequestAjax
+@enduml

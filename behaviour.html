@@ -28,12 +28,25 @@
         attached: function () {
             var plantUMLArray = [];
             var WSources = {};
+            var elementCount = {};
             var WTargets = {};
             var self = this;
             var wirebundle = {};
             var tmp_PolymerFlowBasedProgrammingEvents = new Array;
             // get all elements which live in the host
             Polymer.dom(this.root).querySelectorAll('*').forEach(function (element) {
+                if (self._PolymerFlowBasedProgrammingTraceFlow) {
+                    if (!elementCount[element.nodeName]) {
+                        elementCount[element.nodeName] = 1;
+                        element.flowName = element.nodeName;
+                    } else {
+                        if (!element.flowName) {
+                            elementCount[element.nodeName]++;
+                            element.flowName = element.nodeName + elementCount[element.nodeName];
+                        }
+                    }
+                }
+
                 for (var i = 0; i < element.attributes.length; i++) {
                     // collect receiving tags
                     if (element.attributes[i].name.startsWith('ƒ-')) {
@@ -50,13 +63,16 @@
                                 wirebundle[receivingWire] = [];
                             }
                             wirebundle[receivingWire].push({"element": element, "method": methodname});
+
                             if (self._PolymerFlowBasedProgrammingTraceFlow) {
-
-
                                 if (!WTargets[receivingWire]) {
                                     WTargets[receivingWire] = [];
                                 }
-                                WTargets[receivingWire].push({"target": element.nodeName, "event": methodname, "path": self.getElementPath(element)});
+                                WTargets[receivingWire].push({
+                                    "target": element.flowName,
+                                    "event": methodname,
+                                    "path": self.getElementPath(element)
+                                });
                             }
                         });
 
@@ -110,13 +126,21 @@
                         fwires.split(',').forEach(function (fwire) {
                             useSetter = false;
                             var trimmedWire = fwire.trim();
+
+
+                            if (!WSources[element.flowName]) {
+                                WSources[element.flowName] = [];
+
+                            }
+
+
                             if (trimmedWire.startsWith('((')) {
                                 wire = trimmedWire.substring(2, trimmedWire.length - 2);
                                 useSetter = true;
                                 if (self._PolymerFlowBasedProgrammingTraceFlow) {
                                     plantUMLArray.push({
                                         type: "setValue",
-                                        sourceElement: element.nodeName,
+                                        sourceElement: element.flowName,
                                         sourceEvent: eventname,
                                         wire: null,
                                         targetElement: wire,
@@ -126,10 +150,14 @@
 
                             } else {
                                 wire = trimmedWire;
-                                if (!WSources[element.nodeName]) {
-                                    WSources[element.nodeName] = [];
-                                }
-                                WSources[element.nodeName].push({"wire": wire, "event": eventname, "path": self.getElementPath(element)});
+
+
+                                WSources[element.flowName].push({
+                                    "node": element.flowName,
+                                    "wire": wire,
+                                    "event": eventname,
+                                    "path": self.getElementPath(element)
+                                });
 
 
                             }
@@ -139,7 +167,7 @@
                                 eventname = 'click';
                             }
 
-                            registerEvent(eventname,useSetter, wire);
+                            registerEvent(eventname, useSetter, wire);
                         });
 
 
@@ -156,20 +184,23 @@
                             if (WTargets[s.wire]) {
                                 WTargets[s.wire].forEach(function (t) {
                                     plantUMLArray.push({
-                                        sourceElement: sourceElement,
+                                        sourceElement: s.node,
                                         sourceEvent: s.event,
                                         wire: s.wire,
-                                        targetElement: t.target, targetEvent: t.event
+                                        targetElement: t.target,
+                                        targetEvent: t.event,
+                                        type: "connection"
                                     });
                                 });
                             } else {
                                 // no corresponding wire available
                                 plantUMLArray.push({
                                     type: "noTarget",
-                                    sourceElement: sourceElement,
+                                    sourceElement: s.node,
                                     sourceEvent: s.event,
                                     wire: s.wire,
-                                    targetElement: undefined, targetEvent: undefined
+                                    targetElement: undefined,
+                                    targetEvent: undefined
                                 });
                             }
                         })
@@ -188,96 +219,116 @@
         _makePUML: function (data) {
             var UML = '@startuml\nleft to right direction\n skinparam interface {\n backgroundColor lightgrey \nborderColor black\n}\n' +
                 'skinparam component {\nArrowColor #225522\nArrowFontColor #666666\n}\n';
-            // nodes listen
+
             var toCamel = function (str) {
                 return str.toLowerCase().replace(/-([a-z])/g, function (g) {
                     return g[1].toUpperCase();
                 });
             };
 
+
+            // nodes listen
             var alreadyDeclaredNode = [];
             data.forEach(function (interaction) {
                 var sourceElement = toCamel(interaction.sourceElement);
+
+                if (interaction.type === "setValue") {
+                    if (alreadyDeclaredNode.indexOf(interaction.targetElement) == -1) {
+                        var theValue = toCamel('valueElement' + interaction.targetElement);
+                        UML = UML + 'database ' + interaction.targetElement + ' as ' + theValue + ' #white\n';
+                        alreadyDeclaredNode.push(interaction.targetElement);
+                    }
+                }
                 if (interaction.targetElement) {
                     var targetElement = toCamel(interaction.targetElement);
-
-
-                    if (interaction.type === "setValue") {
-                        if (alreadyDeclaredNode.indexOf(targetElement) == -1) {
-                            UML = UML + 'database ' + targetElement + ' #lightgray\n';
-                            alreadyDeclaredNode.push(targetElement);
-                        }
-                    } else {
-                        if (alreadyDeclaredNode.indexOf(targetElement) == -1) {
-                            UML = UML + 'node ' + targetElement + ' #white\n';
-                            alreadyDeclaredNode.push(targetElement);
-                        }
+                    if (alreadyDeclaredNode.indexOf(targetElement) == -1) {
+                        UML = UML + 'node ' + targetElement + ' #white\n';
+                        alreadyDeclaredNode.push(targetElement);
                     }
-                    if (alreadyDeclaredNode.indexOf(sourceElement) == -1) {
-                        UML = UML + 'node ' + sourceElement + ' #white\n';
-                        alreadyDeclaredNode.push(sourceElement);
-        }
-
-                    if (alreadyDeclaredNode.indexOf(toCamel('interface-' + interaction.sourceEvent)) == -1) {
-                        UML = UML + 'interface ' + toCamel(interaction.sourceEvent) + ' as ' + toCamel('interface-' + interaction.sourceEvent) + ' \n';
-                        UML = UML + sourceElement + ' .. ' + toCamel('interface-' + interaction.sourceEvent) + ' #gray\n';
-
-                        alreadyDeclaredNode.push(toCamel('interface-' + interaction.sourceEvent));
-                    }
-                    if (interaction.type != "setValue" && alreadyDeclaredNode.indexOf(toCamel('interface-' + interaction.targetEvent)) == -1) {
-                        UML = UML + 'interface ' + toCamel(interaction.targetEvent) + ' as ' + toCamel('interface-' + interaction.targetEvent) + ' \n';
-                        UML = UML + toCamel('interface-' + interaction.targetEvent) + ' .. ' + targetElement + ' #gray\n';
-                        alreadyDeclaredNode.push(toCamel('interface-' + interaction.targetEvent));
-                    }
-                } else {
-                    // ins nirvana
-
-                    UML = UML + 'interface ' + toCamel(interaction.sourceEvent) + ' as ' + toCamel('interface-' + interaction.sourceEvent) + ' \n';
-                    UML = UML + sourceElement + ' ~~ ' + toCamel('interface-' + interaction.sourceEvent) + ' #red\n';
-
-                    alreadyDeclaredNode.push(toCamel('interface-' + interaction.sourceEvent));
-                    if(alreadyDeclaredNode.indexOf("nirvana") == -1){
-                        UML = UML + 'cloud "no Target" as nirvana #red\n';
-                        alreadyDeclaredNode.push("nirvana");
-                    }
+                }
+                if (alreadyDeclaredNode.indexOf(sourceElement) == -1) {
+                    UML = UML + 'node ' + sourceElement + ' #white\n';
+                    alreadyDeclaredNode.push(sourceElement);
                 }
 
             });
 
-            // interfaces mit Elementen verbinden
+            // Eingehende interfaces (X)----|__
+            data.forEach(function (interaction) {
+                if (interaction.targetElement && interaction.targetEvent) {
+
+                    var theElement = toCamel(interaction.targetElement);
+                    var theInterface = toCamel('interface-' + interaction.targetEvent + interaction.targetElement);
+                    var theInterfaceLabel = toCamel(interaction.targetEvent);
+
+                    if (alreadyDeclaredNode.indexOf(theInterface) == -1) {
+                        UML = UML + 'interface ' + theInterfaceLabel + ' as ' + theInterface + '  #white\n';
+                        UML = UML + theInterface + ' .. ' + theElement + '\n';
+                        alreadyDeclaredNode.push(theInterface);
+                    }
+                }
+            });
+
+
+            // Ausgehende interfaces --(X)
+
+            data.forEach(function (interaction) {
+                if (interaction.sourceElement && interaction.sourceEvent) {
+
+                    var theElement = toCamel(interaction.sourceElement);
+                    var theInterface = toCamel('interface-' + interaction.sourceEvent + interaction.sourceElement);
+                    var theInterfaceLabel = toCamel(interaction.sourceEvent);
+
+                    if (alreadyDeclaredNode.indexOf(theInterface) == -1) {
+                        UML = UML + 'interface ' + theInterfaceLabel + ' as ' + theInterface + ' #lightgray\n';
+                        UML = UML + theElement + ' .. ' + theInterface + ' \n';
+                        alreadyDeclaredNode.push(theInterface);
+                    }
+                }
+
+
+                // Interfaces mit WERTEN
+                if (interaction.type === "setValue") {
+                    var theValue = toCamel('valueElement' + interaction.targetElement);
+                    UML = UML + theInterface + ' ..> ' + theValue + ' #orange\n';
+                }
+
+
+                // Nirvana interfaces Verbindungen
+                if (interaction.type === 'noTarget') {
+                    // nirvana element
+                    if (alreadyDeclaredNode.indexOf("XXXXXnirvanaXXXXX") == -1) {
+                        UML = UML + 'cloud "no Target" as XXXXXnirvanaXXXXX #red\n';
+                        alreadyDeclaredNode.push("XXXXXnirvanaXXXXX");
+                    }
+                    UML = UML + theInterface + ' .>>  XXXXXnirvanaXXXXX :' + interaction.wire + ' #red\n';
+                    alreadyDeclaredNode.push("-----nirvana-----");
+                }
+
+            });
+
+
+            // interfaces mit interfaces verbinden
 
 
             // verbinder machen
             data.forEach(function (interaction) {
-                if (interaction.targetElement) {
-                    var targetElement = interaction.targetElement.toLowerCase().replace(/-([a-z])/g, function (g) {
-                        return g[1].toUpperCase();
-                    });
-                    var sourceElement = interaction.sourceElement.toLowerCase().replace(/-([a-z])/g, function (g) {
-                        return g[1].toUpperCase();
-                    });
-                    if (interaction.type === "setValue") {
-                        UML = UML + toCamel('interface-' + interaction.sourceEvent) + ' --> ' + toCamel( interaction.targetElement) + '\n';
+                    if (interaction.sourceElement && interaction.sourceEvent && interaction.targetElement && interaction.targetEvent) {
+                        var targetInterface = toCamel('interface-' + interaction.targetEvent + interaction.targetElement);
+                        var sourceInterface = toCamel('interface-' + interaction.sourceEvent + interaction.sourceElement);
 
-                    } else if (interaction.type === "noTarget") {
-                        UML = UML + toCamel('interface-' + interaction.sourceEvent) + ' -- . :' + toCamel(interaction.wire) + '\n';
+                        UML = UML + sourceInterface + ' --> ' + targetInterface + ' :' + toCamel(interaction.wire) + '\n';
 
-                    } else {
-                        UML = UML + toCamel('interface-' + interaction.sourceEvent) + ' --> ' + toCamel('interface-' + interaction.targetEvent) + ' :' + toCamel(interaction.wire) + '\n';
                     }
-                } else {
-                    // ins nirvana
-                    UML = UML + toCamel('interface-' + interaction.sourceEvent) + ' .>> nirvana\n';
                 }
-
-            });
+            );
             UML = UML + '@enduml';
             console.log(UML)
         },
-         getElementPath :function(el){
+        getElementPath: function (el) {
             var path = el.nodeName;
             var parent = el.parentNode;
-            while(parent){
+            while (parent) {
                 path = parent.nodeName + '/' + path;
                 parent = parent.parentNode;
             }
