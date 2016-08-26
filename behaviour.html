@@ -90,13 +90,22 @@
                          * register event on current element
                          * @param eventname
                          */
-                        function registerEvent(eventname, useSetter, wire) {
+                        function registerEvent(eventname, type, wire) {
                             var handler = function (e) {
                                 // Werte setzen
-                                if (useSetter) {
-
+                                if (type === "setValue") {
                                     self.set(wire, e.detail, self);
-                                } else {
+                                }
+                                if (type === "fire") {
+                                    console.dir(wire);
+                                    self.fire(wire, e.detail, {bubbles: false});
+
+                                }
+                                if (type === "fireBubble") {
+                                    console.dir(wire);
+                                    self.fire(wire, e.detail, {bubbles: true});
+                                }
+                                if (type === "call") {
 
                                     // Methoden aufrufen
                                     if (wirebundle[wire]) {
@@ -133,13 +142,32 @@
 
                             }
 
-
+                            var type = "call";
                             if (trimmedWire.startsWith('((')) {
                                 wire = trimmedWire.substring(2, trimmedWire.length - 2);
-                                useSetter = true;
+                                type = "setValue";
                                 if (self._PolymerFlowBasedProgrammingTraceFlow) {
                                     plantUMLArray.push({
-                                        type: "setValue",
+                                        type: type,
+                                        sourceElement: element.flowName,
+                                        sourceEvent: eventname,
+                                        wire: null,
+                                        targetElement: wire,
+                                        targetEvent: null
+                                    })
+                                }
+
+                            } else if (trimmedWire.startsWith('^')) {
+                                wire = trimmedWire.substring(1);
+                                type = "fire";
+                                if (trimmedWire.startsWith('^^')) {
+                                    wire = trimmedWire.substring(2);
+                                    type = "fireBubble";
+                                }
+
+                                if (self._PolymerFlowBasedProgrammingTraceFlow) {
+                                    plantUMLArray.push({
+                                        type: type,
                                         sourceElement: element.flowName,
                                         sourceEvent: eventname,
                                         wire: null,
@@ -150,7 +178,7 @@
 
                             } else {
                                 wire = trimmedWire;
-
+                                type = "call";
 
                                 WSources[element.flowName].push({
                                     "node": element.flowName,
@@ -167,7 +195,7 @@
                                 eventname = 'click';
                             }
 
-                            registerEvent(eventname, useSetter, wire);
+                            registerEvent(eventname, type, wire);
                         });
 
 
@@ -217,7 +245,8 @@
             })
         },
         _makePUML: function (data) {
-            var UML = '@startuml\nleft to right direction\n skinparam interface {\nbackgroundColor lightgrey\nborderColor grey\n}\nskinparam component {\nArrowColor #339900\nborderColor #222255\n}\nskinparam agent {\nArrowFontColor #666666\nborderColor #999999\n}\n';
+            var UML = '@startuml\nleft to right direction\n ' + 'skinparam interface {\nbackgroundColor lightgrey\nborderColor grey\n}\nskinparam boundary {\nbackgroundColor lightgrey\nborderColor grey\n}\nskinparam entity {\nbackgroundColor #f44336\nborderColor #b71c1c\n}\nskinparam component {\nArrowColor #339900\nArrowFontColor #666666\nborderColor #448AFF\n}\nskinparam agent {\nArrowFontColor #666666\nborderColor #999999\n}\n'
+
 
             var toCamel = function (str) {
                 return str.toLowerCase().replace(/-([a-z])/g, function (g) {
@@ -231,6 +260,19 @@
             data.forEach(function (interaction) {
                 var sourceElement = toCamel(interaction.sourceElement);
 
+                if (interaction.type === "fire") {
+                    if (alreadyDeclaredNode.indexOf(interaction.targetElement) == -1) {
+                        var theValue = toCamel('fire-' + interaction.targetElement);
+                        UML = UML + 'boundary ' + interaction.targetElement + ' as ' + theValue + ' #white\n';
+                        alreadyDeclaredNode.push(interaction.targetElement);
+                    }
+                } if (interaction.type === "fireBubble") {
+                    if (alreadyDeclaredNode.indexOf(interaction.targetElement) == -1) {
+                        var theValue = toCamel('fireBubble-' + interaction.targetElement);
+                        UML = UML + 'boundary ' + interaction.targetElement + ' as ' + theValue + ' #81C784\n';
+                        alreadyDeclaredNode.push(interaction.targetElement);
+                    }
+                }
                 if (interaction.type === "setValue") {
                     if (alreadyDeclaredNode.indexOf(interaction.targetElement) == -1) {
                         var theValue = toCamel('valueElement' + interaction.targetElement);
@@ -262,7 +304,7 @@
 
                     if (alreadyDeclaredNode.indexOf(theInterface) == -1) {
                         UML = UML + 'interface ' + theInterfaceLabel + ' as ' + theInterface + '  #white\n';
-                        UML = UML + theInterface + ' .. ' + theElement + '\n';
+                        UML = UML + theInterface + ' .. ' + theElement + ' #616161\n';
                         alreadyDeclaredNode.push(theInterface);
                     }
                 }
@@ -279,8 +321,8 @@
                     var theInterfaceLabel = toCamel(interaction.sourceEvent);
 
                     if (alreadyDeclaredNode.indexOf(theInterface) == -1) {
-                        UML = UML + 'interface ' + theInterfaceLabel + ' as ' + theInterface + ' #lightgray\n';
-                        UML = UML + theElement + ' .. ' + theInterface + ' \n';
+                        UML = UML + 'interface ' + theInterfaceLabel + ' as ' + theInterface + ' #ECEFF1\n';
+                        UML = UML + theElement + ' .. ' + theInterface + ' #616161 \n';
                         alreadyDeclaredNode.push(theInterface);
                     }
                 }
@@ -289,7 +331,21 @@
                 // Interfaces mit WERTEN
                 if (interaction.type === "setValue") {
                     var theValue = toCamel('valueElement' + interaction.targetElement);
-                    UML = UML + theInterface + ' ..> ' + theValue + ' #orange\n';
+                    UML = UML + theInterface + ' --> ' + theValue + ' #FF6F00\n';
+                }
+
+
+                // Interfaces mit WERTEN
+                if (interaction.type === "fire") {
+                    var theValue = toCamel('fire-' + interaction.targetElement);
+                    UML = UML + theInterface + ' -> ' + theValue + ' #FF5722\n';
+                }
+
+
+                // Interfaces mit WERTEN
+                if (interaction.type === "fireBubble") {
+                    var theValue = toCamel('fireBubble-' + interaction.targetElement);
+                    UML = UML + theInterface + ' -> ' + theValue + ' #DD2C00\n';
                 }
 
 
@@ -297,10 +353,10 @@
                 if (interaction.type === 'noTarget') {
                     // nirvana element
                     if (alreadyDeclaredNode.indexOf("XXXXXnirvanaXXXXX") == -1) {
-                        UML = UML + 'boundary "no Target" as XXXXXnirvanaXXXXX #red\n';
+                        UML = UML + 'entity "no Target" as XXXXXnirvanaXXXXX \n';
                         alreadyDeclaredNode.push("XXXXXnirvanaXXXXX");
                     }
-                    UML = UML + theInterface + ' --->  XXXXXnirvanaXXXXX  #red :' + interaction.wire + '\n';
+                    UML = UML + theInterface + ' --->  XXXXXnirvanaXXXXX  #d50000 :' + interaction.wire + '\n';
 
                 }
 
@@ -312,6 +368,7 @@
 
             // verbinder machen
             data.forEach(function (interaction) {
+
                     if (interaction.sourceElement && interaction.sourceEvent && interaction.targetElement && interaction.targetEvent) {
                         var targetInterface = toCamel('interface-' + interaction.targetEvent + interaction.targetElement);
                         var sourceInterface = toCamel('interface-' + interaction.sourceEvent + interaction.sourceElement);
@@ -322,6 +379,7 @@
                 }
             );
             UML = UML + '@enduml';
+
             console.log(UML)
         },
         getElementPath: function (el) {

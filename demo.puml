@@ -1,20 +1,22 @@
 ﻿@startuml
 left to right direction
-
-
-
-skinparam interface {
+ skinparam interface {
 backgroundColor lightgrey
 borderColor grey
 }
 skinparam component {
 ArrowColor #339900
+ArrowFontColor #666666
 borderColor #222255
 }
 skinparam agent {
 ArrowFontColor #666666
 borderColor #999999
 }
+
+
+
+folder " view-detail " as root{
 agent _response as valueelement_response #white
 component ironAjax #white
 agent testjjjjb as valueelementtestjjjjb #white
@@ -22,38 +24,66 @@ component valueObserver #white
 agent testb as valueelementtestb #white
 component valueObserver2 #white
 agent test as valueelementtest #white
-component valueObserver3 #white
 component button #white
 component valueObserver4 #white
+component valueObserver5 #white
+component valueObserver6 #white
+component valueObserver3 #white
+boundary fire as fire #white
+boundary "fire-bubble" as fireBubble #white
+boundary "no Target" as XXXXXnirvanaXXXXX #red
+
 interface generaterequest as interfaceGeneraterequestironAjax  #white
 interfaceGeneraterequestironAjax .. ironAjax
 interface valuechanged as interfaceValuechangedvalueObserver2  #white
 interfaceValuechangedvalueObserver2 .. valueObserver2
+interface xxx as interfaceXxxvalueObserver4  #white
+interfaceXxxvalueObserver4 .. valueObserver4
+interface xxx as interfaceXxxvalueObserver5  #white
+interfaceXxxvalueObserver5 .. valueObserver5
+interface xxx as interfaceXxxvalueObserver6  #white
+interfaceXxxvalueObserver6 .. valueObserver6
+interface xxx as interfaceXxxvalueObserver2  #white
+interfaceXxxvalueObserver2 .. valueObserver2
+interface xxx as interfaceXxxvalueObserver3  #white
+interfaceXxxvalueObserver3 .. valueObserver3
 interface response as interfaceResponseironAjax #lightgray
 ironAjax .. interfaceResponseironAjax
-interfaceResponseironAjax ..> valueelement_response #orange
+interfaceResponseironAjax --> valueelement_response #orange
 interface xxxxxxxxx as interfaceXxxxxxxxxvalueObserver #lightgray
 valueObserver .. interfaceXxxxxxxxxvalueObserver
-interfaceXxxxxxxxxvalueObserver ..> valueelementtestjjjjb #orange
+interfaceXxxxxxxxxvalueObserver --> valueelementtestjjjjb #orange
 interface valueChanged as interfaceValueChangedvalueObserver #lightgray
 valueObserver .. interfaceValueChangedvalueObserver
-interfaceValueChangedvalueObserver ..> valueelementtestb #orange
+interfaceValueChangedvalueObserver --> valueelementtestb #orange
 interface setTheValue as interfaceSetTheValuevalueObserver2 #lightgray
 valueObserver2 .. interfaceSetTheValuevalueObserver2
-interfaceSetTheValuevalueObserver2 ..> valueelementtestb #orange
-interfaceSetTheValuevalueObserver2 ..> valueelementtest #orange
-interface valueChanged as interfaceValueChangedvalueObserver3 #lightgray
-valueObserver3 .. interfaceValueChangedvalueObserver3
-interfaceValueChangedvalueObserver3 ..> valueelementtest #orange
+interfaceSetTheValuevalueObserver2 --> valueelementtestb #orange
+interfaceSetTheValuevalueObserver2 --> valueelementtest #orange
 interface tap as interfaceTapbutton #lightgray
 button .. interfaceTapbutton
-boundary "no Target" as XXXXXnirvanaXXXXX #red
+
 interfaceSetTheValuevalueObserver2 --->  XXXXXnirvanaXXXXX  #red :--kappute-verbindung
+interface valueChanged as interfaceValueChangedvalueObserver3 #lightgray
+valueObserver3 .. interfaceValueChangedvalueObserver3
 interface valueChanged as interfaceValueChangedvalueObserver4 #lightgray
 valueObserver4 .. interfaceValueChangedvalueObserver4
-interfaceValueChangedvalueObserver4 --->  XXXXXnirvanaXXXXX  #red :_unknownWire
+interface valueChanged as interfaceValueChangedvalueObserver5 #lightgray
+valueObserver5 .. interfaceValueChangedvalueObserver5
+interfaceValueChangedvalueObserver5  ---> fire   #black :^fire
+interface valueChanged as interfaceValueChangedvalueObserver6 #lightgray
+valueObserver6 .. interfaceValueChangedvalueObserver6
+interfaceValueChangedvalueObserver6  ---> fireBubble  #red :^^fire-bubble
 interfaceTapbutton --> interfaceGeneraterequestironAjax :connectorButtonRequestAjax
 interfaceTapbutton --> interfaceValuechangedvalueObserver2 :connectorButtonRequestAjax
 interfaceValueChangedvalueObserver --> interfaceGeneraterequestironAjax :connectorButtonRequestAjax
 interfaceValueChangedvalueObserver --> interfaceValuechangedvalueObserver2 :connectorButtonRequestAjax
+interfaceSetTheValuevalueObserver2 --> interfaceXxxvalueObserver4 :-F4
+interfaceSetTheValuevalueObserver2 --> interfaceXxxvalueObserver5 :-F4
+interfaceSetTheValuevalueObserver2 --> interfaceXxxvalueObserver6 :-F4
+interfaceValueChangedvalueObserver3 --> interfaceXxxvalueObserver2 :-From2
+interfaceValueChangedvalueObserver4 --> interfaceXxxvalueObserver3 :_unknownwire
+
+}
+
 @enduml
