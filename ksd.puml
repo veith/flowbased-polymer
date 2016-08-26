@@ -3,26 +3,22 @@ left to right direction
  skinparam interface {
 backgroundColor lightgrey
 borderColor grey
-shadow none
 }
 skinparam boundary {
 backgroundColor lightgrey
 borderColor grey
-shadow none
 }
 skinparam entity {
 backgroundColor #f44336
 borderColor #b71c1c
-shadow none
 }
-
 skinparam component {
 ArrowColor #339900
 ArrowFontColor #666666
 borderColor #448AFF
 }
 skinparam agent {
-ArrowFontColor #2323ff
+ArrowFontColor #666666
 borderColor #999999
 }
 agent _response as valueelement_response #white
@@ -32,9 +28,9 @@ component valueObserver #white
 agent test as valueelementtest #white
 boundary fire as fireFire #white
 component valueObserver2 #white
-boundary fireBubble as firebubbleFirebubble #81C784
-component firebubble #white
-component valueObserver3 #white
+boundary "fir-eBubbleeee" as firebubbleFirebubbleeee #81C784
+component "valueObsd erver3" as valueObserver3 #white
+component valueObserver4 #white
 component button #white
 interface generaterequest as interfaceGeneraterequestironAjax  #white
 interfaceGeneraterequestironAjax .. ironAjax #616161
@@ -52,11 +48,13 @@ valueObserver2 .. interfaceValueChangedvalueObserver2 #616161
 interfaceValueChangedvalueObserver2 -> fireFire #FF5722
 interface valueChanged as interfaceValueChangedvalueObserver3 #ECEFF1
 valueObserver3 .. interfaceValueChangedvalueObserver3 #616161
-interfaceValueChangedvalueObserver3 -> firebubbleFirebubble #DD2C00
+interfaceValueChangedvalueObserver3 -> firebubbleFirebubbleeee #DD2C00
+interface valueChanged as interfaceValueChangedvalueObserver4 #ECEFF1
+valueObserver4 .. interfaceValueChangedvalueObserver4 #616161
+interfaceValueChangedvalueObserver4 -> firebubbleFirebubbleeee #DD2C00
 interface tap as interfaceTapbutton #ECEFF1
 button .. interfaceTapbutton #616161
 entity "no Target" as XXXXXnirvanaXXXXX
-
 interfaceSetTheValuevalueObserver --->  XXXXXnirvanaXXXXX  #d50000 :--f4
 interfaceSetTheValuevalueObserver --->  XXXXXnirvanaXXXXX  #d50000 :--kappute-verbindung
 interfaceTapbutton --> interfaceGeneraterequestironAjax :connectorButtonRequestAjax

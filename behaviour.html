@@ -261,23 +261,27 @@
                 var sourceElement = toCamel(interaction.sourceElement);
 
                 if (interaction.type === "fire") {
-                    if (alreadyDeclaredNode.indexOf(interaction.targetElement) == -1) {
+                    var targetElement = toCamel(interaction.targetElement);
+                    if (alreadyDeclaredNode.indexOf(targetElement) == -1) {
                         var theValue = toCamel('fire-' + interaction.targetElement);
                         UML = UML + 'boundary ' + interaction.targetElement + ' as ' + theValue + ' #white\n';
-                        alreadyDeclaredNode.push(interaction.targetElement);
+                        alreadyDeclaredNode.push(targetElement);
                     }
-                } if (interaction.type === "fireBubble") {
-                    if (alreadyDeclaredNode.indexOf(interaction.targetElement) == -1) {
+                }
+                if (interaction.type === "fireBubble") {
+                    var targetElement = toCamel(interaction.targetElement);
+                    if (alreadyDeclaredNode.indexOf(targetElement) == -1) {
                         var theValue = toCamel('fireBubble-' + interaction.targetElement);
                         UML = UML + 'boundary ' + interaction.targetElement + ' as ' + theValue + ' #81C784\n';
-                        alreadyDeclaredNode.push(interaction.targetElement);
+                        alreadyDeclaredNode.push(targetElement);
                     }
                 }
                 if (interaction.type === "setValue") {
-                    if (alreadyDeclaredNode.indexOf(interaction.targetElement) == -1) {
+                    var targetElement = toCamel(interaction.targetElement);
+                    if (alreadyDeclaredNode.indexOf(targetElement) == -1) {
                         var theValue = toCamel('valueElement' + interaction.targetElement);
                         UML = UML + 'agent ' + interaction.targetElement + ' as ' + theValue + ' #white\n';
-                        alreadyDeclaredNode.push(interaction.targetElement);
+                        alreadyDeclaredNode.push(targetElement);
                     }
                 }
                 if (interaction.targetElement) {
