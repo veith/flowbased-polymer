@@ -21,6 +21,7 @@ skinparam agent {
 ArrowFontColor #666666
 borderColor #999999
 }
+component "ddemo-component" #FAFAFA{
 agent _response as valueelement_response #white
 component ironAjax #white
 agent testb as valueelementtestb #white
@@ -31,7 +32,7 @@ component valueObserver2 #white
 boundary "fireBu-bbleeee" as firebubbleFirebuBbleeee #81C784
 component valueObserver3 #white
 boundary "fireBubbleeee" as firebubbleFirebubbleeee #81C784
-component "DE" as valueObserver4 #white
+component valueObserver4 #white
 component button #white
 interface generaterequest as interfaceGeneraterequestironAjax  #white
 interfaceGeneraterequestironAjax .. ironAjax #616161

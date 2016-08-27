@@ -71,6 +71,7 @@
                                 WTargets[receivingWire].push({
                                     "target": element.flowName,
                                     "event": methodname,
+                                    "element":element,
                                     "path": self.getElementPath(element)
                                 });
                             }
@@ -97,12 +98,12 @@
                                     self.set(wire, e.detail, self);
                                 }
                                 if (type === "fire") {
-                                    console.dir(wire);
+
                                     self.fire(wire, e.detail, {bubbles: false});
 
                                 }
                                 if (type === "fireBubble") {
-                                    console.dir(wire);
+
                                     self.fire(wire, e.detail, {bubbles: true});
                                 }
                                 if (type === "call") {
@@ -246,7 +247,7 @@
         },
         _makePUML: function (data) {
             var UML = '@startuml\nleft to right direction\n ' + 'skinparam interface {\nbackgroundColor lightgrey\nborderColor grey\n}\nskinparam boundary {\nbackgroundColor lightgrey\nborderColor grey\n}\nskinparam entity {\nbackgroundColor #f44336\nborderColor #b71c1c\n}\nskinparam component {\nArrowColor #339900\nArrowFontColor #666666\nborderColor #448AFF\n}\nskinparam agent {\nArrowFontColor #666666\nborderColor #999999\n}\n'
-
+            UML += 'component "' + this.is + '" #FAFAFA{\n';
 
             var toCamel = function (str) {
                 return str.toLowerCase().replace(/-([a-z])/g, function (g) {
@@ -259,7 +260,6 @@
             var alreadyDeclaredNode = [];
             data.forEach(function (interaction) {
                 var sourceElement = toCamel(interaction.sourceElement);
-
                 if (interaction.type === "fire") {
                     var targetElement = toCamel(interaction.targetElement);
                     if (alreadyDeclaredNode.indexOf(targetElement) == -1) {
@@ -382,6 +382,8 @@
                     }
                 }
             );
+
+            UML += '}\n'
             UML = UML + '@enduml';
 
             console.log(UML)
