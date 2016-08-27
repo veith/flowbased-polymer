@@ -264,7 +264,7 @@
                     var targetElement = toCamel(interaction.targetElement);
                     if (alreadyDeclaredNode.indexOf(targetElement) == -1) {
                         var theValue = toCamel('fire-' + interaction.targetElement);
-                        UML = UML + 'boundary ' + interaction.targetElement + ' as ' + theValue + ' #white\n';
+                        UML = UML + 'boundary "' + interaction.targetElement + '" as ' + theValue + ' #white\n';
                         alreadyDeclaredNode.push(targetElement);
                     }
                 }
@@ -272,7 +272,7 @@
                     var targetElement = toCamel(interaction.targetElement);
                     if (alreadyDeclaredNode.indexOf(targetElement) == -1) {
                         var theValue = toCamel('fireBubble-' + interaction.targetElement);
-                        UML = UML + 'boundary ' + interaction.targetElement + ' as ' + theValue + ' #81C784\n';
+                        UML = UML + 'boundary "' + interaction.targetElement + '" as ' + theValue + ' #81C784\n';
                         alreadyDeclaredNode.push(targetElement);
                     }
                 }
@@ -342,14 +342,14 @@
                 // Interfaces mit WERTEN
                 if (interaction.type === "fire") {
                     var theValue = toCamel('fire-' + interaction.targetElement);
-                    UML = UML + theInterface + ' -> ' + theValue + ' #FF5722\n';
+                    UML = UML + theInterface + ' ..> ' + theValue + ' #FF5722\n';
                 }
 
 
                 // Interfaces mit WERTEN
                 if (interaction.type === "fireBubble") {
                     var theValue = toCamel('fireBubble-' + interaction.targetElement);
-                    UML = UML + theInterface + ' -> ' + theValue + ' #DD2C00\n';
+                    UML = UML + theInterface + ' --> ' + theValue + ' #DD2C00\n';
                 }
 
 

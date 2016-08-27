@@ -26,11 +26,12 @@ component ironAjax #white
 agent testb as valueelementtestb #white
 component valueObserver #white
 agent test as valueelementtest #white
-boundary fire as fireFire #white
+boundary "fire" as fireFire #white
 component valueObserver2 #white
-boundary "fir-eBubbleeee" as firebubbleFirebubbleeee #81C784
-component "valueObsd erver3" as valueObserver3 #white
-component valueObserver4 #white
+boundary "fireBu-bbleeee" as firebubbleFirebuBbleeee #81C784
+component valueObserver3 #white
+boundary "fireBubbleeee" as firebubbleFirebubbleeee #81C784
+component "DE" as valueObserver4 #white
 component button #white
 interface generaterequest as interfaceGeneraterequestironAjax  #white
 interfaceGeneraterequestironAjax .. ironAjax #616161
@@ -45,13 +46,13 @@ interfaceSetTheValuevalueObserver --> valueelementtestb #FF6F00
 interfaceSetTheValuevalueObserver --> valueelementtest #FF6F00
 interface valueChanged as interfaceValueChangedvalueObserver2 #ECEFF1
 valueObserver2 .. interfaceValueChangedvalueObserver2 #616161
-interfaceValueChangedvalueObserver2 -> fireFire #FF5722
+interfaceValueChangedvalueObserver2 ..> fireFire #FF5722
 interface valueChanged as interfaceValueChangedvalueObserver3 #ECEFF1
 valueObserver3 .. interfaceValueChangedvalueObserver3 #616161
-interfaceValueChangedvalueObserver3 -> firebubbleFirebubbleeee #DD2C00
+interfaceValueChangedvalueObserver3 --> firebubbleFirebuBbleeee #DD2C00
 interface valueChanged as interfaceValueChangedvalueObserver4 #ECEFF1
 valueObserver4 .. interfaceValueChangedvalueObserver4 #616161
-interfaceValueChangedvalueObserver4 -> firebubbleFirebubbleeee #DD2C00
+interfaceValueChangedvalueObserver4 --> firebubbleFirebubbleeee #DD2C00
 interface tap as interfaceTapbutton #ECEFF1
 button .. interfaceTapbutton #616161
 entity "no Target" as XXXXXnirvanaXXXXX
