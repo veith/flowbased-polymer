@@ -75,7 +75,7 @@
                                     "target": element._flowName,
                                     "event": methodname,
                                     "element": element,
-                                    "path": self.getElementPath(element)
+                                    "path": self._getElementPath(element)
                                 });
                             }
                         });
@@ -188,7 +188,7 @@
                                     "node": element._flowName,
                                     "wire": wire,
                                     "event": eventname,
-                                    "path": self.getElementPath(element)
+                                    "path": self._getElementPath(element)
                                 });
 
 
@@ -248,6 +248,9 @@
             this._PolymerFlowBasedProgrammingEvents.forEach(function (e) {
                 e.element.removeEventListener(e.event, e.hadler);
             })
+        },
+        _ready:function () {
+
         },
         _makePUML: function (data) {
             var self = this;
@@ -496,7 +499,7 @@
 
             console.log(UML)
         },
-        getElementPath: function (el) {
+        _getElementPath: function (el) {
             var path = el.nodeName;
             var parent = el.parentNode;
             while (parent) {
@@ -504,6 +507,11 @@
                 parent = parent.parentNode;
             }
             return path;
+        },
+        ready:function () {
+            var links = document.querySelectorAll('link[rel=import]');
+            var content = link.import.querySelector('#ddemo-component');
+            console.dir(content)
         }
 
     }
