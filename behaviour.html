@@ -38,11 +38,11 @@
                 if (self._PolymerFlowBasedProgrammingTraceFlow) {
                     if (!elementCount[element.nodeName]) {
                         elementCount[element.nodeName] = 1;
-                        element.flowName = element.nodeName;
+                        element._flowName = element.nodeName;
                     } else {
-                        if (!element.flowName) {
+                        if (!element._flowName) {
                             elementCount[element.nodeName]++;
-                            element.flowName = element.nodeName + elementCount[element.nodeName];
+                            element._flowName = element.nodeName + elementCount[element.nodeName];
                         }
                     }
                 }
@@ -69,9 +69,9 @@
                                     WTargets[receivingWire] = [];
                                 }
                                 WTargets[receivingWire].push({
-                                    "target": element.flowName,
+                                    "target": element._flowName,
                                     "event": methodname,
-                                    "element":element,
+                                    "element": element,
                                     "path": self.getElementPath(element)
                                 });
                             }
@@ -138,8 +138,8 @@
                             var trimmedWire = fwire.trim();
 
 
-                            if (!WSources[element.flowName]) {
-                                WSources[element.flowName] = [];
+                            if (!WSources[element._flowName]) {
+                                WSources[element._flowName] = [];
 
                             }
 
@@ -150,7 +150,7 @@
                                 if (self._PolymerFlowBasedProgrammingTraceFlow) {
                                     plantUMLArray.push({
                                         type: type,
-                                        sourceElement: element.flowName,
+                                        sourceElement: element._flowName,
                                         sourceEvent: eventname,
                                         wire: null,
                                         targetElement: wire,
@@ -169,7 +169,7 @@
                                 if (self._PolymerFlowBasedProgrammingTraceFlow) {
                                     plantUMLArray.push({
                                         type: type,
-                                        sourceElement: element.flowName,
+                                        sourceElement: element._flowName,
                                         sourceEvent: eventname,
                                         wire: null,
                                         targetElement: wire,
@@ -181,8 +181,8 @@
                                 wire = trimmedWire;
                                 type = "call";
 
-                                WSources[element.flowName].push({
-                                    "node": element.flowName,
+                                WSources[element._flowName].push({
+                                    "node": element._flowName,
                                     "wire": wire,
                                     "event": eventname,
                                     "path": self.getElementPath(element)
@@ -254,11 +254,16 @@
                     return g[1].toUpperCase();
                 });
             };
-
+// props
+//            console.dir(this._propertyInfo)
+//            console.dir(this._bindListeners)
+//
+//            console.dir(this)
 
             // nodes listen
             var alreadyDeclaredNode = [];
             data.forEach(function (interaction) {
+
                 var sourceElement = toCamel(interaction.sourceElement);
                 if (interaction.type === "fire") {
                     var targetElement = toCamel(interaction.targetElement);
@@ -281,6 +286,18 @@
                     if (alreadyDeclaredNode.indexOf(targetElement) == -1) {
                         var theValue = toCamel('valueElement' + interaction.targetElement);
                         UML = UML + 'agent ' + interaction.targetElement + ' as ' + theValue + ' #white\n';
+                        // interfaces for values
+                        var setInterface = toCamel('interface-' + theValue + '-set');
+                        var changeInterface = toCamel('interface-' + theValue + '-change');
+
+
+                        UML = UML + 'interface set as ' + setInterface + '\n';
+                        UML = UML + 'interface change as ' + changeInterface + ' #white\n';
+                        // connect
+                        UML = UML + setInterface + ' .. ' + theValue + ' #616161\n';
+                        UML = UML + theValue + ' .. ' + changeInterface+ ' #616161\n';
+
+
                         alreadyDeclaredNode.push(targetElement);
                     }
                 }
@@ -335,18 +352,20 @@
                 // Interfaces mit WERTEN
                 if (interaction.type === "setValue") {
                     var theValue = toCamel('valueElement' + interaction.targetElement);
-                    UML = UML + theInterface + ' --> ' + theValue + ' #FF6F00\n';
+                    var setInterface = toCamel('interface-' + theValue + '-set');
+                    UML = UML + theInterface + ' --> ' + setInterface + ' #FF6F00\n';
+
                 }
 
 
-                // Interfaces mit WERTEN
+                // event
                 if (interaction.type === "fire") {
                     var theValue = toCamel('fire-' + interaction.targetElement);
                     UML = UML + theInterface + ' ..> ' + theValue + ' #FF5722\n';
                 }
 
 
-                // Interfaces mit WERTEN
+                // bubbling event
                 if (interaction.type === "fireBubble") {
                     var theValue = toCamel('fireBubble-' + interaction.targetElement);
                     UML = UML + theInterface + ' --> ' + theValue + ' #DD2C00\n';
@@ -383,7 +402,7 @@
                 }
             );
 
-            UML += '}\n'
+            UML += '}\n';
             UML = UML + '@enduml';
 
             console.log(UML)

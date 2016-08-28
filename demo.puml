@@ -1,89 +1,62 @@
 ﻿@startuml
 left to right direction
+
  skinparam interface {
 backgroundColor lightgrey
 borderColor grey
 }
+skinparam boundary {
+backgroundColor lightgrey
+borderColor grey
+}
+skinparam entity {
+backgroundColor #f44336
+borderColor #b71c1c
+}
 skinparam component {
 ArrowColor #339900
 ArrowFontColor #666666
-borderColor #222255
+borderColor #448AFF
 }
 skinparam agent {
 ArrowFontColor #666666
 borderColor #999999
 }
-
-
-
-folder " view-detail " as root{
+component "ddemo-component" #FAFAFA{
 agent _response as valueelement_response #white
+interface set as interfaceValueelement_responseSet
+interface change as interfaceValueelement_responseChange #white
+interfaceValueelement_responseSet .. valueelement_response #616161
+valueelement_response .. interfaceValueelement_responseChange #616161
 component ironAjax #white
-agent testjjjjb as valueelementtestjjjjb #white
+boundary "fire" as fireFire #white
 component valueObserver #white
 agent testb as valueelementtestb #white
-component valueObserver2 #white
+interface set as interfaceValueelementtestbSet
+interface change as interfaceValueelementtestbChange #white
+interfaceValueelementtestbSet .. valueelementtestb #616161
+valueelementtestb .. interfaceValueelementtestbChange #616161
 agent test as valueelementtest #white
+interface set as interfaceValueelementtestSet
+interface change as interfaceValueelementtestChange #white
+interfaceValueelementtestSet .. valueelementtest #616161
+valueelementtest .. interfaceValueelementtestChange #616161
 component button #white
-component valueObserver4 #white
-component valueObserver5 #white
-component valueObserver6 #white
-component valueObserver3 #white
-boundary fire as fire #white
-boundary "fire-bubble" as fireBubble #white
-boundary "no Target" as XXXXXnirvanaXXXXX #red
-
 interface generaterequest as interfaceGeneraterequestironAjax  #white
-interfaceGeneraterequestironAjax .. ironAjax
-interface valuechanged as interfaceValuechangedvalueObserver2  #white
-interfaceValuechangedvalueObserver2 .. valueObserver2
-interface xxx as interfaceXxxvalueObserver4  #white
-interfaceXxxvalueObserver4 .. valueObserver4
-interface xxx as interfaceXxxvalueObserver5  #white
-interfaceXxxvalueObserver5 .. valueObserver5
-interface xxx as interfaceXxxvalueObserver6  #white
-interfaceXxxvalueObserver6 .. valueObserver6
-interface xxx as interfaceXxxvalueObserver2  #white
-interfaceXxxvalueObserver2 .. valueObserver2
-interface xxx as interfaceXxxvalueObserver3  #white
-interfaceXxxvalueObserver3 .. valueObserver3
-interface response as interfaceResponseironAjax #lightgray
-ironAjax .. interfaceResponseironAjax
-interfaceResponseironAjax --> valueelement_response #orange
-interface xxxxxxxxx as interfaceXxxxxxxxxvalueObserver #lightgray
-valueObserver .. interfaceXxxxxxxxxvalueObserver
-interfaceXxxxxxxxxvalueObserver --> valueelementtestjjjjb #orange
-interface valueChanged as interfaceValueChangedvalueObserver #lightgray
-valueObserver .. interfaceValueChangedvalueObserver
-interfaceValueChangedvalueObserver --> valueelementtestb #orange
-interface setTheValue as interfaceSetTheValuevalueObserver2 #lightgray
-valueObserver2 .. interfaceSetTheValuevalueObserver2
-interfaceSetTheValuevalueObserver2 --> valueelementtestb #orange
-interfaceSetTheValuevalueObserver2 --> valueelementtest #orange
-interface tap as interfaceTapbutton #lightgray
-button .. interfaceTapbutton
-
-interfaceSetTheValuevalueObserver2 --->  XXXXXnirvanaXXXXX  #red :--kappute-verbindung
-interface valueChanged as interfaceValueChangedvalueObserver3 #lightgray
-valueObserver3 .. interfaceValueChangedvalueObserver3
-interface valueChanged as interfaceValueChangedvalueObserver4 #lightgray
-valueObserver4 .. interfaceValueChangedvalueObserver4
-interface valueChanged as interfaceValueChangedvalueObserver5 #lightgray
-valueObserver5 .. interfaceValueChangedvalueObserver5
-interfaceValueChangedvalueObserver5  ---> fire   #black :^fire
-interface valueChanged as interfaceValueChangedvalueObserver6 #lightgray
-valueObserver6 .. interfaceValueChangedvalueObserver6
-interfaceValueChangedvalueObserver6  ---> fireBubble  #red :^^fire-bubble
+interfaceGeneraterequestironAjax .. ironAjax #616161
+interface response as interfaceResponseironAjax #ECEFF1
+ironAjax .. interfaceResponseironAjax #616161
+interfaceResponseironAjax --> interfaceValueelement_responseSet #FF6F00
+interface valueChanged as interfaceValueChangedvalueObserver #ECEFF1
+valueObserver .. interfaceValueChangedvalueObserver #616161
+interfaceValueChangedvalueObserver ..> fireFire #FF5722
+interfaceValueChangedvalueObserver --> interfaceValueelementtestbSet #FF6F00
+interfaceValueChangedvalueObserver --> interfaceValueelementtestSet #FF6F00
+interface tap as interfaceTapbutton #ECEFF1
+button .. interfaceTapbutton #616161
+entity "no Target" as XXXXXnirvanaXXXXX
+interfaceValueChangedvalueObserver --->  XXXXXnirvanaXXXXX  #d50000 :--f4
+interfaceValueChangedvalueObserver --->  XXXXXnirvanaXXXXX  #d50000 :--kappute-verbindung
 interfaceTapbutton --> interfaceGeneraterequestironAjax :connectorButtonRequestAjax
-interfaceTapbutton --> interfaceValuechangedvalueObserver2 :connectorButtonRequestAjax
-interfaceValueChangedvalueObserver --> interfaceGeneraterequestironAjax :connectorButtonRequestAjax
-interfaceValueChangedvalueObserver --> interfaceValuechangedvalueObserver2 :connectorButtonRequestAjax
-interfaceSetTheValuevalueObserver2 --> interfaceXxxvalueObserver4 :-F4
-interfaceSetTheValuevalueObserver2 --> interfaceXxxvalueObserver5 :-F4
-interfaceSetTheValuevalueObserver2 --> interfaceXxxvalueObserver6 :-F4
-interfaceValueChangedvalueObserver3 --> interfaceXxxvalueObserver2 :-From2
-interfaceValueChangedvalueObserver4 --> interfaceXxxvalueObserver3 :_unknownwire
-
 }
-
 @enduml
