@@ -23,13 +23,13 @@
         <hr>
         <call-function ƒ-func="_response-changed"></call-function>
 
-        <value-observer observe="{{_response}}"  @-value-changed="^fire, --f4, ((testb)), ((test)), --kappute-verbindung"></value-observer>
+        <value-observer observe="{{_response}}"  @-value-changed="^fire, ^^fire-bubble, --f4, ((aProperty)), ((test)), --kappute-verbindung"></value-observer>
 
 
         receivedResponse.response.version = {{_response.response.version}}
         <br>
         <br>
-        {{texst}} {{testb}}
+        {{texst}} {{aProperty}}
     </template>
 
     <script>
@@ -43,9 +43,9 @@
                     value:"TEST",
                     notify:true
                 },
-                testb:{
+                aProperty:{
                     type:String,
-                    value:"TESTB",
+                    value:"aProperty",
                     notify:true
                 },
                 texst:{
@@ -55,7 +55,7 @@
                 },
                 readonly:{
                     type:String,
-                    value:"TESTB",
+                    value:"aProperty",
                     readOnly:true,
                     notify:true
                 },
