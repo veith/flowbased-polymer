@@ -28,7 +28,7 @@ interface change as interfaceValueelement_responseChange #white
 interfaceValueelement_responseSet .. valueelement_response #616161
 valueelement_response .. interfaceValueelement_responseChange #616161
 component ironAjax #white
-boundary "fire" as fireFire #white
+boundary "fire" as fireFire #64B5F6
 component valueObserver #white
 agent testb as valueelementtestb #white
 interface set as interfaceValueelementtestbSet
@@ -37,8 +37,6 @@ interfaceValueelementtestbSet .. valueelementtestb #616161
 valueelementtestb .. interfaceValueelementtestbChange #616161
 boundary "testb" as boundaryValueelementtestbIn #FFB74D
 boundaryValueelementtestbIn ~> valueelementtestb #FF5722
-boundary "testb" as boundaryValueelementtestbOut #FFF176
-interfaceValueelementtestbChange ~~> boundaryValueelementtestbOut #FF5722
 agent test as valueelementtest #white
 interface set as interfaceValueelementtestSet
 interface change as interfaceValueelementtestChange #white
@@ -46,15 +44,13 @@ interfaceValueelementtestSet .. valueelementtest #616161
 valueelementtest .. interfaceValueelementtestChange #616161
 boundary "test" as boundaryValueelementtestIn #FFB74D
 boundaryValueelementtestIn ~> valueelementtest #FF5722
-boundary "test" as boundaryValueelementtestOut #FFF176
-interfaceValueelementtestChange ~~> boundaryValueelementtestOut #FF5722
 component button #white
 agent texst as valueelementtexst #white
 interface set as interfaceValueelementtexstSet
 interface change as interfaceValueelementtexstChange #white
 interfaceValueelementtexstSet .. valueelementtexst #616161
 valueelementtexst .. interfaceValueelementtexstChange #616161
-boundary "texst" as boundaryValueelementtexstOut #4DD0E1
+boundary "texst" as boundaryValueelementtexstOut #FFF176
 interfaceValueelementtexstChange ~~> boundaryValueelementtexstOut #FF5722
 boundary "texst" as boundaryValueelementtexstIn #FFB74D
 boundaryValueelementtexstIn ~> valueelementtexst #FF5722

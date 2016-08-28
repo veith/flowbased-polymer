@@ -324,7 +324,7 @@
 
 
                                 //if property is documented and is not readonly
-                                if(self._propertyInfo[interaction.targetElement] && !self.properties[interaction.targetElement.readOnly]){
+                                if(self._propertyInfo[interaction.targetElement] && !self.properties[interaction.targetElement.readOnly]  && self.properties[interaction.targetElement.notify]){
                                     // Outbound
                                     UML += 'boundary "' + toDash(targetElement) + '" as ' + theBoundary + 'Out #FFF176 \n';
                                     UML += changeInterface  + ' ~~> ' + theBoundary + 'Out #FF5722\n';
@@ -387,7 +387,7 @@
                                         UML += changeInterface + ' ~~> ' + theBoundary + 'Out #FF5722\n';
 
                                     }
-                                    if(self.properties[val] && !self.properties[val].readOnly){
+                                    if(self.properties[val] && !self.properties[val].readOnly  && self.properties[val].notify){
                                         // inbound
                                         UML += 'boundary "' + toDash(targetElement) + '" as ' + theBoundary + 'In #FFB74D \n';
                                         UML += theBoundary  + 'In ~> ' + theValue + ' #FF5722\n';
