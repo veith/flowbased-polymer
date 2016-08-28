@@ -33,8 +33,11 @@
             var self = this;
             var wirebundle = {};
             var tmp_PolymerFlowBasedProgrammingEvents = new Array;
+
+
             // get all elements which live in the host
             Polymer.dom(this.root).querySelectorAll('*').forEach(function (element) {
+
                 if (self._PolymerFlowBasedProgrammingTraceFlow) {
                     if (!elementCount[element.nodeName]) {
                         elementCount[element.nodeName] = 1;
@@ -235,6 +238,7 @@
                         })
                     }
                 }
+
                 self._makePUML(plantUMLArray);
             }
         },
@@ -246,6 +250,7 @@
             })
         },
         _makePUML: function (data) {
+            var self = this;
             var UML = '@startuml\nleft to right direction\n ' + 'skinparam interface {\nbackgroundColor lightgrey\nborderColor grey\n}\nskinparam boundary {\nbackgroundColor lightgrey\nborderColor grey\n}\nskinparam entity {\nbackgroundColor #f44336\nborderColor #b71c1c\n}\nskinparam component {\nArrowColor #339900\nArrowFontColor #666666\nborderColor #448AFF\n}\nskinparam agent {\nArrowFontColor #666666\nborderColor #999999\n}\n'
             UML += 'component "' + this.is + '" #FAFAFA{\n';
 
@@ -254,11 +259,12 @@
                     return g[1].toUpperCase();
                 });
             };
-// props
-//            console.dir(this._propertyInfo)
-//            console.dir(this._bindListeners)
-//
-//            console.dir(this)
+            var toDash = function (str) {
+                return str.replace(/\W+(.)/g, function (x, chr) {
+                    return chr.toUpperCase();
+                })
+            };
+
 
             // nodes listen
             var alreadyDeclaredNode = [];
@@ -269,7 +275,7 @@
                     var targetElement = toCamel(interaction.targetElement);
                     if (alreadyDeclaredNode.indexOf(targetElement) == -1) {
                         var theValue = toCamel('fire-' + interaction.targetElement);
-                        UML = UML + 'boundary "' + interaction.targetElement + '" as ' + theValue + ' #white\n';
+                        UML = UML + 'boundary "' + interaction.targetElement + '" as ' + theValue + ' #64B5F6\n';
                         alreadyDeclaredNode.push(targetElement);
                     }
                 }
@@ -295,7 +301,40 @@
                         UML = UML + 'interface change as ' + changeInterface + ' #white\n';
                         // connect
                         UML = UML + setInterface + ' .. ' + theValue + ' #616161\n';
-                        UML = UML + theValue + ' .. ' + changeInterface+ ' #616161\n';
+                        UML = UML + theValue + ' .. ' + changeInterface + ' #616161\n';
+
+
+                        // set boundary for defined props
+                        if (self.properties[interaction.targetElement] && self.properties[interaction.targetElement].notify) {
+
+
+
+
+
+                            // set boundary for defined props
+
+                                var theBoundary = toCamel('boundary-' + theValue);
+
+                                if(self._propertyInfo[interaction.targetElement]){
+                                    // can only come in
+                                    UML += 'boundary "' + toDash(interaction.targetElement) + '" as ' + theBoundary + 'In #FFB74D \n';
+                                    UML += theBoundary + 'In ~> ' + theValue + ' #FF5722\n';
+
+                                }
+
+
+                                //if property is documented and is not readonly
+                                if(self._propertyInfo[interaction.targetElement] && !self.properties[interaction.targetElement.readOnly]){
+                                    // Outbound
+                                    UML += 'boundary "' + toDash(targetElement) + '" as ' + theBoundary + 'Out #FFF176 \n';
+                                    UML += changeInterface  + ' ~~> ' + theBoundary + 'Out #FF5722\n';
+                                }
+
+
+
+                        }
+
+
 
 
                         alreadyDeclaredNode.push(targetElement);
@@ -314,6 +353,53 @@
                 }
 
             });
+
+            // all values
+            for (val in this._propertyInfo) {
+                if (this._propertyInfo.hasOwnProperty(val)) {
+
+
+                    for (val in this._propertyInfo) {
+                        if (this._propertyInfo.hasOwnProperty(val)) {
+
+                            var targetElement = toCamel(val);
+                            if (alreadyDeclaredNode.indexOf(targetElement) == -1) {
+                                var theValue = toCamel('valueElement' + targetElement);
+                                UML = UML + 'agent ' + targetElement + ' as ' + theValue + ' #white\n';
+                                // interfaces for values
+                                var setInterface = toCamel('interface-' + theValue + '-set');
+                                var changeInterface = toCamel('interface-' + theValue + '-change');
+
+
+                                UML = UML + 'interface set as ' + setInterface + '\n';
+                                UML = UML + 'interface change as ' + changeInterface + ' #white\n';
+                                // connect
+                                UML = UML + setInterface + ' .. ' + theValue + ' #616161\n';
+                                UML = UML + theValue + ' .. ' + changeInterface + ' #616161\n';
+
+                                // set boundary for defined props
+                                if (self.properties[val] && self.properties[val].notify ) {
+                                    var theBoundary = toCamel('boundary-' + theValue);
+
+                                    if(self.properties[val]){
+                                        // outbound
+                                        UML += 'boundary "' + toDash(targetElement) + '" as ' + theBoundary + 'Out #FFF176 \n';
+                                        UML += changeInterface + ' ~~> ' + theBoundary + 'Out #FF5722\n';
+
+                                    }
+                                    if(self.properties[val] && !self.properties[val].readOnly){
+                                        // inbound
+                                        UML += 'boundary "' + toDash(targetElement) + '" as ' + theBoundary + 'In #FFB74D \n';
+                                        UML += theBoundary  + 'In ~> ' + theValue + ' #FF5722\n';
+                                    }
+
+                                }
+                                alreadyDeclaredNode.push(targetElement);
+                            }
+                        }
+                    }
+                }
+            }
 
             // Eingehende interfaces (X)----|__
             data.forEach(function (interaction) {
@@ -361,14 +447,14 @@
                 // event
                 if (interaction.type === "fire") {
                     var theValue = toCamel('fire-' + interaction.targetElement);
-                    UML = UML + theInterface + ' ..> ' + theValue + ' #FF5722\n';
+                    UML = UML + theInterface + ' ~> ' + theValue + ' #FF5722\n';
                 }
 
 
                 // bubbling event
                 if (interaction.type === "fireBubble") {
                     var theValue = toCamel('fireBubble-' + interaction.targetElement);
-                    UML = UML + theInterface + ' --> ' + theValue + ' #DD2C00\n';
+                    UML = UML + theInterface + ' ~> ' + theValue + ' #DD2C00\n';
                 }
 
 
@@ -401,6 +487,9 @@
                     }
                 }
             );
+
+            // elemente die auf value changes hören mit interfaces verbinden
+
 
             UML += '}\n';
             UML = UML + '@enduml';

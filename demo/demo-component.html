@@ -13,8 +13,8 @@
         </style>
 
         <button @-tap="connector-button-request-ajax">Request Ajax</button>
-        <button valrw="{{readwrite}}" valro="[[readonly]]">Request Ajax</button>
-        <input value$="{{xxx}}">
+        <value-observer observe="{{texst}}"></value-observer>
+
         <iron-ajax
             ƒ-generate-request="connector-button-request-ajax"
             @-response="((_response))"
@@ -23,8 +23,7 @@
         <hr>
         <call-function ƒ-func="_response-changed"></call-function>
 
-        <value-observer observe="[[_response]]"  @-value-changed="^fire, --f4, ((testb)), ((test)), --kappute-verbindung"></value-observer>
-
+        <value-observer observe="{{_response}}"  @-value-changed="^fire, --f4, ((testb)), ((test)), --kappute-verbindung"></value-observer>
 
 
         receivedResponse.response.version = {{_response.response.version}}
@@ -41,11 +40,24 @@
             properties:{
                 test:{
                     type:String,
-                    value:"TEST"
+                    value:"TEST",
+                    notify:true
                 },
                 testb:{
                     type:String,
-                    value:"TESTB"
+                    value:"TESTB",
+                    notify:true
+                },
+                texst:{
+                    type:String,
+                    value:"something",
+                    notify:true
+                },
+                readonly:{
+                    type:String,
+                    value:"TESTB",
+                    readOnly:true,
+                    notify:true
                 },
                 _PolymerFlowBasedProgrammingTraceFlow:{
                     value:true

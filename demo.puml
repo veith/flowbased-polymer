@@ -1,6 +1,5 @@
 ﻿@startuml
 left to right direction
-
  skinparam interface {
 backgroundColor lightgrey
 borderColor grey
@@ -36,12 +35,36 @@ interface set as interfaceValueelementtestbSet
 interface change as interfaceValueelementtestbChange #white
 interfaceValueelementtestbSet .. valueelementtestb #616161
 valueelementtestb .. interfaceValueelementtestbChange #616161
+boundary "testb" as boundaryValueelementtestbIn #FFB74D
+boundaryValueelementtestbIn ~> valueelementtestb #FF5722
+boundary "testb" as boundaryValueelementtestbOut #FFF176
+interfaceValueelementtestbChange ~~> boundaryValueelementtestbOut #FF5722
 agent test as valueelementtest #white
 interface set as interfaceValueelementtestSet
 interface change as interfaceValueelementtestChange #white
 interfaceValueelementtestSet .. valueelementtest #616161
 valueelementtest .. interfaceValueelementtestChange #616161
+boundary "test" as boundaryValueelementtestIn #FFB74D
+boundaryValueelementtestIn ~> valueelementtest #FF5722
+boundary "test" as boundaryValueelementtestOut #FFF176
+interfaceValueelementtestChange ~~> boundaryValueelementtestOut #FF5722
 component button #white
+agent texst as valueelementtexst #white
+interface set as interfaceValueelementtexstSet
+interface change as interfaceValueelementtexstChange #white
+interfaceValueelementtexstSet .. valueelementtexst #616161
+valueelementtexst .. interfaceValueelementtexstChange #616161
+boundary "texst" as boundaryValueelementtexstOut #4DD0E1
+interfaceValueelementtexstChange ~~> boundaryValueelementtexstOut #FF5722
+boundary "texst" as boundaryValueelementtexstIn #FFB74D
+boundaryValueelementtexstIn ~> valueelementtexst #FF5722
+agent readonly as valueelementreadonly #white
+interface set as interfaceValueelementreadonlySet
+interface change as interfaceValueelementreadonlyChange #white
+interfaceValueelementreadonlySet .. valueelementreadonly #616161
+valueelementreadonly .. interfaceValueelementreadonlyChange #616161
+boundary "readonly" as boundaryValueelementreadonlyOut #FFF176
+interfaceValueelementreadonlyChange ~~> boundaryValueelementreadonlyOut #FF5722
 interface generaterequest as interfaceGeneraterequestironAjax  #white
 interfaceGeneraterequestironAjax .. ironAjax #616161
 interface response as interfaceResponseironAjax #ECEFF1
@@ -49,7 +72,7 @@ ironAjax .. interfaceResponseironAjax #616161
 interfaceResponseironAjax --> interfaceValueelement_responseSet #FF6F00
 interface valueChanged as interfaceValueChangedvalueObserver #ECEFF1
 valueObserver .. interfaceValueChangedvalueObserver #616161
-interfaceValueChangedvalueObserver ..> fireFire #FF5722
+interfaceValueChangedvalueObserver ~> fireFire #FF5722
 interfaceValueChangedvalueObserver --> interfaceValueelementtestbSet #FF6F00
 interfaceValueChangedvalueObserver --> interfaceValueelementtestSet #FF6F00
 interface tap as interfaceTapbutton #ECEFF1
