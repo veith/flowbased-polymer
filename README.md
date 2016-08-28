@@ -1,6 +1,8 @@
 # \<flowbased-behaviour\> for Polymer ^1.4.0
 
-Connect events from components to functions of other components, to properties or trigger (basic) events  of other components in a declarative way.
+Do flowbased programming with polymer.
+
+Connect events from components to functions of other components, properties. Trigger events,...  in a flowbased way.
 
 
 Installation:
