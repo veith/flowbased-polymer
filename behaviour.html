@@ -305,7 +305,7 @@
 
 
                         // set boundary for defined props
-                        if (self.properties[interaction.targetElement] && self.properties[interaction.targetElement].notify) {
+                        if (self.properties[interaction.targetElement] ) {
 
 
 
@@ -315,19 +315,19 @@
 
                                 var theBoundary = toCamel('boundary-' + theValue);
 
-                                if(self._propertyInfo[interaction.targetElement]){
+
+                            //if property is documented and is not readonly
+                            if(self._propertyInfo[interaction.targetElement] && self.properties[interaction.targetElement.notify]  ){
+                                // Outbound
+                                UML += 'boundary "' + toDash(targetElement) + '" as ' + theBoundary + 'Out #FFF176 \n';
+                                UML += changeInterface  + ' ~~> ' + theBoundary + 'Out #FF5722\n';
+                            }
+
+                                if(self._propertyInfo[interaction.targetElement] && !self.properties[interaction.targetElement.readOnly]){
                                     // can only come in
                                     UML += 'boundary "' + toDash(interaction.targetElement) + '" as ' + theBoundary + 'In #FFB74D \n';
                                     UML += theBoundary + 'In ~> ' + theValue + ' #FF5722\n';
 
-                                }
-
-
-                                //if property is documented and is not readonly
-                                if(self._propertyInfo[interaction.targetElement] && !self.properties[interaction.targetElement.readOnly]  && self.properties[interaction.targetElement.notify]){
-                                    // Outbound
-                                    UML += 'boundary "' + toDash(targetElement) + '" as ' + theBoundary + 'Out #FFF176 \n';
-                                    UML += changeInterface  + ' ~~> ' + theBoundary + 'Out #FF5722\n';
                                 }
 
 
@@ -378,16 +378,16 @@
                                 UML = UML + theValue + ' .. ' + changeInterface + ' #616161\n';
 
                                 // set boundary for defined props
-                                if (self.properties[val] && self.properties[val].notify ) {
+                                if (self.properties[val]  ) {
                                     var theBoundary = toCamel('boundary-' + theValue);
 
-                                    if(self.properties[val]){
+                                    if(self.properties[val] && self.properties[val].notify){
                                         // outbound
                                         UML += 'boundary "' + toDash(targetElement) + '" as ' + theBoundary + 'Out #FFF176 \n';
                                         UML += changeInterface + ' ~~> ' + theBoundary + 'Out #FF5722\n';
 
                                     }
-                                    if(self.properties[val] && !self.properties[val].readOnly  && self.properties[val].notify){
+                                    if(self.properties[val] && !self.properties[val].readOnly  ){
                                         // inbound
                                         UML += 'boundary "' + toDash(targetElement) + '" as ' + theBoundary + 'In #FFB74D \n';
                                         UML += theBoundary  + 'In ~> ' + theValue + ' #FF5722\n';

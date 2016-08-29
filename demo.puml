@@ -30,13 +30,14 @@ valueelement_response .. interfaceValueelement_responseChange #616161
 component ironAjax #white
 boundary "fire" as fireFire #64B5F6
 component valueObserver #white
-agent testb as valueelementtestb #white
-interface set as interfaceValueelementtestbSet
-interface change as interfaceValueelementtestbChange #white
-interfaceValueelementtestbSet .. valueelementtestb #616161
-valueelementtestb .. interfaceValueelementtestbChange #616161
-boundary "testb" as boundaryValueelementtestbIn #FFB74D
-boundaryValueelementtestbIn ~> valueelementtestb #FF5722
+boundary "fire-bubble" as firebubbleFireBubble #81C784
+agent aProperty as valueelementaproperty #white
+interface set as interfaceValueelementapropertySet
+interface change as interfaceValueelementapropertyChange #white
+interfaceValueelementapropertySet .. valueelementaproperty #616161
+valueelementaproperty .. interfaceValueelementapropertyChange #616161
+boundary "aProperty" as boundaryValueelementapropertyIn #FFB74D
+boundaryValueelementapropertyIn ~> valueelementaproperty #FF5722
 agent test as valueelementtest #white
 interface set as interfaceValueelementtestSet
 interface change as interfaceValueelementtestChange #white
@@ -69,7 +70,8 @@ interfaceResponseironAjax --> interfaceValueelement_responseSet #FF6F00
 interface valueChanged as interfaceValueChangedvalueObserver #ECEFF1
 valueObserver .. interfaceValueChangedvalueObserver #616161
 interfaceValueChangedvalueObserver ~> fireFire #FF5722
-interfaceValueChangedvalueObserver --> interfaceValueelementtestbSet #FF6F00
+interfaceValueChangedvalueObserver ~> firebubbleFireBubble #DD2C00
+interfaceValueChangedvalueObserver --> interfaceValueelementapropertySet #FF6F00
 interfaceValueChangedvalueObserver --> interfaceValueelementtestSet #FF6F00
 interface tap as interfaceTapbutton #ECEFF1
 button .. interfaceTapbutton #616161
