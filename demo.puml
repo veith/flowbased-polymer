@@ -71,9 +71,9 @@ component valueObserver2 #white
 interface observe as interfaceObserveValueobserver #FFF176
 interfaceObserveValueobserver .. valueObserver #616161
 interfaceValueelement_responseChange --> interfaceObserveValueobserver #FF6F00
-interface observe as interfaceObserveValueobserver2 #FFF176
-interfaceObserveValueobserver2 .. valueObserver2 #616161
-interfaceValueelement_responseChange --> interfaceObserveValueobserver2 #FF6F00
+interface unknown as interfaceUnknownValueobserver2 #red
+interfaceUnknownValueobserver2 .. valueObserver2 #616161
+interfaceValueelement_responseChange --> interfaceUnknownValueobserver2 #FF6F00
 artifact "this.regularTap()" as regularTap #white
 interfaceValueChangedvalueObserver2 --(0 regularTap #4444AA
 interface generaterequest as interfaceGeneraterequestironAjax  #white

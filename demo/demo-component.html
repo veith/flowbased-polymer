@@ -25,7 +25,7 @@
         <call-function ƒ-func="_response-changed"></call-function>
 
         <value-observer observe="{{_response}}"  @-value-changed="^fire, ^^fire-bubble, --f4, ((aProperty)), ((test)), --kappute-verbindung"></value-observer>
-        <value-observer observe="{{_response}}" @-value-changed="((readonly))" on-value-changed="regularTap"></value-observer>
+        <value-observer unknown="{{_response}}" @-value-changed="((readonly))" on-value-changed="regularTap"></value-observer>
 
 
         receivedResponse.response.version = {{_response.response.version}}

@@ -397,8 +397,8 @@
             var domNodes = Polymer.dom(this.root).querySelectorAll('*');
 
             // add additional components
-            self.childNodes.forEach(function (component) {
-                if (["#text", "HR", "BR"].indexOf(component.nodeName) === -1) {
+            Polymer.dom(self.root).childNodes.forEach(function (component) {
+                if (["#text", "HR", "BR", "STYLE", "#comment"].indexOf(component.nodeName) === -1) {
 
                     if (!component._flowName || alreadyDeclaredNode.indexOf(targetElement) == -1) {
                         if (!elementCount[component.nodeName]) {
@@ -424,14 +424,14 @@
                 var bindings = val.bindings;
                 var events = val.events;
                 // ignore text
-                if (["#text", "HR", "BR"].indexOf(self.childNodes[val.index].nodeName) === -1) {
-                    var theComponent = toCamel(self.childNodes[val.index]._flowName);
+                if (["#text", "HR", "BR", "STYLE", "#comment"].indexOf(Polymer.dom(self.root).childNodes[val.index].nodeName) === -1) {
+                    var theComponent = toCamel(Polymer.dom(self.root).childNodes[val.index]._flowName);
 
                     bindings.forEach(function (binding) {
 
                         var theInterface = toCamel('interface-' + binding.propertyName + '-' + theComponent);
                         // add propety interface (red if interface is not defined in component else #FFF176) to component
-                        if (self.childNodes[val.index]._propertyInfo[binding.propertyName]) {
+                        if (Polymer.dom(self.root).childNodes[val.index]._propertyInfo[binding.propertyName]) {
                             UML = UML + 'interface ' + binding.propertyName + ' as ' + theInterface + ' #FFF176\n';
                         } else {
                             UML = UML + 'interface ' + binding.propertyName + ' as ' + theInterface + ' #red\n';
@@ -454,7 +454,7 @@
                         UML += theInterface + ' --(0 ' + theFunction + ' #4444AA\n';
                     })
                 }
-                //console.dir(self.childNodes[val.index]._flowName)
+                //console.dir(Polymer.dom(self.root).childNodes[val.index]._flowName)
             });
 
 //            .forEach(function (element) {
