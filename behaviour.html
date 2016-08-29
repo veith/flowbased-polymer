@@ -249,9 +249,6 @@
                 e.element.removeEventListener(e.event, e.hadler);
             })
         },
-        _ready:function () {
-
-        },
         _makePUML: function (data) {
             var self = this;
             var UML = '@startuml\nleft to right direction\n ' + 'skinparam interface {\nbackgroundColor lightgrey\nborderColor grey\n}\nskinparam boundary {\nbackgroundColor lightgrey\nborderColor grey\n}\nskinparam entity {\nbackgroundColor #f44336\nborderColor #b71c1c\n}\nskinparam component {\nArrowColor #339900\nArrowFontColor #666666\nborderColor #448AFF\n}\nskinparam agent {\nArrowFontColor #666666\nborderColor #999999\n}\n'
@@ -498,7 +495,7 @@
             UML = UML + '@enduml';
 
             console.log(UML)
-        },    
+        },
         _getElementPath: function (el) {
             var path = el.nodeName;
             var parent = el.parentNode;
@@ -507,11 +504,6 @@
                 parent = parent.parentNode;
             }
             return path;
-        },
-        ready:function () {
-            var links = document.querySelectorAll('link[rel=import]');
-            var content = link.import.querySelector('#ddemo-component');
-            console.dir(content)
         }
 
     }
