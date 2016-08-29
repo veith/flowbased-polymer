@@ -37,14 +37,22 @@ interface change as interfaceValueelementapropertyChange #white
 interfaceValueelementapropertySet .. valueelementaproperty #616161
 valueelementaproperty .. interfaceValueelementapropertyChange #616161
 boundary "aProperty" as boundaryValueelementapropertyIn #FFB74D
-boundaryValueelementapropertyIn ~> valueelementaproperty #FF5722
+valueelementaproperty <~ boundaryValueelementapropertyIn #FF5722
 agent test as valueelementtest #white
 interface set as interfaceValueelementtestSet
 interface change as interfaceValueelementtestChange #white
 interfaceValueelementtestSet .. valueelementtest #616161
 valueelementtest .. interfaceValueelementtestChange #616161
 boundary "test" as boundaryValueelementtestIn #FFB74D
-boundaryValueelementtestIn ~> valueelementtest #FF5722
+valueelementtest <~ boundaryValueelementtestIn #FF5722
+agent readonly as valueelementreadonly #white
+interface set as interfaceValueelementreadonlySet
+interface change as interfaceValueelementreadonlyChange #white
+interfaceValueelementreadonlySet .. valueelementreadonly #616161
+valueelementreadonly .. interfaceValueelementreadonlyChange #616161
+boundary "readonly" as boundaryValueelementreadonlyIn #FFB74D
+valueelementreadonly <~ boundaryValueelementreadonlyIn #FF5722
+component valueObserver2 #white
 component button #white
 agent texst as valueelementtexst #white
 interface set as interfaceValueelementtexstSet
@@ -52,16 +60,22 @@ interface change as interfaceValueelementtexstChange #white
 interfaceValueelementtexstSet .. valueelementtexst #616161
 valueelementtexst .. interfaceValueelementtexstChange #616161
 boundary "texst" as boundaryValueelementtexstOut #FFF176
-interfaceValueelementtexstChange ~~> boundaryValueelementtexstOut #FF5722
+interfaceValueelementtexstChange ~> boundaryValueelementtexstOut #FF5722
 boundary "texst" as boundaryValueelementtexstIn #FFB74D
-boundaryValueelementtexstIn ~> valueelementtexst #FF5722
-agent readonly as valueelementreadonly #white
-interface set as interfaceValueelementreadonlySet
-interface change as interfaceValueelementreadonlyChange #white
-interfaceValueelementreadonlySet .. valueelementreadonly #616161
-valueelementreadonly .. interfaceValueelementreadonlyChange #616161
-boundary "readonly" as boundaryValueelementreadonlyOut #FFF176
-interfaceValueelementreadonlyChange ~~> boundaryValueelementreadonlyOut #FF5722
+valueelementtexst <~ boundaryValueelementtexstIn #FF5722
+component button #white
+component ironAjax #white
+component callFunction #white
+component valueObserver #white
+component valueObserver2 #white
+interface observe as interfaceObserveValueobserver #FFF176
+interfaceObserveValueobserver .. valueObserver #616161
+interfaceValueelement_responseChange --> interfaceObserveValueobserver #FF6F00
+interface observe as interfaceObserveValueobserver2 #FFF176
+interfaceObserveValueobserver2 .. valueObserver2 #616161
+interfaceValueelement_responseChange --> interfaceObserveValueobserver2 #FF6F00
+artifact "this.regularTap()" as regularTap #white
+interfaceValueChangedvalueObserver2 --(0 regularTap #4444AA
 interface generaterequest as interfaceGeneraterequestironAjax  #white
 interfaceGeneraterequestironAjax .. ironAjax #616161
 interface response as interfaceResponseironAjax #ECEFF1
@@ -73,6 +87,9 @@ interfaceValueChangedvalueObserver ~> fireFire #FF5722
 interfaceValueChangedvalueObserver ~> firebubbleFireBubble #DD2C00
 interfaceValueChangedvalueObserver --> interfaceValueelementapropertySet #FF6F00
 interfaceValueChangedvalueObserver --> interfaceValueelementtestSet #FF6F00
+interface valueChanged as interfaceValueChangedvalueObserver2 #ECEFF1
+valueObserver2 .. interfaceValueChangedvalueObserver2 #616161
+interfaceValueChangedvalueObserver2 --> interfaceValueelementreadonlySet #FF6F00
 interface tap as interfaceTapbutton #ECEFF1
 button .. interfaceTapbutton #616161
 entity "no Target" as XXXXXnirvanaXXXXX

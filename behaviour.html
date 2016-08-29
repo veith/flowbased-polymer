@@ -206,8 +206,8 @@
                     }
                 }
             });
-            self._PolymerFlowBasedProgrammingEvents = tmp_PolymerFlowBasedProgrammingEvents;
 
+            self._PolymerFlowBasedProgrammingEvents = tmp_PolymerFlowBasedProgrammingEvents;
 
             if (self._PolymerFlowBasedProgrammingTraceFlow) {
                 for (var sourceElement in WSources) {
@@ -239,7 +239,7 @@
                     }
                 }
 
-                self._makePUML(plantUMLArray);
+                self._makePUML(plantUMLArray, elementCount);
             }
         },
         detached: function () {
@@ -249,7 +249,7 @@
                 e.element.removeEventListener(e.event, e.hadler);
             })
         },
-        _makePUML: function (data) {
+        _makePUML: function (data, elementCount) {
             var self = this;
             var UML = '@startuml\nleft to right direction\n ' + 'skinparam interface {\nbackgroundColor lightgrey\nborderColor grey\n}\nskinparam boundary {\nbackgroundColor lightgrey\nborderColor grey\n}\nskinparam entity {\nbackgroundColor #f44336\nborderColor #b71c1c\n}\nskinparam component {\nArrowColor #339900\nArrowFontColor #666666\nborderColor #448AFF\n}\nskinparam agent {\nArrowFontColor #666666\nborderColor #999999\n}\n'
             UML += 'component "' + this.is + '" #FAFAFA{\n';
@@ -305,36 +305,28 @@
 
 
                         // set boundary for defined props
-                        if (self.properties[interaction.targetElement] ) {
-
-
-
-
+                        if (self.properties[interaction.targetElement]) {
 
                             // set boundary for defined props
-
-                                var theBoundary = toCamel('boundary-' + theValue);
+                            var theBoundary = toCamel('boundary-' + theValue);
 
 
                             //if property is documented and is not readonly
-                            if(self._propertyInfo[interaction.targetElement] && self.properties[interaction.targetElement.notify]  ){
+                            if (self._propertyInfo[interaction.targetElement] && self.properties[interaction.targetElement.notify]) {
                                 // Outbound
                                 UML += 'boundary "' + toDash(targetElement) + '" as ' + theBoundary + 'Out #FFF176 \n';
-                                UML += changeInterface  + ' ~~> ' + theBoundary + 'Out #FF5722\n';
+                                UML += changeInterface + ' ~> ' + theBoundary + 'Out #FF5722\n';
                             }
 
-                                if(self._propertyInfo[interaction.targetElement] && !self.properties[interaction.targetElement.readOnly]){
-                                    // can only come in
-                                    UML += 'boundary "' + toDash(interaction.targetElement) + '" as ' + theBoundary + 'In #FFB74D \n';
-                                    UML += theBoundary + 'In ~> ' + theValue + ' #FF5722\n';
+                            if (self._propertyInfo[interaction.targetElement] && !self.properties[interaction.targetElement.readOnly]) {
+                                // can only come in
+                                UML += 'boundary "' + toDash(interaction.targetElement) + '" as ' + theBoundary + 'In #FFB74D \n';
+                                UML += theValue + ' <~ ' + theBoundary + 'In #FF5722\n';
 
-                                }
-
+                            }
 
 
                         }
-
-
 
 
                         alreadyDeclaredNode.push(targetElement);
@@ -348,6 +340,7 @@
                     }
                 }
                 if (alreadyDeclaredNode.indexOf(sourceElement) == -1) {
+                    // todo: check for button labels
                     UML = UML + 'component ' + sourceElement + ' #white\n';
                     alreadyDeclaredNode.push(sourceElement);
                 }
@@ -378,19 +371,19 @@
                                 UML = UML + theValue + ' .. ' + changeInterface + ' #616161\n';
 
                                 // set boundary for defined props
-                                if (self.properties[val]  ) {
+                                if (self.properties[val]) {
                                     var theBoundary = toCamel('boundary-' + theValue);
 
-                                    if(self.properties[val] && self.properties[val].notify){
+                                    if (self.properties[val] && self.properties[val].notify) {
                                         // outbound
                                         UML += 'boundary "' + toDash(targetElement) + '" as ' + theBoundary + 'Out #FFF176 \n';
-                                        UML += changeInterface + ' ~~> ' + theBoundary + 'Out #FF5722\n';
+                                        UML += changeInterface + ' ~> ' + theBoundary + 'Out #FF5722\n';
 
                                     }
-                                    if(self.properties[val] && !self.properties[val].readOnly  ){
+                                    if (self.properties[val] && !self.properties[val].readOnly) {
                                         // inbound
                                         UML += 'boundary "' + toDash(targetElement) + '" as ' + theBoundary + 'In #FFB74D \n';
-                                        UML += theBoundary  + 'In ~> ' + theValue + ' #FF5722\n';
+                                        UML += theValue + ' <~ ' + theBoundary + 'In #FF5722\n';
                                     }
 
                                 }
@@ -400,6 +393,72 @@
                     }
                 }
             }
+
+            var domNodes = Polymer.dom(this.root).querySelectorAll('*');
+
+            // add additional components
+            self.childNodes.forEach(function (component) {
+                if (["#text", "HR", "BR"].indexOf(component.nodeName) === -1) {
+
+                    if (!component._flowName || alreadyDeclaredNode.indexOf(targetElement) == -1) {
+                        if (!elementCount[component.nodeName]) {
+                            elementCount[component.nodeName] = 1;
+                            component._flowName = component.nodeName;
+                        } else {
+                            if (!component._flowName) {
+                                elementCount[component.nodeName]++;
+                                component._flowName = component.nodeName + elementCount[component.nodeName];
+                            }
+                        }
+                        var targetElement = toCamel(component._flowName);
+                        UML = UML + 'component ' + targetElement + ' #white\n';
+                        alreadyDeclaredNode.push(targetElement);
+
+                    }
+                }
+            });
+
+            // undefined Values
+            this._notes.forEach(function (val) {
+                //console.dir(val)
+                var bindings = val.bindings;
+                var events = val.events;
+                // ignore text
+                if (["#text", "HR", "BR"].indexOf(self.childNodes[val.index].nodeName) === -1) {
+                    var theComponent = toCamel(self.childNodes[val.index]._flowName);
+
+                    bindings.forEach(function (binding) {
+
+                        var theInterface = toCamel('interface-' + binding.propertyName + '-' + theComponent);
+                        // add propety interface (red if interface is not defined in component else #FFF176) to component
+                        if (self.childNodes[val.index]._propertyInfo[binding.propertyName]) {
+                            UML = UML + 'interface ' + binding.propertyName + ' as ' + theInterface + ' #FFF176\n';
+                        } else {
+                            UML = UML + 'interface ' + binding.propertyName + ' as ' + theInterface + ' #red\n';
+                        }
+
+                        // connect
+                        UML = UML + theInterface + ' .. ' + theComponent + ' #616161\n';
+                        var part = binding.parts[0];
+                        // two-way stuff
+                        if (part.mode === '{') {
+                            var theSource = toCamel('interface-valueelement' + part.model + '-change');
+                            UML += theSource + ' --> ' + theInterface + ' #FF6F00\n';
+                        }
+                    });
+
+                    events.forEach(function (event) {
+                        var theInterface = toCamel('interface-' + event.name)  + theComponent;
+                        var theFunction = event.value;
+                        UML += 'artifact "this.' + theFunction + '()" as ' + theFunction + ' #white\n';
+                        UML += theInterface + ' --(0 ' + theFunction + ' #4444AA\n';
+                    })
+                }
+                //console.dir(self.childNodes[val.index]._flowName)
+            });
+
+//            .forEach(function (element) {
+
 
             // Eingehende interfaces (X)----|__
             data.forEach(function (interaction) {
