@@ -394,11 +394,12 @@
                 }
             }
 
-            var domNodes = Polymer.dom(this.root).querySelectorAll('*');
+            var domNodes = Polymer.dom(self.root).querySelectorAll('*');
+
 
             // add additional components
-            Polymer.dom(self.root).childNodes.forEach(function (component) {
-                if (["#text", "HR", "BR", "STYLE", "#comment"].indexOf(component.nodeName) === -1) {
+            domNodes.forEach(function (component) {
+                if (["#text", "HR", "BR", "SPAN", "STYLE", "#comment"].indexOf(component.nodeName) === -1) {
 
                     if (!component._flowName || alreadyDeclaredNode.indexOf(targetElement) == -1) {
                         if (!elementCount[component.nodeName]) {
@@ -411,7 +412,13 @@
                             }
                         }
                         var targetElement = toCamel(component._flowName);
-                        UML = UML + 'component ' + targetElement + ' #white\n';
+
+                        var lbl = "";
+                        if (component.getAttribute('aria-label')) {
+                            lbl = '"' + targetElement + '\\n ' + component.getAttribute('aria-label') + '" as ';
+                        }
+
+                        UML = UML + 'component ' + lbl + targetElement + ' #white\n';
                         alreadyDeclaredNode.push(targetElement);
 
                     }
@@ -419,36 +426,93 @@
             });
 
             // undefined Values
-            this._notes.forEach(function (val) {
-                //console.dir(val)
+
+            var _getNodePathFromNote = function (annote, path) {
+                if (!path) {
+                    path = [];
+                }
+                if (annote.index !== undefined) {
+                    path.push(annote.index);
+                }
+                // down the rabbit hole
+                if (annote.parent) {
+                    path = _getNodePathFromNote(annote.parent, path)
+                }
+                return path;
+            };
+
+            _getNodeFromPath = function (root, path) {
+                if (path.length > 1) {
+                    return root = _getNodeFromPath(Polymer.dom(root[path.pop()]).childNodes, path);
+                }
+                return root[path.pop()];
+
+
+            };
+
+
+
+            self._notes.forEach(function (val) {
+
+                var path = _getNodePathFromNote(val);
+                var theNode = _getNodeFromPath(Polymer.dom(self.root).childNodes, path)
+
                 var bindings = val.bindings;
                 var events = val.events;
-                // ignore text
-                if (["#text", "HR", "BR", "STYLE", "#comment"].indexOf(Polymer.dom(self.root).childNodes[val.index].nodeName) === -1) {
-                    var theComponent = toCamel(Polymer.dom(self.root).childNodes[val.index]._flowName);
+
+                if (["#text", "HR", "BR", "SPAN", "STYLE", "#comment"].indexOf(theNode.nodeName) === -1) {
+
+                    var theComponent = toCamel(theNode._flowName);
 
                     bindings.forEach(function (binding) {
 
                         var theInterface = toCamel('interface-' + binding.propertyName + '-' + theComponent);
                         // add propety interface (red if interface is not defined in component else #FFF176) to component
-                        if (Polymer.dom(self.root).childNodes[val.index]._propertyInfo[binding.propertyName]) {
+
+                        if (theNode._propertyInfo[binding.propertyName]) {
                             UML = UML + 'interface ' + binding.propertyName + ' as ' + theInterface + ' #FFF176\n';
                         } else {
                             UML = UML + 'interface ' + binding.propertyName + ' as ' + theInterface + ' #red\n';
                         }
 
                         // connect
-                        UML = UML + theInterface + ' .. ' + theComponent + ' #616161\n';
+                        if (theNode._propertyInfo[binding.propertyName]) {
+                            UML = UML + theComponent + ' .. ' + theInterface + ' #616161\n';
+                        }else{
+                            UML = UML + theInterface + ' .. ' + theComponent + ' #616161\n';
+                        }
                         var part = binding.parts[0];
+
+                        // register value if not defined
+                        var theValue = toCamel('valueelement' + part.model);
+                        if (alreadyDeclaredNode.indexOf(part.model) == -1) {
+                            UML = UML + 'agent "' + part.model + '" as ' + theValue + ' #red\n';
+                            // interfaces for values
+                            var setInterface = toCamel('interface-' + theValue + '-set');
+                            var changeInterface = toCamel('interface-' + theValue + '-change');
+
+                            UML = UML + 'interface set as ' + setInterface + '\n';
+                            UML = UML + 'interface change as ' + changeInterface + ' #white\n';
+                            // connect
+                            UML = UML + setInterface + ' .. ' + theValue + ' #616161\n';
+                            UML = UML + theValue + ' .. ' + changeInterface + ' #616161\n';
+                            alreadyDeclaredNode.push(part.model);
+                        }
+
+
                         // two-way stuff
                         if (part.mode === '{') {
+
+                            UML += theInterface + ' --> ' + toCamel('interface-valueelement' + part.model + '-set') + ' #FF6F00\n';
+                        }
+                        if (part.mode === '[') {
                             var theSource = toCamel('interface-valueelement' + part.model + '-change');
                             UML += theSource + ' --> ' + theInterface + ' #FF6F00\n';
                         }
                     });
 
                     events.forEach(function (event) {
-                        var theInterface = toCamel('interface-' + event.name)  + theComponent;
+                        var theInterface = toCamel('interface-' + event.name) + theComponent;
                         var theFunction = event.value;
                         UML += 'artifact "this.' + theFunction + '()" as ' + theFunction + ' #white\n';
                         UML += theInterface + ' --(0 ' + theFunction + ' #4444AA\n';

@@ -68,12 +68,20 @@ component ironAjax #white
 component callFunction #white
 component valueObserver #white
 component valueObserver2 #white
+interface func as interfaceFuncCallfunction #red
+interfaceFuncCallfunction .. callFunction #616161
+agent "_unknown" as valueelement_unknown #red
+interface set as interfaceValueelement_unknownSet
+interface change as interfaceValueelement_unknownChange #white
+interfaceValueelement_unknownSet .. valueelement_unknown #616161
+valueelement_unknown .. interfaceValueelement_unknownChange #616161
+interfaceFuncCallfunction --> interfaceValueelement_unknownSet #FF6F00
 interface observe as interfaceObserveValueobserver #FFF176
-interfaceObserveValueobserver .. valueObserver #616161
-interfaceValueelement_responseChange --> interfaceObserveValueobserver #FF6F00
+valueObserver .. interfaceObserveValueobserver #616161
+interfaceObserveValueobserver --> interfaceValueelement_responseSet #FF6F00
 interface unknown as interfaceUnknownValueobserver2 #red
 interfaceUnknownValueobserver2 .. valueObserver2 #616161
-interfaceValueelement_responseChange --> interfaceUnknownValueobserver2 #FF6F00
+interfaceUnknownValueobserver2 --> interfaceValueelement_responseSet #FF6F00
 artifact "this.regularTap()" as regularTap #white
 interfaceValueChangedvalueObserver2 --(0 regularTap #4444AA
 interface generaterequest as interfaceGeneraterequestironAjax  #white
