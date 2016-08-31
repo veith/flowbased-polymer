@@ -292,20 +292,10 @@
                     if (alreadyDeclaredNode.indexOf(targetElement) == -1) {
                         var theValue = toCamel('valueElement' + interaction.targetElement);
                         if (self.properties[targetElement]) {
-                            UML = UML + 'agent ' + interaction.targetElement + ' as ' + theValue + ' #white\n';
+                            UML = UML + 'agent ' + interaction.targetElement + ' as ' + targetElement + ' #white\n';
                         }else{
-                            UML = UML + 'agent ' + interaction.targetElement + ' as ' + theValue + ' #red\n';
+                            UML = UML + 'agent ' + interaction.targetElement + ' as ' + targetElement + ' #red\n';
                         }
-                        // interfaces for values
-                        var setInterface = toCamel('interface-' + theValue + '-set');
-                        var changeInterface = toCamel('interface-' + theValue + '-change');
-
-
-                        UML = UML + 'interface set as ' + setInterface + '\n';
-                        UML = UML + 'interface change as ' + changeInterface + ' #white\n';
-                        // connect
-                        UML = UML + setInterface + ' .. ' + theValue + ' #616161\n';
-                        UML = UML + theValue + ' .. ' + changeInterface + ' #616161\n';
 
 
                         // set boundary for defined props
@@ -319,7 +309,7 @@
                             if (self._propertyInfo[interaction.targetElement] && self.properties[interaction.targetElement.notify]) {
                                 // Outbound
                                 UML += 'boundary "' + toDash(targetElement) + '" as ' + theBoundary + 'Out #FFF176 \n';
-                                UML += changeInterface + ' ~> ' + theBoundary + 'Out #FF5722\n';
+                                UML += theValue + ' > ' + theBoundary + 'Out #FF5722\n';
                             }
 
                             if (self._propertyInfo[interaction.targetElement] && !self.properties[interaction.targetElement.readOnly]) {
@@ -368,16 +358,7 @@
                                 } else {
                                     UML = UML + 'agent ' + targetElement + ' as ' + theValue + ' #red\n';
                                 }
-                                // interfaces for values
-                                var setInterface = toCamel('interface-' + theValue + '-set');
-                                var changeInterface = toCamel('interface-' + theValue + '-change');
 
-
-                                UML = UML + 'interface set as ' + setInterface + '\n';
-                                UML = UML + 'interface change as ' + changeInterface + ' #white\n';
-                                // connect
-                                UML = UML + setInterface + ' .. ' + theValue + ' #616161\n';
-                                UML = UML + theValue + ' .. ' + changeInterface + ' #616161\n';
 
                                 // set boundary for defined props
                                 if (self.properties[val]) {
@@ -386,13 +367,13 @@
                                     if (self.properties[val] && self.properties[val].notify) {
                                         // outbound
                                         UML += 'boundary "' + toDash(targetElement) + '" as ' + theBoundary + 'Out #FFF176 \n';
-                                        UML += changeInterface + ' ~> ' + theBoundary + 'Out #FF5722\n';
+                                        UML += theValue + ' ~> ' + theBoundary + 'Out #FF5722\n';
 
                                     }
                                     if (self.properties[val] && !self.properties[val].readOnly) {
                                         // inbound
                                         UML += 'boundary "' + toDash(targetElement) + '" as ' + theBoundary + 'In #FFB74D \n';
-                                        UML += theValue + ' <~ ' + theBoundary + 'In #FF5722\n';
+                                        UML += theBoundary + 'In' + ' ~~> ' + theValue + ' #FF5722\n';
                                     }
 
                                 }
@@ -434,8 +415,13 @@
                 }
             });
 
-            // undefined Values
 
+            /**
+             * Get a reversed path from note
+             * @param annote Object, an element from  self._notes
+             * @param path [Array] Optional, "basepath"
+             * @returns Array, Array with reversed path
+             */
             var _getNodePathFromNote = function (annote, path) {
                 if (!path) {
                     path = [];
@@ -450,19 +436,31 @@
                 return path;
             };
 
+
+            /**
+             *  Resolve the dom node from reversed path Array
+             * @param root DomNodes, normally Polymer.dom(self.root).childNodes
+             * @param path Array, reversed path Array
+             * @returns DomNode, The resolved domNode
+             * @private
+             */
             _getNodeFromPath = function (root, path) {
                 if (path.length > 1) {
                     return root = _getNodeFromPath(Polymer.dom(root[path.pop()]).childNodes, path);
                 }
                 return root[path.pop()];
-
-
             };
 
 
             self._notes.forEach(function (val) {
 
                 var path = _getNodePathFromNote(val);
+                // TODO: vzaech solve this very ugly shadow / shady different index hack
+                if(Polymer.Settings.useNativeShadow && Polymer.dom(self.root).childNodes[0].nodeName === "STYLE"){
+
+                    path[path.length-1]++;
+                }
+
                 var theNode = _getNodeFromPath(Polymer.dom(self.root).childNodes, path)
 
                 var bindings = val.bindings;
@@ -491,23 +489,14 @@
                         var part = binding.parts[0];
 
                         // register value if not defined
-                        var theValue = toCamel('valueelement' + part.model);
+                        var theValue = toCamel('valueElement' + part.model);
 
-                        if (alreadyDeclaredNode.indexOf(toCamel(part.model)) == -1) {
+                        if (alreadyDeclaredNode.indexOf(part.model) == -1) {
                             if (self.properties[part.model]) {
                                 UML = UML + 'agent "' + part.model + '" as ' + theValue + ' #white\n';
                             }else {
                                 UML = UML + 'agent "' + part.model + '" as ' + theValue + ' #red\n';
                             }
-                            // interfaces for values
-                            var setInterface = toCamel('interface-' + theValue + '-set');
-                            var changeInterface = toCamel('interface-' + theValue + '-change');
-
-                            UML = UML + 'interface set as ' + setInterface + '\n';
-                            UML = UML + 'interface change as ' + changeInterface + ' #white\n';
-                            // connect
-                            UML = UML + setInterface + ' .. ' + theValue + ' #616161\n';
-                            UML = UML + theValue + ' .. ' + changeInterface + ' #616161\n';
                             alreadyDeclaredNode.push(toCamel(part.model));
                         }
 
@@ -515,12 +504,12 @@
                         // two-way stuff
                         if (part.mode === '{') {
                             UML = UML + theComponent + ' .. ' + theInterface + ' #616161\n';
-                            UML += theInterface + ' --> ' + toCamel('interface-valueelement' + part.model + '-set') + ' #FF6F00\n';
+                            UML += theInterface + ' --(0)-- ' + theValue + ' #FF6F00\n';
                         }
                         if (part.mode === '[') {
                             UML = UML + theInterface + ' .. ' + theComponent + ' #616161\n';
-                            var theSource = toCamel('interface-valueelement' + part.model + '-change');
-                            UML += theSource + ' --> ' + theInterface + ' #FF6F00\n';
+                            UML += theValue + ' --> ' + theInterface + ' #FF6F00\n';
+
                         }
                     });
 
@@ -575,7 +564,7 @@
                 if (interaction.type === "setValue") {
                     var theValue = toCamel('valueElement' + interaction.targetElement);
                     var setInterface = toCamel('interface-' + theValue + '-set');
-                    UML = UML + theInterface + ' --> ' + setInterface + ' #FF6F00\n';
+                    UML = UML + theInterface + ' --> ' + theValue + ' #FF6F00\n';
 
                 }
 
