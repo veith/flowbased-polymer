@@ -12,6 +12,7 @@
      *
      * @polymerBehavior PolymerFlowBasedProgramming
      */
+
     PolymerFlowBasedProgramming = {
         properties: {
             _PolymerFlowBasedProgrammingEvents: {
@@ -22,7 +23,9 @@
             },
             _PolymerFlowBasedProgrammingTraceFlow: {
                 type: Boolean,
-                value: false
+                value: function () {
+                   return (sessionStorage.getItem('_PolymerFlowBasedProgrammingTraceFlow') === "true")
+                }()
             }
         },
         attached: function () {
@@ -620,7 +623,8 @@
             UML = UML + '@enduml';
 
             // Todo: ausgabe an Systemvariable
-            console.log(UML)
+            sessionStorage[ '_PolymerFlowBasedProgrammingGraph-' + self.is] = UML;
+            //console.log(UML)
         },
         _getElementPath: function (el) {
             var path = el.nodeName;
