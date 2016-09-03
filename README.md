@@ -1,4 +1,4 @@
-# \<flowbased-behaviour\> for Polymer ^1.4.0
+# \<flowbased-polymer\> for Polymer ^1.4.0
 
 Do flowbased programming with polymer.
 
