@@ -21,6 +21,9 @@
                     return [];
                 }()
             },
+            /**
+             * set this to false to disable diagram generation for your component
+             */
             _PolymerFlowBasedProgrammingTraceFlow: {
                 type: Boolean,
                 value: function () {
@@ -392,8 +395,9 @@
 
             // add additional components
             domNodes.forEach(function (component) {
-                if (["#text", "HR", "BR", "SPAN", "STYLE", "#comment"].indexOf(component.nodeName) === -1) {
+                if (["#text", "HR", "BR", "SPAN", "STYLE", "#comment", "DIV", "H1", "H2", "H3", "H4", "H5"].indexOf(component.nodeName) === -1) {
 
+                    if(!component._flow || component._flow.type !== "layout"){
                     if (!component._flowName || alreadyDeclaredNode.indexOf(targetElement) == -1) {
                         if (!elementCount[component.nodeName]) {
                             elementCount[component.nodeName] = 1;
@@ -415,6 +419,8 @@
                         alreadyDeclaredNode.push(targetElement);
 
                     }
+                }
+
                 }
             });
 
