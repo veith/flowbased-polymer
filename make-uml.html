@@ -1,5 +1,4 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="value-observer.html">
 
 <script>
     /**
@@ -8,13 +7,11 @@
      *
      *
      * @author veith
-     * @demo demo/index.html*
+     * @demo demo/index.html
+     *
+     * @polymerBehavior PolymerFlowBasedProgramming
      */
-
-    /**
-     * @polymerBehavior Polymer.FlowBasedProgramming
-     */
-    Polymer.FlowBasedProgramming = {
+    PolymerFlowBasedProgramming = {
         properties: {
             _PolymerFlowBasedProgrammingEvents: {
                 type: Array,
@@ -22,17 +19,12 @@
                     return [];
                 }()
             },
-            /**
-             * set this to false to disable diagram generation for your component
-             */
             _PolymerFlowBasedProgrammingTraceFlow: {
                 type: Boolean,
-                value: function () {
-                   return (sessionStorage.getItem('_PolymerFlowBasedProgrammingTraceFlow') === "true")
-                }()
+                value: false
             }
         },
-        ready: function () {
+        attached: function () {
             var plantUMLArray = [];
             var WSources = {};
             var elementCount = {};
@@ -396,9 +388,8 @@
 
             // add additional components
             domNodes.forEach(function (component) {
-                if (["#text", "HR", "BR", "SPAN", "STYLE", "#comment", "DIV", "H1", "H2", "H3", "H4", "H5"].indexOf(component.nodeName) === -1) {
+                if (["#text", "HR", "BR", "SPAN", "STYLE", "#comment"].indexOf(component.nodeName) === -1) {
 
-                    if(!component._flow || component._flow.type !== "layout"){
                     if (!component._flowName || alreadyDeclaredNode.indexOf(targetElement) == -1) {
                         if (!elementCount[component.nodeName]) {
                             elementCount[component.nodeName] = 1;
@@ -420,8 +411,6 @@
                         alreadyDeclaredNode.push(targetElement);
 
                     }
-                }
-
                 }
             });
 
@@ -630,8 +619,7 @@
             UML = UML + '@enduml';
 
             // Todo: ausgabe an Systemvariable
-            sessionStorage[ '_PolymerFlowBasedProgrammingGraph-' + self.is] = UML;
-            //console.log(UML)
+            console.log(UML)
         },
         _getElementPath: function (el) {
             var path = el.nodeName;
