@@ -12,7 +12,7 @@ bower install flowbased-behaviour --save
 
 <h3>Demo and detailed Documentation</h3>
 
-[DEMO and Documentation](https://veith.github.io/flowbased-behaviour/components/flowbased-behaviour/)
+[DEMO and Documentation](https://veith.github.io/flowbased-polymer/components/flowbased-polymer/)
 
 <h3>Usage</h3>
 ```
