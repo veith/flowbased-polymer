@@ -1,8 +1,10 @@
 # \<flowbased-polymer\> for Polymer ^1.4.0
 
-Do flowbased programming with polymer.
+Create Polymer applications with flowbased programming.
 
-Connect events from components to functions of other components, properties. Trigger events,...  in a flowbased way.
+You can use every polymer compatible component and all you have to do is connecting the events from them to functions or properties of other elements. **Without writing 1 line of code!** 
+
+
 
 
 Installation:
