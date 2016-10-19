@@ -1,17 +1,132 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="value-observer.html">
+
 
 <script>
     /**
-     * `flowbased-behaviour`
-     * Connect events from components to other components or to properties without coding
      *
      *
-     * @author veith
-     * @demo demo/index.html*
-     */
-
-    /**
+     *  <h1>flowbased-polymer</h1>
+     *  Connect events from components to functions of other components, to properties or trigger (basic) events  of other components in a declarative way.
+     *
+     *  <h3>Usage</h3>
+     *```
+     *  <link rel="import" href="../../bower_components/flowbased-polymer/behaviour.html">
+     *
+     *```
+     *- add behaviour to your component **behaviors: [PolymerFlowBasedProgramming,...]**.
+     *
+     * - add a ```@-event-name="connector"``` or  ```@-event-name="((property))"``` to the emmiting component.
+     *
+     * - add a ```ƒ-function-name="connector"``` or ```ƒ-event-name="connector"``` to the receiving component(s).
+     *
+     * - add a ```@-tap="^fire-event"``` to fire a non bubling event.
+     *
+     * - add a ```@-tap="^^fire-bubbling-event"``` to fire a  bubling event.
+     *
+     * The contents of **event.detail** will be passed to the receiver function and to the property.
+     *
+     *
+     * set this._PolymerFlowBasedProgrammingTraceFlow to true to get a plantuml source representation of your element.
+     *
+     * <h3>Todo</h3>
+     * - Include visualization for polymer component wiring (attr="[[value]]" other-attr="{{value}}"
+     * - make a chrome dev plugin to see the current component wiring
+     * - make a flowbased programming editor to wire components graphically
+     * - make Polymer the #1 address for flowbased UI design for the web
+     *
+     *<h3>SVG  generated from resulting puml</h3>
+     *<img width="100%" src="assets/demo.svg">
+     *
+     *
+     *<h3>Legend</h3>
+     *<h4>Properties</h4>
+     *<p><strong>testb</strong> is a property. A property haves set and get interfaces and (if defined in properties:{}) a in- and outbound value (notify, readonly)</p>
+     *<img src="assets/a-value.png">
+     *<h4>Component</h4>
+     *   <p>iron-ajax is a well known component, only wired interfaces and events of a propertiy are shown.</p>
+     *   <img src="assets/a-component.png">
+     *   <h4>Non bubbling events</h4>
+     *   <p>the blue boundary symbol indicates a non bubbling event. If you assign ^event a non-bubbling event will be fired.</p>
+     *   <img src="assets/fire-nonbubbling.png">
+     *   <h4>Bubbling events</h4>
+     *   <p>the green boundary symbol indicates a bubbling event. If you assign ^^other-event a bubbling event will be fired.</p>
+     *   <img src="assets/fire-bubbling.png">
+     *   <h4>Inbound value</h4>
+     *   <p>the orange boundary symbol indicates inbound value/property</p>
+     *   <img src="assets/inbound-value.png">
+     *   <h4>Outbound value</h4>
+     *   <p>the yellow boundary symbol indicates a outbound value/property</p>
+     *   <img src="assets/outbound-value.png">
+     *
+     *   <h4>Interfaces</h4>
+     *   <p>Tap is a outgoing interface of the button component. </p>
+     *   <img src="assets/interface-out.png">
+     *
+     *   <h4>Wrong wiring</h4>
+     *   <p>If you wire something to a non existing traget, thiy symbol will inidicate that you have errors. :-(  </p>
+     *   <img src="assets/no-target.png">
+     *
+     *   <h4>Green arrow</h4>
+     *   <p>If you wire something to a target event or function</p>
+     *   <img src="assets/green-arrow.png">
+     *
+     *   <h4>Orange arrow</h4>
+     *   <p>If you wire something to a value, you will see a orange arrow</p>
+     *   <img src="assets/orange-arrow.png">
+     *
+     *   <h4>Wrong wiring</h4>
+     *   <p>If you wire something to a non existing traget, thiy symbol will inidicate that you have errors. :-(  </p>
+     *   <img src="assets/no-target.png">
+     *
+     *   <h3>Generated puml</h3>
+     *   Watch the console in the demo.
+     *
+     *
+     *   <h3>Attention</h3>
+     *   Keep in mind that the "ƒ" symbol is not a regular "f". Press [alt] + f on mac.
+     *
+     *   <h3>example</h3>
+     *```
+     *   <emmiting-component @-response="((responseFromSomewhere))"></emmiting-component>
+     *   <emmiting-component @-response="otherResponse"></emmiting-component>
+     *
+     *   <receiving-component ƒ-show-data="otherResponse"></receiving-component>
+     *   {{responseFromSomewhere}}
+     *
+     * ```
+     *
+     *   Exapmple above is aequivalent to following example
+     *
+     * ```
+     *   <emmiting-component id="emmiter" on-response="handleResponseFromSomewhere"></emmiting-component>
+     *   <emmiting-component id="emmiterB" on-response="handleOtherResponseFromSomewhere"></emmiting-component>
+     *
+     *   <receiving-component id="receiver"></receiving-component>
+     *   {{responseFromSomewhere}}
+     *
+     *   Polymer({
+     *      is: 'my-component',
+     *      properties: {
+     *          responseFromSomewhere:{
+     *          type: String
+     *      }
+     *     },
+     *   handleResponseFromSomewhere:function(event){
+     *       this.set(responseFromSomewhere, event.detail);
+     *   },
+     *   handleOtherResponseFromSomewhere:function(event){
+     *       this.$.receiverB.showData(event.detail);
+     *   }
+     *
+     *   });
+     *
+     *```
+     *
+     *
+     *
+     *@author veith
+     *@demo demo/index.html
+     *
      * @polymerBehavior Polymer.FlowBasedProgramming
      */
     Polymer.FlowBasedProgramming = {
@@ -28,7 +143,7 @@
             _PolymerFlowBasedProgrammingTraceFlow: {
                 type: Boolean,
                 value: function () {
-                   return (sessionStorage.getItem('_PolymerFlowBasedProgrammingTraceFlow') === "true")
+                    return (sessionStorage.getItem('_PolymerFlowBasedProgrammingTraceFlow') === "true")
                 }()
             }
         },
@@ -108,13 +223,31 @@
                                     self.set(wire, e.detail, self);
                                 }
                                 if (type === "fire") {
+                                    // find properties in wire
+                                    var match = wire.match(/([a-z\-_]+)(?!\()([a-z\-\._]+)/gi);
 
-                                    self.fire(wire, e.detail, {bubbles: false});
+                                    if (match !== null && match.length > 1) {
+                                        var prop = match[1];
+                                        var theEvent = match[0];
+                                        self.fire(theEvent, self[prop], {bubbles: false});
+                                    } else {
+                                        self.fire(wire, e.detail, {bubbles: false});
+                                    }
+
 
                                 }
                                 if (type === "fireBubble") {
 
-                                    self.fire(wire, e.detail, {bubbles: true});
+                                    // find properties in wire
+                                    var match = wire.match(/([a-z\-_]+)(?!\()([a-z\-\._]+)/gi);
+                                    if (match !== null && match.length > 1) {
+                                        var prop = match[1];
+                                        var theEvent = match[0];
+                                        self.fire(theEvent, self[prop], {bubbles: true});
+                                    } else {
+                                        self.fire(wire, e.detail, {bubbles: true});
+                                    }
+
                                 }
                                 if (type === "call") {
 
@@ -300,7 +433,7 @@
                         var theValue = toCamel('valueElement' + interaction.targetElement);
                         if (self.properties[targetElement]) {
                             UML = UML + 'agent ' + interaction.targetElement + ' as ' + targetElement + ' #white\n';
-                        }else{
+                        } else {
                             UML = UML + 'agent ' + interaction.targetElement + ' as ' + targetElement + ' #red\n';
                         }
 
@@ -398,29 +531,29 @@
             domNodes.forEach(function (component) {
                 if (["#text", "HR", "BR", "SPAN", "STYLE", "#comment", "DIV", "H1", "H2", "H3", "H4", "H5"].indexOf(component.nodeName) === -1) {
 
-                    if(!component._flow || component._flow.type !== "layout"){
-                    if (!component._flowName || alreadyDeclaredNode.indexOf(targetElement) == -1) {
-                        if (!elementCount[component.nodeName]) {
-                            elementCount[component.nodeName] = 1;
-                            component._flowName = component.nodeName;
-                        } else {
-                            if (!component._flowName) {
-                                elementCount[component.nodeName]++;
-                                component._flowName = component.nodeName + elementCount[component.nodeName];
+                    if (!component._flow || component._flow.type !== "layout") {
+                        if (!component._flowName || alreadyDeclaredNode.indexOf(targetElement) == -1) {
+                            if (!elementCount[component.nodeName]) {
+                                elementCount[component.nodeName] = 1;
+                                component._flowName = component.nodeName;
+                            } else {
+                                if (!component._flowName) {
+                                    elementCount[component.nodeName]++;
+                                    component._flowName = component.nodeName + elementCount[component.nodeName];
+                                }
                             }
+                            var targetElement = toCamel(component._flowName);
+
+                            var lbl = "";
+                            if (component.getAttribute('aria-label')) {
+                                lbl = '"' + targetElement + '\\n ' + component.getAttribute('aria-label') + '" as ';
+                            }
+
+                            UML = UML + 'component ' + lbl + targetElement + ' #white\n';
+                            alreadyDeclaredNode.push(targetElement);
+
                         }
-                        var targetElement = toCamel(component._flowName);
-
-                        var lbl = "";
-                        if (component.getAttribute('aria-label')) {
-                            lbl = '"' + targetElement + '\\n ' + component.getAttribute('aria-label') + '" as ';
-                        }
-
-                        UML = UML + 'component ' + lbl + targetElement + ' #white\n';
-                        alreadyDeclaredNode.push(targetElement);
-
                     }
-                }
 
                 }
             });
@@ -448,7 +581,7 @@
 
 
             /**
-             *  Resolve the dom node from reversed path Array
+             *Resolve the dom node from reversed path Array
              * @param root DomNodes, normally Polymer.dom(self.root).childNodes
              * @param path Array, reversed path Array
              * @returns DomNode, The resolved domNode
@@ -466,9 +599,9 @@
 
                 var path = _getNodePathFromNote(val);
                 // TODO: vzaech solve this very ugly shadow / shady different index hack
-                if(Polymer.Settings.useNativeShadow && Polymer.dom(self.root).childNodes[0].nodeName === "STYLE"){
+                if (Polymer.Settings.useNativeShadow && Polymer.dom(self.root).childNodes[0].nodeName === "STYLE") {
 
-                    path[path.length-1]++;
+                    path[path.length - 1]++;
                 }
 
                 var theNode = _getNodeFromPath(Polymer.dom(self.root).childNodes, path)
@@ -504,7 +637,7 @@
                         if (alreadyDeclaredNode.indexOf(part.model) == -1) {
                             if (self.properties[part.model]) {
                                 UML = UML + 'agent "' + part.model + '" as ' + theValue + ' #white\n';
-                            }else {
+                            } else {
                                 UML = UML + 'agent "' + part.model + '" as ' + theValue + ' #red\n';
                             }
                             alreadyDeclaredNode.push(toCamel(part.model));
@@ -630,7 +763,7 @@
             UML = UML + '@enduml';
 
             // Todo: ausgabe an Systemvariable
-            sessionStorage[ '_PolymerFlowBasedProgrammingGraph-' + self.is] = UML;
+            sessionStorage['_PolymerFlowBasedProgrammingGraph-' + self.is] = UML;
             //console.log(UML)
         },
         _getElementPath: function (el) {

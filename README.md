@@ -9,7 +9,7 @@ You can use every polymer compatible component and all you have to do is connect
 
 Installation:
 ```
-bower install flowbased-behaviour --save
+bower install flowbased-polymer --save
 ```
 
 <h3>Demo and detailed Documentation</h3>
@@ -18,7 +18,7 @@ bower install flowbased-behaviour --save
 
 <h3>Usage</h3>
 ```
-<link rel="import" href="../../bower_components/flowbased-behaviour/behaviour.html">
+<link rel="import" href="../../bower_components/flowbased-polymer/behaviour.html">
 
 ```
 - add behaviour to your component **behaviors: [PolymerFlowBasedProgramming,...]**.

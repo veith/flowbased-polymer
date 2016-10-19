@@ -1,9 +1,10 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../iron-ajax/iron-ajax.html">
 <link rel="import" href="../behaviour.html">
+<link rel="import" href="../inspect-flow.html">
 <link rel="import" href="call-function.html">
 
-<dom-module id="ddemo-component">
+<dom-module id="demo-component">
 
     <template>
         <style>
@@ -13,18 +14,19 @@
             }
         </style>
 
-        <button @-tap="connector-button-request-ajax">Request Ajax</button>
+        <button @-tap="--request-ajax,--catch(_aValue)">Request Ajax</button>
 
 
+        <inspect-flow ƒ-event="--catch,--request-ajax"></inspect-flow>
         <iron-ajax
-            ƒ-generate-request="connector-button-request-ajax"
+            ƒ-generate-request="--request-ajax"
             @-response="((_response))"
             url="../bower.json"
             handle-as="json"></iron-ajax>
         <hr>
-        <call-function func="{{_unknown}}"></call-function>
+        <call-function func="{{_unknown}}" @-fire-laser="--catch"></call-function>
 
-        <value-observer observe="{{_response}}"  @-value-changed="^fire, ^^fire-bubble, --f4, ((aProperty)), ((test)), --kappute-verbindung"></value-observer>
+        <value-observer observe="{{_response}}"  @-value-changed="^fire-laser(_aValue), ^fire, ^^fire-bubble, --f4, ((aProperty)), ((test)), --kappute-verbindung"></value-observer>
         <value-observer unknown="{{_response}}" @-value-changed="((readonly))" on-value-changed="regularTap"></value-observer>
 
 
@@ -37,9 +39,10 @@
     <script>
 
         Polymer({
-            is: 'ddemo-component',
-            behaviors: [PolymerFlowBasedProgramming],
+            is: 'demo-component',
+            behaviors: [Polymer.FlowBasedProgramming],
             properties:{
+
                 test:{
                     type:String,
                     value:"TEST",

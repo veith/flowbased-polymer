@@ -1,0 +1,65 @@
+<!--
+@license MIT
+
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<!--
+Sometimes you want to see the current values of a property or check if an @-event is triggered or what kind of data comes with the event.
+
+Properties are displayed inline, event data will be logged to the console.
+
+
+@author veith
+@date 09.09.16
+@hero path/to/image
+@demo demo/index.html
+-->
+
+<dom-module id="inspect-flow">
+
+    <template>
+
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <pre>[[_jsonString]]</pre>
+    </template>
+
+    <script>
+
+        Polymer({
+            is: 'inspect-flow',
+
+            properties: {
+                /**
+                 * The property you want to inspect
+                 */
+                property: {
+                    type: Object
+                },
+                _jsonString: {
+                    type: String
+                }
+            },
+            observers: ['_prettyJson(json.*)'],
+            _prettyJson: function (e) {
+                this.set('_jsonString', JSON.stringify(this.property, null, 2)); // spacing level = 2
+            },
+            /**
+             * The event you want to trace,
+             * logs event data to console
+             * @param data
+             */
+            event: function (data) {
+                console.log(data);
+            },
+            ready:function () {
+                console.warn('inspect-flow used in ' + this.parentNode.nodeName);
+            }
+        });
+    </script>
+</dom-module>

@@ -2,7 +2,7 @@
 
 <html>
   <head>
-    <title>flowbased-behaviour test</title>
+    <title>flowbased-polymer test</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
@@ -14,16 +14,16 @@
 
     <test-fixture id="basic">
       <template>
-        <flowbased-behaviour></flowbased-behaviour>
+        <flowbased-polymer></flowbased-polymer>
       </template>
     </test-fixture>
 
     <script>
-      suite('flowbased-behaviour', function() {
+      suite('flowbased-polymer', function() {
 
         test('instantiating the element works', function() {
           var element = fixture('basic');
-          assert.equal(element.is, 'flowbased-behaviour');
+          assert.equal(element.is, 'flowbased-polymer');
         });
 
       });
