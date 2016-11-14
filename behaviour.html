@@ -233,8 +233,6 @@
                                     } else {
                                         self.fire(wire, e.detail, {bubbles: false});
                                     }
-
-
                                 }
                                 if (type === "fireBubble") {
 
@@ -395,9 +393,14 @@
             UML += 'component "' + this.is + '" #FAFAFA{\n';
 
             var toCamel = function (str) {
+                if(str !== undefined){
+
                 return str.toLowerCase().replace(/-([a-z])/g, function (g) {
                     return g[1].toUpperCase();
                 });
+                }else{
+                    return "undefined"
+                }
             };
             var toDash = function (str) {
                 return str.replace(/\W+(.)/g, function (x, chr) {

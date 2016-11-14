@@ -24,7 +24,7 @@
             url="../bower.json"
             handle-as="json"></iron-ajax>
         <hr>
-        <call-function func="{{_unknown}}" @-fire-laser="--catch"></call-function>
+        <call-function func="{{_unknown}}" @-select-object="--catch" @-fire-laser="--catch"></call-function>
 
         <value-observer observe="{{_response}}"  @-value-changed="^fire-laser(_aValue), ^fire, ^^fire-bubble, --f4, ((aProperty)), ((test)), --kappute-verbindung"></value-observer>
         <value-observer unknown="{{_response}}" @-value-changed="((readonly))" on-value-changed="regularTap"></value-observer>
