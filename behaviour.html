@@ -229,9 +229,16 @@
                                     if (match !== null && match.length > 1) {
                                         var prop = match[1];
                                         var theEvent = match[0];
-                                        self.fire(theEvent, self[prop], {bubbles: false});
+                                        var customEvent = new Event(theEvent,{  bubbles:false});
+                                        customEvent.detail = self[prop];
+                                        this.dispatchEvent(customEvent);
+                                       // self.fire(theEvent, self[prop], {bubbles: false});
                                     } else {
-                                        self.fire(wire, e.detail, {bubbles: false});
+
+                                        var customEvent = new Event(wire,{ bubbles:false});
+                                        customEvent.detail = e.detail;
+                                        this.dispatchEvent(customEvent);
+                                       // self.fire(wire, e.detail, {bubbles: false});
                                     }
                                 }
                                 if (type === "fireBubble") {
@@ -241,9 +248,17 @@
                                     if (match !== null && match.length > 1) {
                                         var prop = match[1];
                                         var theEvent = match[0];
-                                        self.fire(theEvent, self[prop], {bubbles: true});
+                                        var customEvent = new Event(theEvent,{ bubbles:true});
+                                        customEvent.detail = self[prop];
+
+                                        this.dispatchEvent(customEvent);
+
                                     } else {
-                                        self.fire(wire, e.detail, {bubbles: true});
+
+                                        var customEvent = new Event(wire,{bubbles:true});
+                                        customEvent.detail = e.detail;
+                                        this.dispatchEvent(customEvent);
+
                                     }
 
                                 }
