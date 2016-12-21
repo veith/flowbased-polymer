@@ -264,11 +264,18 @@
                                 }
                                 if (type === "call") {
 
+                                    var match = wire.match(/([a-z\-_]+)(?!\()([a-z\-\._]+)/gi);
+                                    var detailData = e.detail;
+                                    if (match !== null && match.length > 1) {
+                                        detailData = self[match[1]];
+                                    }
+
+
                                     // Methoden aufrufen
                                     if (wirebundle[wire]) {
                                         wirebundle[wire].forEach(function (receiver) {
                                             if (typeof receiver.element[receiver.method] === 'function') {
-                                                receiver.element[receiver.method](e.detail);
+                                                receiver.element[receiver.method](detailData);
                                             } else {
                                                 console.warn(receiver.method + ' is neither a listener nor a function of ' + receiver.element.nodeName)
                                             }
