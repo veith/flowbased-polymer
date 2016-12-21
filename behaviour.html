@@ -231,13 +231,13 @@
                                         var theEvent = match[0];
                                         var customEvent = new Event(theEvent,{  bubbles:false});
                                         customEvent.detail = self[prop];
-                                        this.dispatchEvent(customEvent);
+                                        self.dispatchEvent(customEvent);
                                        // self.fire(theEvent, self[prop], {bubbles: false});
                                     } else {
 
                                         var customEvent = new Event(wire,{ bubbles:false});
                                         customEvent.detail = e.detail;
-                                        this.dispatchEvent(customEvent);
+                                        self.dispatchEvent(customEvent);
                                        // self.fire(wire, e.detail, {bubbles: false});
                                     }
                                 }
@@ -251,13 +251,13 @@
                                         var customEvent = new Event(theEvent,{ bubbles:true});
                                         customEvent.detail = self[prop];
 
-                                        this.dispatchEvent(customEvent);
+                                        self.dispatchEvent(customEvent);
 
                                     } else {
 
                                         var customEvent = new Event(wire,{bubbles:true});
                                         customEvent.detail = e.detail;
-                                        this.dispatchEvent(customEvent);
+                                        self.dispatchEvent(customEvent);
 
                                     }
 
