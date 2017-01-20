@@ -45,7 +45,7 @@ Properties are displayed inline, event data will be logged to the console.
                     type: String
                 }
             },
-            observers: ['_prettyJson(json.*)'],
+            observers: ['_prettyJson(property.*)'],
             _prettyJson: function (e) {
                 this.set('_jsonString', JSON.stringify(this.property, null, 2)); // spacing level = 2
             },

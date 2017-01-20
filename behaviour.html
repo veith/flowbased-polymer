@@ -26,7 +26,7 @@
      * The contents of **event.detail** will be passed to the receiver function and to the property.
      *
      *
-     * set this._PolymerFlowBasedProgrammingTraceFlow to true to get a plantuml source representation of your element.
+
      *
      * <h3>Todo</h3>
      * - Include visualization for polymer component wiring (attr="[[value]]" other-attr="{{value}}"
@@ -136,22 +136,10 @@
                 value: function () {
                     return [];
                 }()
-            },
-            /**
-             * set this to false to disable diagram generation for your component
-             */
-            _PolymerFlowBasedProgrammingTraceFlow: {
-                type: Boolean,
-                value: function () {
-                    return (sessionStorage.getItem('_PolymerFlowBasedProgrammingTraceFlow') === "true")
-                }()
             }
         },
         ready: function () {
-            var plantUMLArray = [];
             var WSources = {};
-            var elementCount = {};
-            var WTargets = {};
             var self = this;
             var wirebundle = {};
             var tmp_PolymerFlowBasedProgrammingEvents = new Array;
@@ -160,17 +148,6 @@
             // get all elements which live in the host
             Polymer.dom(this.root).querySelectorAll('*').forEach(function (element) {
 
-                if (self._PolymerFlowBasedProgrammingTraceFlow) {
-                    if (!elementCount[element.nodeName]) {
-                        elementCount[element.nodeName] = 1;
-                        element._flowName = element.nodeName;
-                    } else {
-                        if (!element._flowName) {
-                            elementCount[element.nodeName]++;
-                            element._flowName = element.nodeName + elementCount[element.nodeName];
-                        }
-                    }
-                }
 
                 for (var i = 0; i < element.attributes.length; i++) {
                     // collect receiving tags
@@ -189,17 +166,7 @@
                             }
                             wirebundle[receivingWire].push({"element": element, "method": methodname});
 
-                            if (self._PolymerFlowBasedProgrammingTraceFlow) {
-                                if (!WTargets[receivingWire]) {
-                                    WTargets[receivingWire] = [];
-                                }
-                                WTargets[receivingWire].push({
-                                    "target": element._flowName,
-                                    "event": methodname,
-                                    "element": element,
-                                    "path": self._getElementPath(element)
-                                });
-                            }
+
                         });
 
                     }
@@ -229,16 +196,16 @@
                                     if (match !== null && match.length > 1) {
                                         var prop = match[1];
                                         var theEvent = match[0];
-                                        var customEvent = new Event(theEvent,{  bubbles:false});
+                                        var customEvent = new Event(theEvent, {bubbles: false});
                                         customEvent.detail = self[prop];
                                         self.dispatchEvent(customEvent);
-                                       // self.fire(theEvent, self[prop], {bubbles: false});
+                                        // self.fire(theEvent, self[prop], {bubbles: false});
                                     } else {
 
-                                        var customEvent = new Event(wire,{ bubbles:false});
+                                        var customEvent = new Event(wire, {bubbles: false});
                                         customEvent.detail = e.detail;
                                         self.dispatchEvent(customEvent);
-                                       // self.fire(wire, e.detail, {bubbles: false});
+                                        // self.fire(wire, e.detail, {bubbles: false});
                                     }
                                 }
                                 if (type === "fireBubble") {
@@ -248,14 +215,14 @@
                                     if (match !== null && match.length > 1) {
                                         var prop = match[1];
                                         var theEvent = match[0];
-                                        var customEvent = new Event(theEvent,{ bubbles:true});
+                                        var customEvent = new Event(theEvent, {bubbles: true});
                                         customEvent.detail = self[prop];
 
                                         self.dispatchEvent(customEvent);
 
                                     } else {
 
-                                        var customEvent = new Event(wire,{bubbles:true});
+                                        var customEvent = new Event(wire, {bubbles: true});
                                         customEvent.detail = e.detail;
                                         self.dispatchEvent(customEvent);
 
@@ -311,16 +278,7 @@
                             if (trimmedWire.startsWith('((')) {
                                 wire = trimmedWire.substring(2, trimmedWire.length - 2);
                                 type = "setValue";
-                                if (self._PolymerFlowBasedProgrammingTraceFlow) {
-                                    plantUMLArray.push({
-                                        type: type,
-                                        sourceElement: element._flowName,
-                                        sourceEvent: eventname,
-                                        wire: null,
-                                        targetElement: wire,
-                                        targetEvent: null
-                                    })
-                                }
+
 
                             } else if (trimmedWire.startsWith('^')) {
                                 wire = trimmedWire.substring(1);
@@ -330,16 +288,6 @@
                                     type = "fireBubble";
                                 }
 
-                                if (self._PolymerFlowBasedProgrammingTraceFlow) {
-                                    plantUMLArray.push({
-                                        type: type,
-                                        sourceElement: element._flowName,
-                                        sourceEvent: eventname,
-                                        wire: null,
-                                        targetElement: wire,
-                                        targetEvent: null
-                                    })
-                                }
 
                             } else {
                                 wire = trimmedWire;
@@ -370,38 +318,7 @@
 
             self._PolymerFlowBasedProgrammingEvents = tmp_PolymerFlowBasedProgrammingEvents;
 
-            if (self._PolymerFlowBasedProgrammingTraceFlow) {
-                for (var sourceElement in WSources) {
-                    if (WSources.hasOwnProperty(sourceElement)) {
-                        WSources[sourceElement].forEach(function (s) {
-                            if (WTargets[s.wire]) {
-                                WTargets[s.wire].forEach(function (t) {
-                                    plantUMLArray.push({
-                                        sourceElement: s.node,
-                                        sourceEvent: s.event,
-                                        wire: s.wire,
-                                        targetElement: t.target,
-                                        targetEvent: t.event,
-                                        type: "connection"
-                                    });
-                                });
-                            } else {
-                                // no corresponding wire available
-                                plantUMLArray.push({
-                                    type: "noTarget",
-                                    sourceElement: s.node,
-                                    sourceEvent: s.event,
-                                    wire: s.wire,
-                                    targetElement: undefined,
-                                    targetEvent: undefined
-                                });
-                            }
-                        })
-                    }
-                }
 
-                self._makePUML(plantUMLArray, elementCount);
-            }
         },
         detached: function () {
             var self = this;
@@ -410,388 +327,7 @@
                 e.element.removeEventListener(e.event, e.hadler);
             })
         },
-        _makePUML: function (data, elementCount) {
-            var self = this;
-            var UML = '@startuml\nleft to right direction\n ' + 'skinparam interface {\nbackgroundColor lightgrey\nborderColor grey\n}\nskinparam boundary {\nbackgroundColor lightgrey\nborderColor grey\n}\nskinparam entity {\nbackgroundColor #f44336\nborderColor #b71c1c\n}\nskinparam component {\nArrowColor #339900\nArrowFontColor #666666\nborderColor #448AFF\n}\nskinparam agent {\nArrowFontColor #666666\nborderColor #999999\n}\n'
-            UML += 'component "' + this.is + '" #FAFAFA{\n';
 
-            var toCamel = function (str) {
-                if(str !== undefined){
-
-                return str.toLowerCase().replace(/-([a-z])/g, function (g) {
-                    return g[1].toUpperCase();
-                });
-                }else{
-                    return "undefined"
-                }
-            };
-            var toDash = function (str) {
-                return str.replace(/\W+(.)/g, function (x, chr) {
-                    return chr.toUpperCase();
-                })
-            };
-
-
-            // nodes listen
-            var alreadyDeclaredNode = [];
-            data.forEach(function (interaction) {
-
-                var sourceElement = toCamel(interaction.sourceElement);
-                if (interaction.type === "fire") {
-                    var targetElement = toCamel(interaction.targetElement);
-                    if (alreadyDeclaredNode.indexOf(targetElement) == -1) {
-                        var theValue = toCamel('fire-' + interaction.targetElement);
-                        UML = UML + 'boundary "' + interaction.targetElement + '" as ' + theValue + ' #64B5F6\n';
-                        alreadyDeclaredNode.push(targetElement);
-                    }
-                }
-                if (interaction.type === "fireBubble") {
-                    var targetElement = toCamel(interaction.targetElement);
-                    if (alreadyDeclaredNode.indexOf(targetElement) == -1) {
-                        var theValue = toCamel('fireBubble-' + interaction.targetElement);
-                        UML = UML + 'boundary "' + interaction.targetElement + '" as ' + theValue + ' #81C784\n';
-                        alreadyDeclaredNode.push(targetElement);
-                    }
-                }
-                if (interaction.type === "setValue") {
-                    var targetElement = toCamel(interaction.targetElement);
-                    if (alreadyDeclaredNode.indexOf(targetElement) == -1) {
-                        var theValue = toCamel('valueElement' + interaction.targetElement);
-                        if (self.properties[targetElement]) {
-                            UML = UML + 'agent ' + interaction.targetElement + ' as ' + targetElement + ' #white\n';
-                        } else {
-                            UML = UML + 'agent ' + interaction.targetElement + ' as ' + targetElement + ' #red\n';
-                        }
-
-
-                        // set boundary for defined props
-                        if (self.properties[interaction.targetElement]) {
-
-                            // set boundary for defined props
-                            var theBoundary = toCamel('boundary-' + theValue);
-
-
-                            //if property is documented and is not readonly
-                            if (self._propertyInfo[interaction.targetElement] && self.properties[interaction.targetElement.notify]) {
-                                // Outbound
-                                UML += 'boundary "' + toDash(targetElement) + '" as ' + theBoundary + 'Out #FFF176 \n';
-                                UML += theValue + ' > ' + theBoundary + 'Out #FF5722\n';
-                            }
-
-                            if (self._propertyInfo[interaction.targetElement] && !self.properties[interaction.targetElement.readOnly]) {
-                                // can only come in
-                                UML += 'boundary "' + toDash(interaction.targetElement) + '" as ' + theBoundary + 'In #FFB74D \n';
-                                UML += theValue + ' <~ ' + theBoundary + 'In #FF5722\n';
-
-                            }
-
-
-                        }
-
-
-                        alreadyDeclaredNode.push(targetElement);
-                    }
-                }
-                if (interaction.targetElement) {
-                    var targetElement = toCamel(interaction.targetElement);
-                    if (alreadyDeclaredNode.indexOf(targetElement) == -1) {
-                        UML = UML + 'component ' + targetElement + ' #white\n';
-                        alreadyDeclaredNode.push(targetElement);
-                    }
-                }
-                if (alreadyDeclaredNode.indexOf(sourceElement) == -1) {
-                    // todo: check for button labels
-                    UML = UML + 'component ' + sourceElement + ' #white\n';
-                    alreadyDeclaredNode.push(sourceElement);
-                }
-
-            });
-
-            // all values
-            for (val in this._propertyInfo) {
-                if (this._propertyInfo.hasOwnProperty(val)) {
-
-
-                    for (val in this._propertyInfo) {
-                        if (this._propertyInfo.hasOwnProperty(val)) {
-
-                            var targetElement = toCamel(val);
-
-                            if (alreadyDeclaredNode.indexOf(targetElement) == -1) {
-                                var theValue = toCamel('valueElement' + targetElement);
-                                if (self.properties[targetElement]) {
-                                    UML = UML + 'agent ' + targetElement + ' as ' + theValue + ' #white\n';
-                                } else {
-                                    UML = UML + 'agent ' + targetElement + ' as ' + theValue + ' #red\n';
-                                }
-
-
-                                // set boundary for defined props
-                                if (self.properties[val]) {
-                                    var theBoundary = toCamel('boundary-' + theValue);
-
-                                    if (self.properties[val] && self.properties[val].notify) {
-                                        // outbound
-                                        UML += 'boundary "' + toDash(targetElement) + '" as ' + theBoundary + 'Out #FFF176 \n';
-                                        UML += theValue + ' ~> ' + theBoundary + 'Out #FF5722\n';
-
-                                    }
-                                    if (self.properties[val] && !self.properties[val].readOnly) {
-                                        // inbound
-                                        UML += 'boundary "' + toDash(targetElement) + '" as ' + theBoundary + 'In #FFB74D \n';
-                                        UML += theBoundary + 'In' + ' ~~> ' + theValue + ' #FF5722\n';
-                                    }
-
-                                }
-                                alreadyDeclaredNode.push(targetElement);
-                            }
-                        }
-                    }
-                }
-            }
-
-            var domNodes = Polymer.dom(self.root).querySelectorAll('*');
-
-
-            // add additional components
-            domNodes.forEach(function (component) {
-                if (["#text", "HR", "BR", "SPAN", "STYLE", "#comment", "DIV", "H1", "H2", "H3", "H4", "H5"].indexOf(component.nodeName) === -1) {
-
-                    if (!component._flow || component._flow.type !== "layout") {
-                        if (!component._flowName || alreadyDeclaredNode.indexOf(targetElement) == -1) {
-                            if (!elementCount[component.nodeName]) {
-                                elementCount[component.nodeName] = 1;
-                                component._flowName = component.nodeName;
-                            } else {
-                                if (!component._flowName) {
-                                    elementCount[component.nodeName]++;
-                                    component._flowName = component.nodeName + elementCount[component.nodeName];
-                                }
-                            }
-                            var targetElement = toCamel(component._flowName);
-
-                            var lbl = "";
-                            if (component.getAttribute('aria-label')) {
-                                lbl = '"' + targetElement + '\\n ' + component.getAttribute('aria-label') + '" as ';
-                            }
-
-                            UML = UML + 'component ' + lbl + targetElement + ' #white\n';
-                            alreadyDeclaredNode.push(targetElement);
-
-                        }
-                    }
-
-                }
-            });
-
-
-            /**
-             * Get a reversed path from note
-             * @param annote Object, an element from  self._notes
-             * @param path [Array] Optional, "basepath"
-             * @returns Array, Array with reversed path
-             */
-            var _getNodePathFromNote = function (annote, path) {
-                if (!path) {
-                    path = [];
-                }
-                if (annote.index !== undefined) {
-                    path.push(annote.index);
-                }
-                // down the rabbit hole
-                if (annote.parent) {
-                    path = _getNodePathFromNote(annote.parent, path)
-                }
-                return path;
-            };
-
-
-            /**
-             *Resolve the dom node from reversed path Array
-             * @param root DomNodes, normally Polymer.dom(self.root).childNodes
-             * @param path Array, reversed path Array
-             * @returns DomNode, The resolved domNode
-             * @private
-             */
-            _getNodeFromPath = function (root, path) {
-                if (path.length > 1) {
-                    return root = _getNodeFromPath(Polymer.dom(root[path.pop()]).childNodes, path);
-                }
-                return root[path.pop()];
-            };
-
-
-            self._notes.forEach(function (val) {
-
-                var path = _getNodePathFromNote(val);
-                // TODO: vzaech solve this very ugly shadow / shady different index hack
-                if (Polymer.Settings.useNativeShadow && Polymer.dom(self.root).childNodes[0].nodeName === "STYLE") {
-
-                    path[path.length - 1]++;
-                }
-
-                var theNode = _getNodeFromPath(Polymer.dom(self.root).childNodes, path)
-
-                var bindings = val.bindings;
-                var events = val.events;
-
-                if (["#text", "HR", "BR", "SPAN", "STYLE", "#comment"].indexOf(theNode.nodeName) === -1) {
-
-                    var theComponent = toCamel(theNode._flowName);
-
-                    bindings.forEach(function (binding) {
-
-                        var theInterface = toCamel('interface-' + binding.propertyName + '-' + theComponent);
-                        // add propety interface (red if interface is not defined in component else #FFF176) to component
-
-                        if (!theNode._propertyInfo[binding.propertyName]) {
-                            UML = UML + 'interface ' + binding.propertyName + ' as ' + theInterface + ' #red\n';
-                        }
-                        else if (theNode._propertyInfo[binding.propertyName] && theNode._propertyInfo[binding.propertyName].readOnly) {
-                            UML = UML + 'interface ' + binding.propertyName + ' as ' + theInterface + ' #FFF176\n';
-                        }
-                        else {
-                            UML = UML + 'interface ' + binding.propertyName + ' as ' + theInterface + ' #FFB74D\n';
-                        }
-
-
-                        var part = binding.parts[0];
-
-                        // register value if not defined
-                        var theValue = toCamel('valueElement' + part.model);
-
-                        if (alreadyDeclaredNode.indexOf(part.model) == -1) {
-                            if (self.properties[part.model]) {
-                                UML = UML + 'agent "' + part.model + '" as ' + theValue + ' #white\n';
-                            } else {
-                                UML = UML + 'agent "' + part.model + '" as ' + theValue + ' #red\n';
-                            }
-                            alreadyDeclaredNode.push(toCamel(part.model));
-                        }
-
-
-                        // two-way stuff
-                        if (part.mode === '{') {
-                            UML = UML + theComponent + ' .. ' + theInterface + ' #616161\n';
-                            UML += theInterface + ' --(0)-- ' + theValue + ' #FF6F00\n';
-                        }
-                        if (part.mode === '[') {
-                            UML = UML + theInterface + ' .. ' + theComponent + ' #616161\n';
-                            UML += theValue + ' --> ' + theInterface + ' #FF6F00\n';
-
-                        }
-                    });
-
-                    events.forEach(function (event) {
-                        var theInterface = toCamel('interface-' + event.name) + theComponent;
-                        var theFunction = event.value;
-                        UML += 'artifact "this.' + theFunction + '()" as ' + theFunction + ' #white\n';
-                        UML += theInterface + ' --(0 ' + theFunction + ' #4444AA\n';
-                    })
-                }
-                //console.dir(Polymer.dom(self.root).childNodes[val.index]._flowName)
-            });
-
-//            .forEach(function (element) {
-
-
-            // Eingehende interfaces (X)----|__
-            data.forEach(function (interaction) {
-                if (interaction.targetElement && interaction.targetEvent) {
-
-                    var theElement = toCamel(interaction.targetElement);
-                    var theInterface = toCamel('interface-' + interaction.targetEvent + interaction.targetElement);
-                    var theInterfaceLabel = toCamel(interaction.targetEvent);
-
-                    if (alreadyDeclaredNode.indexOf(theInterface) == -1) {
-                        UML = UML + 'interface ' + theInterfaceLabel + ' as ' + theInterface + '  #white\n';
-                        UML = UML + theInterface + ' .. ' + theElement + ' #616161\n';
-                        alreadyDeclaredNode.push(theInterface);
-                    }
-                }
-            });
-
-
-            // Ausgehende interfaces --(X)
-
-            data.forEach(function (interaction) {
-                if (interaction.sourceElement && interaction.sourceEvent) {
-
-                    var theElement = toCamel(interaction.sourceElement);
-                    var theInterface = toCamel('interface-' + interaction.sourceEvent + interaction.sourceElement);
-                    var theInterfaceLabel = toCamel(interaction.sourceEvent);
-
-                    if (alreadyDeclaredNode.indexOf(theInterface) == -1) {
-                        UML = UML + 'interface ' + theInterfaceLabel + ' as ' + theInterface + ' #ECEFF1\n';
-                        UML = UML + theElement + ' .. ' + theInterface + ' #616161 \n';
-                        alreadyDeclaredNode.push(theInterface);
-                    }
-                }
-
-
-                // Interfaces mit WERTEN
-                if (interaction.type === "setValue") {
-                    var theValue = toCamel('valueElement' + interaction.targetElement);
-                    var setInterface = toCamel('interface-' + theValue + '-set');
-                    UML = UML + theInterface + ' --> ' + theValue + ' #FF6F00\n';
-
-                }
-
-
-                // event
-                if (interaction.type === "fire") {
-                    var theValue = toCamel('fire-' + interaction.targetElement);
-                    UML = UML + theInterface + ' ~> ' + theValue + ' #FF5722\n';
-                }
-
-
-                // bubbling event
-                if (interaction.type === "fireBubble") {
-                    var theValue = toCamel('fireBubble-' + interaction.targetElement);
-                    UML = UML + theInterface + ' ~> ' + theValue + ' #DD2C00\n';
-                }
-
-
-                // Nirvana interfaces Verbindungen
-                if (interaction.type === 'noTarget') {
-                    // nirvana element
-                    if (alreadyDeclaredNode.indexOf("XXXXXnirvanaXXXXX") == -1) {
-                        UML = UML + 'entity "no Target" as XXXXXnirvanaXXXXX \n';
-                        alreadyDeclaredNode.push("XXXXXnirvanaXXXXX");
-                    }
-                    UML = UML + theInterface + ' --->  XXXXXnirvanaXXXXX  #d50000 :' + interaction.wire + '\n';
-
-                }
-
-            });
-
-
-            // interfaces mit interfaces verbinden
-
-
-            // verbinder machen
-            data.forEach(function (interaction) {
-
-                    if (interaction.sourceElement && interaction.sourceEvent && interaction.targetElement && interaction.targetEvent) {
-                        var targetInterface = toCamel('interface-' + interaction.targetEvent + interaction.targetElement);
-                        var sourceInterface = toCamel('interface-' + interaction.sourceEvent + interaction.sourceElement);
-
-                        UML = UML + sourceInterface + ' --> ' + targetInterface + ' :' + toCamel(interaction.wire) + '\n';
-
-                    }
-                }
-            );
-
-            // elemente die auf value changes hören mit interfaces verbinden
-
-
-            UML += '}\n';
-            UML = UML + '@enduml';
-
-            // Todo: ausgabe an Systemvariable
-            sessionStorage['_PolymerFlowBasedProgrammingGraph-' + self.is] = UML;
-            //console.log(UML)
-        },
         _getElementPath: function (el) {
             var path = el.nodeName;
             var parent = el.parentNode;
