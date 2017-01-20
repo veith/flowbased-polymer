@@ -129,6 +129,8 @@
      *
      * @polymerBehavior Polymer.FlowBasedProgramming
      */
+
+    var _FBPtestPoints = _FBPtestPoints || {};
     Polymer.FlowBasedProgramming = {
         properties: {
             _PolymerFlowBasedProgrammingEvents: {
@@ -318,8 +320,13 @@
 
             self._PolymerFlowBasedProgrammingEvents = tmp_PolymerFlowBasedProgrammingEvents;
 
-
+            //registerTestingPoints
+            if (!_FBPtestPoints.hasOwnProperty(self.nodeName)) {
+                _FBPtestPoints[self.nodeName] = [];
+            }
+            _FBPtestPoints[self.nodeName].push(self)
         },
+
         detached: function () {
             var self = this;
             // remove event listeners
