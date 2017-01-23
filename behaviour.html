@@ -321,10 +321,10 @@
             self._PolymerFlowBasedProgrammingEvents = tmp_PolymerFlowBasedProgrammingEvents;
 
             //registerTestingPoints
-            if (!_FBPtestPoints.hasOwnProperty(self.nodeName)) {
-                _FBPtestPoints[self.nodeName] = [];
+            if (!_FBPtestProbes.hasOwnProperty(self.nodeName)) {
+                _FBPtestProbes[self.nodeName] = [];
             }
-            _FBPtestPoints[self.nodeName].push(self)
+            _FBPtestProbes[self.nodeName].push(self)
         },
 
         detached: function () {
