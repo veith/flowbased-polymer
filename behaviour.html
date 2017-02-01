@@ -132,7 +132,7 @@
 
   // var _FBPtestProbes = _FBPtestProbes || {};
 
-  if (_FBPtestProbes) {
+  if (window._FBPtestProbes) {
     Polymer.Base.$$$ = function (slctr) {
       return Polymer.dom(this.root).querySelectorAll(slctr);
     };
@@ -342,7 +342,7 @@
       self._PolymerFlowBasedProgrammingEvents = tmp_PolymerFlowBasedProgrammingEvents;
 
       //registerTestingPoints
-      if (_FBPtestProbes) {
+      if (window._FBPtestProbes) {
         if (!_FBPtestProbes.hasOwnProperty(self.nodeName)) {
           _FBPtestProbes[self.nodeName] = [];
         }
