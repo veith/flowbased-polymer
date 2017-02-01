@@ -240,10 +240,7 @@
                                         customEvent.detail = self[prop];
 
                                         self.dispatchEvent(customEvent);
-if( Polymer.Base.$$$ === undefined )
-                Polymer.Base.$$$ = function (slctr) {
-                    return Polymer.dom(this.root).querySelectorAll(slctr);
-                }
+
                                     } else {
 
                                         var customEvent = new Event(wire, {bubbles: true});
@@ -282,10 +279,7 @@ if( Polymer.Base.$$$ === undefined )
                                 "element": element,
                                 "event": eventname,
                                 "handler": handler
-                            });if( Polymer.Base.$$$ === undefined )
-                Polymer.Base.$$$ = function (slctr) {
-                    return Polymer.dom(this.root).querySelectorAll(slctr);
-                }
+                            });
                         }
 
                         //----
