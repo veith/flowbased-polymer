@@ -132,6 +132,24 @@
 
     // var _FBPtestProbes = _FBPtestProbes || {};
 
+    if( _FBPtestProbes ){
+        Polymer.Base.$$$ = function (slctr) {
+            return Polymer.dom(this.root).querySelectorAll(slctr);
+        };
+        window._FBPselector = {
+            $$: function(selector){
+                return this.$$$(selector)[0];
+            },
+            $$$:function(selector){
+                var ele = _FBPtestProbes[selector.toUpperCase()];
+                if( ele === undefined || ele.length===0){
+                    throw new Error('Element "'+selector+'" does not exist.');
+                }
+                return ele;
+            }
+        };
+    }
+
     Polymer.FlowBasedProgramming = {
         properties: {
             _PolymerFlowBasedProgrammingEvents: {
