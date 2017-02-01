@@ -130,7 +130,8 @@
      * @polymerBehavior Polymer.FlowBasedProgramming
      */
 
-    var _FBPtestProbes = _FBPtestProbes || {};
+    // var _FBPtestProbes = _FBPtestProbes || {};
+
     Polymer.FlowBasedProgramming = {
         properties: {
             _PolymerFlowBasedProgrammingEvents: {
@@ -321,10 +322,13 @@
             self._PolymerFlowBasedProgrammingEvents = tmp_PolymerFlowBasedProgrammingEvents;
 
             //registerTestingPoints
-            if (!_FBPtestProbes.hasOwnProperty(self.nodeName)) {
-                _FBPtestProbes[self.nodeName] = [];
+            if (_FBPtestProbes) {
+                if (!_FBPtestProbes.hasOwnProperty(self.nodeName)) {
+                    _FBPtestProbes[self.nodeName] = [];
+                }
+                _FBPtestProbes[self.nodeName].push(self);
             }
-            _FBPtestProbes[self.nodeName].push(self)
+
         },
 
         detached: function () {
