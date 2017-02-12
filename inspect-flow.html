@@ -4,6 +4,7 @@
 -->
 
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="behaviour.html">
 <!--
 Sometimes you want to see the current values of a property or check if an @-event is triggered or what kind of data comes with the event.
 
@@ -33,7 +34,7 @@ Properties are displayed inline, event data will be logged to the console.
 
         Polymer({
             is: 'inspect-flow',
-
+          behaviors: [Polymer.FlowBasedProgramming],
             properties: {
                 /**
                  * The property you want to inspect

@@ -1,47 +1,133 @@
 # \<flowbased-polymer\> for Polymer ^1.4.0
 
-Create Polymer applications with flowbased programming.
+Write web-components with flowbased programming. You can use every polymer compatible component to build your component/app. **Without the need to write 1 line of code!** 
 
-You can use every polymer compatible component and all you have to do is connecting the events from them to functions or properties of other elements. **Without writing 1 line of code!** 
-
-
-
-
-Installation:
-```
-bower install flowbased-polymer --save
-```
 
 <h3>Demo and detailed Documentation</h3>
 
 [DEMO and Documentation](https://veith.github.io/flowbased-polymer/components/flowbased-polymer/)
 
-<h3>Usage</h3>
+
+### Usage
+
+Install the behaviour:
+```
+bower install flowbased-polymer --save
+```
+
+Don't forget the **import**
 ```
 <link rel="import" href="../../bower_components/flowbased-polymer/behaviour.html">
 
 ```
-- add behaviour to your component **behaviors: [PolymerFlowBasedProgramming,...]**.
+Add the behaviour to your component
+```
+{
+    behaviors: [Polymer.FlowBasedProgramming],
+    properties:...
+}
 
- - add a ```@-event-name="connector"``` or  ```@-event-name="((property))"``` to the emmiting component.
+```
 
- - add a ```ƒ-function-name="connector"``` or ```ƒ-event-name="connector"``` to the receiving component(s).
+##The Concept 
+All you have to do, is to wire the components in your component. 
+  
+###But How?  
+Lets start with a few simple examples.
 
- - add a ```@-tap="^fire-event"``` to fire a non bubling event.
-
- - add a ```@-tap="^^fire-bubbling-event"``` to fire a  bubling event.
-
-
-**generated image:**
+####fetch an event and trigger a function of another component
+Bind the **tap** event from the paper-button to trigger the **generate-request** method from the iron-ajax using the wire --deleteClicked. 
+```
+ <paper-button @-tap="--deleteClicked"> delete </paper-button>
+ <iron-ajax 
+   ƒ-generate-request="--deleteClicked" 
+   url="https://www.googleapis.com/youtube/v3/search"
+   params='{"part":"snippet", "q":"polymer", "key": "YOUTUBE_API_KEY", "type": "video"}'
+   handle-as="json"
+   @-response="--searchResponded"
+   debounce-duration="300"></iron-ajax> 
+ <inspect-flow ƒ-log="--deleteClicked"></inspect-flow>
+   
+```
+ With the "@-" keyword you can catch/bind/listen an event. The *wire* will transport the event.detail to the targets. With the "ƒ-" keyword you trigger the method of the receiving component.  
+ Therfore the **inspect-flow** will log a "1" from the tap event, or a 2 if you doublecick.  
  
- http://plantuml.com/plantuml/uml/hLPRRvim57xdLrZ9Cr42D6dwK2cXzHudTT6qjyg64y92R6PCkghQVvynX3kvh3EAPCxby_Vvs8T4i9L8SYJ2O2UH7mhmPCYPWP9zo68Yo065J8BO4W_GXq69jmy4JvdlyeWB56LfWO1tWtBXWyYjsl37g21eba74-xyZ09EXxCiVRnt7jkUDx35TpBoPrm3m-27cJC4eZ9KG_Aq8jUtbSZhDJPWpMPZdUZHH7UT-XN43bGGrn0lfIprKUaLbvFjmu6Pf6A4nNcNFXv4Zlmf8b2i1H19q954A4C51UIh7-6qNIgY1XeAprK_o--J9aIGaahPHScC7GOTyfGc88uWkJ1_AAQgiz6Yhpj8e2yqcMFqkh6FrGwnJaz88r2Z1Q9fPi9wjSnyQty_SnRqp16uFWP_3fjTXErrXD9MIivEzka1g2q4GzGQ_qc8ZI-UNfg-iOWTbA70ogPL-FikUsjAQihSZB02_iUxtcgDP-CxAmw5gxTQXwH2ed-JI-b8OA-BFxZF6Ag-kQZYwlKedmZGVX-uDndEiRdx5C06vsUKY6oI_LVQMo89iPo-kI6qp7uniAoZkR9lzJVazudM8EtG-t9wYM_twhSO6dCjkRy6PsCdaiTP7CBvRMDQdoDlzvEthoDitaBTr1GRxrjEJvNwo44w_5kSwBSuDMfnUBNHGYoHnGyA6nAVMM30kNkjCQq45iUBZFs8SROW8GEfs_ICRB1H7meYUNtKP5Fzkfcfr_jrK3VHWcbldFm7jIHod4amLJqFcfommUaHcG1Tx-uF76LD_pRXOwwoNt9_vBc8ET-qpg7y1
+ A **wire** can have multiple sources and multiple targets. It is recommended, for better readability and understanding,  to label the wire with the action/intenton which happened.
+ 
+ ####fetch an event and store the data to a property
+ Bind the **response** event from iron-ajax to store the **event.detail** to the property searchResults 
+ 
+ ```
+  ...
+  <iron-ajax 
+    ƒ-generate-request="--deleteClicked" 
+    url="https://www.googleapis.com/youtube/v3/search"
+    params='{"part":"snippet", "q":"polymer", "key": "YOUTUBE_API_KEY", "type": "video"}'
+    handle-as="json"
+    @-response="((searchResults))"
+    debounce-duration="300"></iron-ajax> 
+    
+    <iron-list items="[[searchResults]]" ...>
+     <template>
+      ...
+    
+ ```
+####fire a non-bubbling event
+Fire a non-bubbling event. The event is only available on the host. It can be used in the parent host (the host which is using the current component) 
+```
+  ...
+  <iron-ajax 
+    ƒ-generate-request="--deleteClicked" 
+    url="https://www.googleapis.com/youtube/v3/search"
+    params='{"part":"snippet", "q":"polymer", "key": "YOUTUBE_API_KEY", "type": "video"}'
+    handle-as="json"
+    @-response="^data-received"
+    debounce-duration="300"></iron-ajax> 
+    
+    <iron-list items="[[searchResults]]" ...>
+     <template>
+      ...
+    
+ ```
+ With "^event(propertyName)" you can send a data with the event
+```
+  ...
+   <paper-button @-tap="^some-event(_privateProperty)"> check </paper-button> 
+  ...
+    
+ ```
+The event will send the content of _privateProperty as payload, it will not forward the data of the tap event.
 
-The content of **event.detail** will be passed to the receiver function and to the property.
+####fire a bubbling event
+To fire a bubbling-event use **^^event-name** or **^^other-event(propertyName)**. Bubbling events are working like non-bubbling events, but they will bubble. 
+
+###triggering a function with multiple arguments
+If the function you want to trigger requires more than one argument, all you have to do is delivering an array with the arguments as payload.
+```
+  ...
+   <multiply-values ƒ-calculate="--wireWithArray" result="{{_result}}"></multiply-values>
+   <paper-button @-tap="--wireWithArray(_values)"> calculate </paper-button> 
+  ...
+  ...
+  ,properties:{
+      _values:{
+      type:Array,
+      value:[3,2]
+      }
+  }
+ ```
+this will call the calculate function of multiply-values with the arguments 3 and 2.
+
 
 <h3>Attention</h3>
 Keep in mind that the "ƒ" symbol is not a regular "f". Press [alt] + f on mac.
 
-<h3>example</h3>
+
+
+###Why should I use FBP?
+The following exapmples are doing the same, decide by yourself.
+
+*with FBP*:
 ```
 <emmiting-component @-response="((responseFromSomewhere))"></emmiting-component>
 <emmiting-component @-response="otherResponse"></emmiting-component>
@@ -51,8 +137,8 @@ Keep in mind that the "ƒ" symbol is not a regular "f". Press [alt] + f on mac.
 
 ```
 
-Exapmple above is aequivalent to following example
 
+*without FBP*:
 ```
 <emmiting-component id="emmiter" on-response="handleResponseFromSomewhere"></emmiting-component>
 <emmiting-component id="emmiterB" on-response="handleOtherResponseFromSomewhere"></emmiting-component>
