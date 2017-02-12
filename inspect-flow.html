@@ -53,13 +53,29 @@ Properties are displayed inline, event data will be logged to the console.
             /**
              * The event you want to trace,
              * logs event data to console
-             * @param data
+             * @param data Payload which comes with the event. **event.detail**
              */
             event: function (data) {
                 console.log(data);
             },
+            /**
+             * The event you want to trace,
+             * logs event data to console
+             * @param data Payload which comes with the event. **event.detail**
+             */
+            log: function (data) {
+                console.log(data);
+            },
+            /**
+             * The event you want to trace,
+             * logs event data to console
+             * @param data Payload which comes with the event. **event.detail**
+             */
+            dir: function (data) {
+                console.dir(data);
+            },
             ready:function () {
-                console.warn('inspect-flow used in ' + this.parentNode.nodeName);
+                console.warn('inspect-flow used in ' + this.parentNode.nodeName + '. Dont forget to remove it when complete. ');
             }
         });
     </script>
