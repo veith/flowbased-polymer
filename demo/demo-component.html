@@ -2,7 +2,7 @@
 <link rel="import" href="../../iron-ajax/iron-ajax.html">
 <link rel="import" href="../behaviour.html">
 <link rel="import" href="../inspect-flow.html">
-<link rel="import" href="call-function.html">
+
 
 <dom-module id="demo-component">
 
@@ -13,27 +13,17 @@
 
             }
         </style>
-
-        <button @-tap="--request-ajax,--catch(_aValue)">Request Ajax</button>
-
-
-        <inspect-flow ƒ-event="--catch,--request-ajax"></inspect-flow>
+        <button @-tap="--requestAjax">Request Ajax</button>
         <iron-ajax
-            ƒ-generate-request="--request-ajax"
+            ƒ-generate-request="--requestAjax"
             @-response="((_response))"
             url="../bower.json"
             handle-as="json"></iron-ajax>
         <hr>
-        <call-function func="{{_unknown}}" @-select-object="--catch" @-fire-laser="--catch"></call-function>
-
-        <value-observer observe="{{_response}}"  @-value-changed="^fire-laser(_aValue), ^fire, ^^fire-bubble, --f4, ((aProperty)), ((test)), --kappute-verbindung"></value-observer>
-        <value-observer unknown="{{_response}}" @-value-changed="((readonly))" on-value-changed="regularTap"></value-observer>
-
-
         receivedResponse.response.version = {{_response.response.version}}
-        <br>
-        <br>
-        {{texst}} {{aProperty}}
+        <hr>
+        <inspect-flow property="[[_response.response]]"></inspect-flow>
+
     </template>
 
     <script>
@@ -43,39 +33,12 @@
             behaviors: [Polymer.FlowBasedProgramming],
             properties:{
 
-                test:{
+              _response:{
                     type:String,
-                    value:"TEST",
-                    notify:true
-                },
-                aProperty:{
-                    type:String,
-                    value:"aProperty",
-                    notify:true
-                },
-                texst:{
-                    type:String,
-                    value:"something",
-                    notify:true
-                },
-                readonly:{
-                    type:String,
-                    value:"aProperty",
-                    readOnly:true,
-                    notify:true
+                    value:"Press Button to request ajax"
                 }
-            } ,listeners: {
-                'fireBubble': 'specialTap',
-                'fire': 'regularTap'
-            },
-
-            regularTap: function(e) {
-               console.dir(e)
-            },
-
-            specialTap: function(e) {
-                console.dir(e)
             }
+
         });
     </script>
 </dom-module>
