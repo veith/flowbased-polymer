@@ -3,10 +3,6 @@
 Write web-components with flowbased programming. You can use every polymer compatible component to build your component/app. **Without the need to write 1 line of code!** 
 
 
-<h3>Demo and detailed Documentation</h3>
-
-[DEMO and Documentation](https://veith.github.io/flowbased-polymer/components/flowbased-polymer/)
-
 
 ### Usage
 
