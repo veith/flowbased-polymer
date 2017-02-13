@@ -51,7 +51,9 @@ Bind the **tap** event from the paper-button to trigger the **generate-request**
  
  ![example](assets/example.png)
 
- A **wire/connection** can have multiple sources and multiple targets. Just seperate them by a comma.
+ A **wire/connection** can have multiple sources (@-foo) and multiple targets (ƒ-bar). 
+ 
+ A function port (ƒ-bar) can have multiple wires, just seperate them by a comma.
  
  ```
   <paper-button @-tap="--deleteClicked"> delete </paper-button>
@@ -70,7 +72,7 @@ Bind the **tap** event from the paper-button to trigger the **generate-request**
  
  
 #### fetch an event and store the data to a property 
- Bind the **response** event from iron-ajax to store the **event.detail** to the property searchResults 
+ Bind the **@-response** event from iron-ajax to store the **event.detail** to the property searchResults 
  
  ```
   ...
