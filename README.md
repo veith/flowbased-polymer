@@ -36,6 +36,7 @@ All you have to do, is to wire the components in your component.
 Lets start with a few simple examples.
 
 #### fetch an event and trigger a function of another component
+
 Bind the **tap** event from the paper-button to trigger the **generate-request** method from the iron-ajax using the wire --deleteClicked. 
 ```
  <paper-button @-tap="--deleteClicked"> delete </paper-button>
@@ -54,9 +55,25 @@ Bind the **tap** event from the paper-button to trigger the **generate-request**
  
  ![example](assets/example.png)
 
- A **wire** can have multiple sources and multiple targets. It is recommended, for better readability and understanding,  to label the wire with the action/intenton which happened.
+ A **wire/connection** can have multiple sources and multiple targets. Just seperate them by a comma.
  
- #### fetch an event and store the data to a property
+ ```
+  <paper-button @-tap="--deleteClicked"> delete </paper-button>
+  <iron-ajax 
+    ƒ-generate-request="--deleteClicked" 
+    url="https://www.googleapis.com/youtube/v3/search"
+    params='{"part":"snippet", "q":"polymer", "key": "YOUTUBE_API_KEY", "type": "video"}'
+    handle-as="json"
+    @-response="--searchResponded"
+    debounce-duration="300"></iron-ajax> 
+  <inspect-flow ƒ-log="--deleteClicked, --searchResponded"></inspect-flow>
+    
+ ```
+ ![inspect-flow trigger log on 2 connections](assets/multiple-incomming-wire.png)
+ 
+ 
+ 
+#### fetch an event and store the data to a property 
  Bind the **response** event from iron-ajax to store the **event.detail** to the property searchResults 
  
  ```
