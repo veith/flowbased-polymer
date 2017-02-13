@@ -29,13 +29,13 @@ Add the behaviour to your component
 
 ```
 
-##The Concept 
+## The Concept 
 All you have to do, is to wire the components in your component. 
   
-###But How?  
+### But How?  
 Lets start with a few simple examples.
 
-####fetch an event and trigger a function of another component
+#### fetch an event and trigger a function of another component
 Bind the **tap** event from the paper-button to trigger the **generate-request** method from the iron-ajax using the wire --deleteClicked. 
 ```
  <paper-button @-tap="--deleteClicked"> delete </paper-button>
@@ -56,7 +56,7 @@ Bind the **tap** event from the paper-button to trigger the **generate-request**
 
  A **wire** can have multiple sources and multiple targets. It is recommended, for better readability and understanding,  to label the wire with the action/intenton which happened.
  
- ####fetch an event and store the data to a property
+ #### fetch an event and store the data to a property
  Bind the **response** event from iron-ajax to store the **event.detail** to the property searchResults 
  
  ```
@@ -74,7 +74,7 @@ Bind the **tap** event from the paper-button to trigger the **generate-request**
       ...
     
  ```
-####fire a non-bubbling event
+#### fire a non-bubbling event
 Fire a non-bubbling event. The event is only available on the host. It can be used in the parent host (the host which is using the current component) 
 ```
   ...
@@ -100,10 +100,10 @@ Fire a non-bubbling event. The event is only available on the host. It can be us
  ```
 The event will send the content of _privateProperty as payload, it will not forward the data of the tap event.
 
-####fire a bubbling event
+#### fire a bubbling event
 To fire a bubbling-event use **^^event-name** or **^^other-event(propertyName)**. Bubbling events are working like non-bubbling events, but they will bubble. 
 
-###triggering a function with multiple arguments
+### triggering a function with multiple arguments
 If the function you want to trigger requires more than one argument, all you have to do is delivering an array with the arguments as payload.
 ```
   ...
@@ -126,7 +126,7 @@ Keep in mind that the "ƒ" symbol is not a regular "f". Press [alt] + f on mac.
 
 
 
-###Why should I use FBP?
+### Why should I use FBP?
 The following exapmples are doing the same, decide by yourself.
 
 *with FBP*:
