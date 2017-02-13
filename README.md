@@ -52,6 +52,8 @@ Bind the **tap** event from the paper-button to trigger the **generate-request**
  With the "@-" keyword you can catch/bind/listen an event. The *wire* will transport the event.detail to the targets. With the "ƒ-" keyword you trigger the method of the receiving component.  
  Therfore the **inspect-flow** will log a "1" from the tap event, or a 2 if you doublecick.  
  
+ ![example]("./assets/example.png")
+
  A **wire** can have multiple sources and multiple targets. It is recommended, for better readability and understanding,  to label the wire with the action/intenton which happened.
  
  ####fetch an event and store the data to a property
