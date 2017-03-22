@@ -97,7 +97,7 @@
                 }
                 if (type === "fire") {
                   // find properties in wire
-                  var match = wire.match(/([a-z\-_]+)(?!\()([a-z\-\._]+)/gi);
+                  var match = wire.match(/([a-z\-_]+)(?!\()([a-z0-9\-\._]+)/gi);
 
                   if (match !== null && match.length > 1) {
                     var prop = match[1];
@@ -117,7 +117,7 @@
                 if (type === "fireBubble") {
 
                   // find properties in wire
-                  var match = wire.match(/([a-z\-_]+)(?!\()([a-z\-\._]+)/gi);
+                  var match = wire.match(/([a-z\-_]+)(?!\()([a-z0-9\-\._]+)/gi);
                   if (match !== null && match.length > 1) {
                     var prop = match[1];
                     var theEvent = match[0];
@@ -141,7 +141,8 @@
                    * --wire(hostName) ==> wirft this.hostName in die Funktion sonst wird e.detail verwendet
                    *
                    */
-                  var match = wire.match(/([a-z\-_]+)(?!\()([a-z\-\._]+)/gi);
+                  var match = wire.match(/([a-z\-_]+)(?!\()([a-z0-9\-\._]+)/gi);
+
                   var detailData = e.detail;
                   if (match !== null && match.length > 1) {
                     detailData = self[match[1]];
