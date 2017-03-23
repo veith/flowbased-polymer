@@ -142,17 +142,17 @@
                    *
                    */
                   var match = wire.match(/([a-z\-_]+)(?!\()([a-z0-9\-\._]+)/gi);
-
+                  var effectiveWire = wire;
                   var detailData = e.detail;
                   if (match !== null && match.length > 1) {
                     detailData = self[match[1]];
-                    wire = match[0];
+                    effectiveWire = match[0];
                   }
 
 
                   // Methoden aufrufen
-                  if (wirebundle[wire]) {
-                    wirebundle[wire].forEach(function (receiver) {
+                  if (wirebundle[effectiveWire]) {
+                    wirebundle[effectiveWire].forEach(function (receiver) {
                       if (typeof receiver.element[receiver.method] === 'function') {
                         // array spreaden
                         if(Array.isArray(detailData) && receiver.element[receiver.method].length >1){
