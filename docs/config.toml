@@ -1,0 +1,104 @@
+baseurl = "https://veith.github.io/flowbased-polymer/"
+languageCode = "en-us"
+title = "Flowbased Polymer"
+theme = "hugo-material-docs"
+metadataformat = "yaml"
+canonifyurls = true
+# Enable Google Analytics by entering your tracking id
+googleAnalytics = ""
+
+[params]
+	# General information
+	author = "veith"
+	description = "A material design theme for documentations."
+	copyright = "Released under the MIT license"
+
+	# Repository
+	provider = "GitHub"
+	repo_url = "https://github.com/veith/flowbased-polymer"
+
+	version = "1.15.0"
+	logo = "images/logo.png"
+	favicon = ""
+
+	permalink = "#"
+
+	# Custom assets
+	custom_css = []
+	custom_js  = []
+
+	# Syntax highlighting theme
+	highlight_css  = ""
+
+	[params.palette]
+    	primary = "lime"
+    	accent  = "teal"
+
+    [params.font]
+    	text = "Roboto"
+    	code = "Ubuntu Mono"
+
+
+[social]
+	twitter = "veith"
+	github  = "veith"
+	email   = "veithz@gmail.com"
+
+
+[[menu.main]]
+	name   = "Flowbased Polymer"
+	url    = "/"
+	weight = 1
+
+[[menu.main]]
+	name   = "Getting started"
+	url    = "getting-started/overview/"
+	weight = 100
+
+[[menu.main]]
+	name   = "Connecting components"
+	url    = "wireing/overview/"
+	weight = 200
+
+[[menu.main]]
+	name   = "Firing Events"
+	url    = "events/overview/"
+	weight = 300
+
+[[menu.main]]
+	name   = "Using Properties"
+	url    = "variables/overview/"
+	weight = 400
+
+[[menu.main]]
+	name   = "Limitations"
+	url    = "limitations/overview/"
+	weight = 500
+
+[[menu.main]]
+	name   = "Best practices"
+	url    = "bestpractice/overview/"
+	weight = 600
+
+[[menu.main]]
+	name   = "Helper components"
+	url    = "helper/overview/"
+	weight = 700
+
+[[menu.main]]
+	name   = "License"
+	url    = "license/index/"
+	weight = 800
+
+
+[[menu.main]]
+	name   = "history"
+	url    = "history/"
+	weight = 900
+
+
+[blackfriday]
+	smartypants	= true
+	fractions = true
+	smartDashes = true
+	plainIDAnchors = true

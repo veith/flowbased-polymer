@@ -1,0 +1,3 @@
+- history
+- best practices
+- polymer 2.x
