@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Events on Flowbased Polymer</title>
+    <link>https://veith.github.io/flowbased-polymer/events/</link>
+    <description>Recent content in Events on Flowbased Polymer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Released under the MIT license</copyright>
+    <lastBuildDate>Fri, 14 Apr 2017 16:38:32 +0200</lastBuildDate>
+    
+	<atom:link href="https://veith.github.io/flowbased-polymer/events/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Firing events</title>
+      <link>https://veith.github.io/flowbased-polymer/events/overview/</link>
+      <pubDate>Fri, 14 Apr 2017 16:38:32 +0200</pubDate>
+      
+      <guid>https://veith.github.io/flowbased-polymer/events/overview/</guid>
+      <description> non bubbling events bubbling events </description>
+    </item>
+    
+  </channel>
+</rss>

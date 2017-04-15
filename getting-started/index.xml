@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Getting-starteds on Flowbased Polymer</title>
+    <link>https://veith.github.io/flowbased-polymer/getting-started/</link>
+    <description>Recent content in Getting-starteds on Flowbased Polymer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Released under the MIT license</copyright>
+    <lastBuildDate>Wed, 09 Mar 2016 00:11:02 +0100</lastBuildDate>
+    
+	<atom:link href="https://veith.github.io/flowbased-polymer/getting-started/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Getting started</title>
+      <link>https://veith.github.io/flowbased-polymer/getting-started/overview/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>https://veith.github.io/flowbased-polymer/getting-started/overview/</guid>
+      <description>Installation Before you can use the flowbased-polymer behavior you need to install it in your project.
+bower install flowbased-polymer --save  Import the behavior in your component &amp;lt;link rel=&amp;quot;import&amp;quot; href=&amp;quot;../bower_components/flowbased-polymer/behaviour.html&amp;quot;&amp;gt;  Add the behaviour to your component
+Polymer 1.x
+{ behaviors: [Polymer.FlowBasedProgramming] }  Polymer 2.x
+ &amp;lt;script&amp;gt; class MyComponent extends Polymer.mixinBehaviors([ Polymer.FlowBasedProgramming], Polymer.Element){ static get is() { return &#39;my-view1&#39;; } } window.customElements.define(MyComponent.is, MyComponent); &amp;lt;/script&amp;gt;  Tipp
+Do not forget to import and define the behaviour.</description>
+    </item>
+    
+  </channel>
+</rss>

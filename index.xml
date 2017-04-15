@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Flowbased Polymer</title>
+    <link>https://veith.github.io/flowbased-polymer/</link>
+    <description>Recent content on Flowbased Polymer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Released under the MIT license</copyright>
+    <lastBuildDate>Tue, 08 Mar 2016 21:07:13 +0100</lastBuildDate>
+    
+	<atom:link href="https://veith.github.io/flowbased-polymer/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Flowbased polymer</title>
+      <link>https://veith.github.io/flowbased-polymer/index/</link>
+      <pubDate>Tue, 08 Mar 2016 21:07:13 +0100</pubDate>
+      
+      <guid>https://veith.github.io/flowbased-polymer/index/</guid>
+      <description>minimizing the gap between idea and its expression Flowbased-polymer is a polymer implementation (behaviour) of Flow-Based Programming (FBP). Separating the control flow of web applications from the actual software logic. Helping you to organize large web applications easier than traditional OOP paradigms.
+Write your applications like you make the concept for your application. Normaly you draw a few components and some arrows to connect the components to describe your intention.</description>
+    </item>
+    
+    <item>
+      <title>Getting started</title>
+      <link>https://veith.github.io/flowbased-polymer/getting-started/overview/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>https://veith.github.io/flowbased-polymer/getting-started/overview/</guid>
+      <description>Installation Before you can use the flowbased-polymer behavior you need to install it in your project.
+bower install flowbased-polymer --save  Import the behavior in your component &amp;lt;link rel=&amp;quot;import&amp;quot; href=&amp;quot;../bower_components/flowbased-polymer/behaviour.html&amp;quot;&amp;gt;  Add the behaviour to your component
+Polymer 1.x
+{ behaviors: [Polymer.FlowBasedProgramming] }  Polymer 2.x
+ &amp;lt;script&amp;gt; class MyComponent extends Polymer.mixinBehaviors([ Polymer.FlowBasedProgramming], Polymer.Element){ static get is() { return &#39;my-view1&#39;; } } window.customElements.define(MyComponent.is, MyComponent); &amp;lt;/script&amp;gt;  Tipp
+Do not forget to import and define the behaviour.</description>
+    </item>
+    
+    <item>
+      <title>Connecting components</title>
+      <link>https://veith.github.io/flowbased-polymer/wireing/overview/</link>
+      <pubDate>Fri, 14 Apr 2017 15:47:54 +0200</pubDate>
+      
+      <guid>https://veith.github.io/flowbased-polymer/wireing/overview/</guid>
+      <description>Given following example: We have a button and some elements. We want to hide a element-to-hide, after the user presses the hide button.
+When you want to this in classical polymer, you have a lot of steps to do. This is not bad, but sometimes it is just to much work.
+First you have to register on the event, then you have to assign id&amp;rsquo;s to the target elements, write the function in javascript and call the function on the element you want to hide from the javascript.</description>
+    </item>
+    
+    <item>
+      <title>Firing events</title>
+      <link>https://veith.github.io/flowbased-polymer/events/overview/</link>
+      <pubDate>Fri, 14 Apr 2017 16:38:32 +0200</pubDate>
+      
+      <guid>https://veith.github.io/flowbased-polymer/events/overview/</guid>
+      <description> non bubbling events bubbling events </description>
+    </item>
+    
+    <item>
+      <title>License</title>
+      <link>https://veith.github.io/flowbased-polymer/license/index/</link>
+      <pubDate>Wed, 09 Mar 2016 20:10:46 +0100</pubDate>
+      
+      <guid>https://veith.github.io/flowbased-polymer/license/index/</guid>
+      <description>MIT license Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &amp;ldquo;Software&amp;rdquo;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</description>
+    </item>
+    
+    <item>
+      <title>History</title>
+      <link>https://veith.github.io/flowbased-polymer/history/</link>
+      <pubDate>Fri, 14 Apr 2017 16:52:45 +0200</pubDate>
+      
+      <guid>https://veith.github.io/flowbased-polymer/history/</guid>
+      <description>After reading Flow-based Programming, i wanted to
+i: Not suited for ui&amp;rsquo;s,&amp;hellip;
+minimizing the &amp;ldquo;gap&amp;rdquo; between idea and its expression
+&amp;ndash; FBP&amp;rsquo;s orientation towards reuse also forces one to distinguish between a particular use of a component and its general definition. This may seem obvious in hindsight, but, even when documenting conventional programs, you would be amazed how often programmers give a fine generalized description of, say, a date routine, but forget to tell the reader which of its functions is being used in a particular situation.</description>
+    </item>
+    
+    <item>
+      <title>overview</title>
+      <link>https://veith.github.io/flowbased-polymer/helper/overview/</link>
+      <pubDate>Fri, 14 Apr 2017 16:49:59 +0200</pubDate>
+      
+      <guid>https://veith.github.io/flowbased-polymer/helper/overview/</guid>
+      <description> &amp;lt;inspect-flow&amp;gt; </description>
+    </item>
+    
+    <item>
+      <title>overview</title>
+      <link>https://veith.github.io/flowbased-polymer/limitations/overview/</link>
+      <pubDate>Fri, 14 Apr 2017 16:49:27 +0200</pubDate>
+      
+      <guid>https://veith.github.io/flowbased-polymer/limitations/overview/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>overview</title>
+      <link>https://veith.github.io/flowbased-polymer/variables/overview/</link>
+      <pubDate>Fri, 14 Apr 2017 16:39:52 +0200</pubDate>
+      
+      <guid>https://veith.github.io/flowbased-polymer/variables/overview/</guid>
+      <description> storing event-data to properties sending custom data with events </description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+  
+  
+  
+  
+   <html class="no-js"> 
+
+  <head lang="en-us">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=10" />
+    <title>Connecting components - Flowbased Polymer</title>
+    <meta name="generator" content="Hugo 0.20.1" />
+
+    
+    <meta name="description" content="A material design theme for documentations.">
+    
+    <link rel="canonical" href="https://veith.github.io/flowbased-polymer/wireing/overview/">
+    
+    <meta name="author" content="veith">
+    
+
+    <meta property="og:url" content="https://veith.github.io/flowbased-polymer/wireing/overview/">
+    <meta property="og:title" content="Flowbased Polymer">
+    <meta property="og:image" content="https://veith.github.io/flowbased-polymer/images/logo.png">
+    <meta name="apple-mobile-web-app-title" content="Flowbased Polymer">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <link rel="shortcut icon" type="image/x-icon" href="https://veith.github.io/flowbased-polymer/images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="https://veith.github.io/flowbased-polymer/images/favicon.ico">
+
+    <style>
+      @font-face {
+        font-family: 'Icon';
+        src: url('https://veith.github.io/flowbased-polymer/fonts/icon.eot');
+        src: url('https://veith.github.io/flowbased-polymer/fonts/icon.eot')
+               format('embedded-opentype'),
+             url('https://veith.github.io/flowbased-polymer/fonts/icon.woff')
+               format('woff'),
+             url('https://veith.github.io/flowbased-polymer/fonts/icon.ttf')
+               format('truetype'),
+             url('https://veith.github.io/flowbased-polymer/fonts/icon.svg')
+               format('svg');
+        font-weight: normal;
+        font-style: normal;
+      }
+    </style>
+
+    <link rel="stylesheet" href="https://veith.github.io/flowbased-polymer/stylesheets/application.css">
+    <link rel="stylesheet" href="https://veith.github.io/flowbased-polymer/stylesheets/temporary.css">
+    <link rel="stylesheet" href="https://veith.github.io/flowbased-polymer/stylesheets/palettes.css">
+    <link rel="stylesheet" href="https://veith.github.io/flowbased-polymer/stylesheets/highlight/highlight.css">
+
+    
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,700|Ubuntu&#43;Mono">
+    <style>
+      body, input {
+        font-family: 'Roboto', Helvetica, Arial, sans-serif;
+      }
+      pre, code {
+        font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+      }
+    </style>
+
+    
+    <script src="https://veith.github.io/flowbased-polymer/javascripts/modernizr.js"></script>
+
+    
+
+  </head>
+  <body class="palette-primary-lime palette-accent-teal">
+
+
+
+	
+	
+
+
+<div class="backdrop">
+	<div class="backdrop-paper"></div>
+</div>
+
+<input class="toggle" type="checkbox" id="toggle-drawer">
+<input class="toggle" type="checkbox" id="toggle-search">
+<label class="toggle-button overlay" for="toggle-drawer"></label>
+
+<header class="header">
+	<nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        Connecting components
+      </div>
+    </div>
+
+    
+    <div class="button button-twitter" role="button" aria-label="Twitter">
+       <a href="https://twitter.com/veith" title="@veith on Twitter" target="_blank" class="toggle-button icon icon-twitter"></a>
+    </div>
+    
+
+    
+    <div class="button button-github" role="button" aria-label="GitHub">
+      <a href="https://github.com/veith" title="@veith on GitHub" target="_blank" class="toggle-button icon icon-github"></a>
+    </div>
+    
+    
+        
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+</header>
+
+<main class="main">
+	<div class="drawer">
+		<nav aria-label="Navigation">
+  <a href="https://github.com/veith/flowbased-polymer" class="project">
+    <div class="banner">
+      
+        <div class="logo">
+          <img src="https://veith.github.io/flowbased-polymer/images/logo.png">
+        </div>
+      
+      <div class="name">
+        <strong>Flowbased Polymer <span class="version">1.15.0</span></strong>
+        
+          <br>
+          veith/flowbased-polymer
+        
+      </div>
+    </div>
+  </a>
+
+  <div class="scrollable">
+    <div class="wrapper">
+      
+        <ul class="repo">
+          <li class="repo-download">
+            <a href="https://github.com/veith/flowbased-polymer/archive/master.zip" target="_blank" title="Download" data-action="download">
+              <i class="icon icon-download"></i> Download
+            </a>
+          </li>
+          <li class="repo-stars">
+            <a href="https://github.com/veith/flowbased-polymer/stargazers" target="_blank" title="Stargazers" data-action="star">
+              <i class="icon icon-star"></i> Stars
+              <span class="count">&ndash;</span>
+            </a>
+          </li>
+        </ul>
+        <hr>
+      
+
+      <div class="toc">
+        
+        <ul>
+          
+
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Flowbased Polymer" href="https://veith.github.io/flowbased-polymer/">
+	
+	Flowbased Polymer
+</a>
+
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Getting started" href="https://veith.github.io/flowbased-polymer/getting-started/overview/">
+	
+	Getting started
+</a>
+
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a class="current" title="Connecting components" href="https://veith.github.io/flowbased-polymer/wireing/overview/">
+	
+	Connecting components
+</a>
+
+
+<ul id="scrollspy">
+</ul>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Firing Events" href="https://veith.github.io/flowbased-polymer/events/overview/">
+	
+	Firing Events
+</a>
+
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Using Properties" href="https://veith.github.io/flowbased-polymer/variables/overview/">
+	
+	Using Properties
+</a>
+
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Limitations" href="https://veith.github.io/flowbased-polymer/limitations/overview/">
+	
+	Limitations
+</a>
+
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Best practices" href="https://veith.github.io/flowbased-polymer/bestpractice/overview/">
+	
+	Best practices
+</a>
+
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Helper components" href="https://veith.github.io/flowbased-polymer/helper/overview/">
+	
+	Helper components
+</a>
+
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="License" href="https://veith.github.io/flowbased-polymer/license/index/">
+	
+	License
+</a>
+
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="history" href="https://veith.github.io/flowbased-polymer/history/">
+	
+	history
+</a>
+
+
+
+  
+</li>
+
+
+        </ul>
+        
+
+        
+        <hr>
+        <span class="section">The author</span>
+        
+        <ul>
+          
+          <li>
+            <a href="https://twitter.com/veith" target="_blank" title="@veith on Twitter">
+              @veith on Twitter
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://github.com/veith" target="_blank" title="@veith on GitHub">
+              @veith on GitHub
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="mailto:veithz@gmail.com" title="Email of veithz@gmail.com">
+              Contact via email
+            </a>
+          </li>
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+
+	</div>
+
+	<article class="article">
+		<div class="wrapper">
+			<h1>Connecting components </h1>
+
+			
+
+<h4 id="given-following-example">Given following example:</h4>
+
+<p>We have a button and some elements. We want to hide a element-to-hide, after the user presses the hide button.</p>
+
+<p>When you want to this in classical polymer, you have a lot of steps to do. This is not bad, but sometimes it is just to much work.</p>
+
+<p>First you have to register on the event, then you have to assign id&rsquo;s to the target elements, write the function in javascript and call the function on the element you want to hide from the javascript.</p>
+
+<p><strong>the classical way</strong></p>
+
+<pre><code class="language-html">&lt;dom-module id=&quot;hide-example&quot;&gt;
+&lt;template&gt;
+  &lt;button on-click=&quot;hide&quot;&gt;hide&lt;/button&gt;
+  &lt;element-to-hide id=&quot;target&quot;&gt;First element to hide&lt;/element-to-hide&gt;
+&lt;/template&gt;
+  &lt;script&gt;
+    Polymer({     
+      is: 'hide-example',
+      //hide element-to-hide
+      hide:function() {       
+        this.$.target.hide();
+      }
+    });
+  &lt;/script&gt;
+&lt;/dom-module&gt;
+
+</code></pre>
+
+<p>This example is not a problem to keep track of, but it becomes then a problem when you have a lot of elements where multiple sources will address multiple targets. You will end up with a lot of <em>boilerplate</em> code which just do some trivial tasks.</p>
+
+<h2 id="connecting-things">Connecting things</h2>
+
+<p>The same example as above, but with flowbased-polymer behaviour will look like this.</p>
+
+<p><img src="https://veith.github.io/flowbased-polymer/images/hideExample.png" alt="hide example" /></p>
+
+<p><strong>the flowbased way</strong></p>
+
+<pre><code class="language-html">&lt;dom-module id=&quot;hide-example&quot;&gt;
+&lt;template&gt;
+  &lt;button @-click=&quot;--hideClicked&quot;&gt;hide&lt;/button&gt;
+  &lt;element-to-hide ƒ-hide=&quot;--hideClicked&quot;&gt;First element to hide&lt;/element-to-hide&gt;
+&lt;/template&gt;
+  &lt;script&gt;
+    Polymer({     
+      is: 'hide-example',
+      behaviors: [Polymer.FlowBasedProgramming]
+    });
+  &lt;/script&gt;
+&lt;/dom-module&gt;
+
+</code></pre>
+
+<p>This doesnt look very impressive in the first moment. But when you look at the <em>element-to-hide</em> component in the first example, how do you know when the hide function will be triggered? You have to read the source to find it out. What will happen when the id changes? What do you do if you have a second target to hide?</p>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The ƒ-function will be called with <strong>event.detail</strong> as an argument.
+More on this you can read in section  <a href="#passing-data">passing data</a></p>
+</div>
+
+<h2 id="multiple-targets">Multiple targets</h2>
+
+<p>A wire can have multiple targets. The <strong>&ndash;hideClicked</strong> wire from above can trigger multiple elements if you want.</p>
+
+<p><img src="https://veith.github.io/flowbased-polymer/images/multipleTargets.png" alt="Multiple targets" /></p>
+
+<pre><code class="language-html">&lt;template&gt;
+  &lt;button @-click=&quot;--hideClicked&quot;&gt;hide&lt;/button&gt;
+  &lt;element-to-hide ƒ-hide=&quot;--hideClicked&quot;&gt;element to hide&lt;/element-to-hide&gt;
+  &lt;element-to-hide ƒ-hide=&quot;--hideClicked&quot;&gt;other element to hide&lt;/element-to-hide&gt;
+  &lt;element-to-show ƒ-show=&quot;--hideClicked&quot;&gt;other element to hide&lt;/element-to-show&gt;
+&lt;/template&gt;
+</code></pre>
+
+<p>if you press the button, all elements which are connected to the wire will trigger the defined function. In this example the first to will call the hide and the third element will call the show function.</p>
+
+<h2 id="multiple-sources">Multiple sources</h2>
+
+<p>A wire can also have multiple sources.
+<img src="https://veith.github.io/flowbased-polymer/images/multipleSources.png" alt="Multiple targets" /></p>
+
+<pre><code class="language-html">&lt;template&gt;
+  &lt;button @-click=&quot;--hideClicked&quot;&gt;hide&lt;/button&gt;
+  &lt;element-to-hide ƒ-hide=&quot;--hideClicked&quot;&gt;element to hide&lt;/element-to-hide&gt; 
+  &lt;button @-click=&quot;--hideClicked&quot;&gt;other hide&lt;/button&gt;
+&lt;/template&gt;
+</code></pre>
+
+<p>It doesn&rsquo;t matter if you press the first or the second hide button. Both will trigger the wire <strong>&ndash;hideClicked</strong>.</p>
+
+<h2 id="multiple-sources-and-targets">Multiple sources and targets</h2>
+
+<p>A wire can also have multiple sources and targets.</p>
+
+<p><img src="https://veith.github.io/flowbased-polymer/images/multiSourceAndTarget.png" alt="Multiple targets" /></p>
+
+<pre><code class="language-html">  &lt;template&gt;
+    &lt;button @-click=&quot;--hideClicked&quot;&gt;hide&lt;/button&gt;
+    &lt;element-to-hide ƒ-hide=&quot;--hideClicked&quot;&gt;element to hide&lt;/element-to-hide&gt;
+    &lt;element-to-hide ƒ-hide=&quot;--hideClicked&quot;&gt;other element to hide&lt;/element-to-hide&gt;
+    &lt;element-to-show ƒ-show=&quot;--hideClicked&quot;&gt;other element to hide&lt;/element-to-show&gt;
+    &lt;button @-click=&quot;--hideClicked&quot;&gt;other hide&lt;/button&gt;
+  &lt;/template&gt;
+</code></pre>
+
+<h2 id="multiple-wires-from-source">Multiple wires from source</h2>
+
+<p>You can trigger multiple wires from one source by comma separating them.</p>
+
+<p><img src="https://veith.github.io/flowbased-polymer/images/multiWireFromSource.png" alt="Multiple targets" />
+<em>the black wire is &ndash;otherIntention</em></p>
+
+<pre><code class="language-html">&lt;template&gt;
+  &lt;button @-click=&quot;--hideClicked,--otherIntention&quot;&gt;hide&lt;/button&gt;
+  &lt;element-to-hide ƒ-hide=&quot;--hideClicked&quot;&gt;element to hide&lt;/element-to-hide&gt;
+  &lt;element-to-hide ƒ-hide=&quot;--hideClicked&quot;&gt;other element to hide&lt;/element-to-hide&gt;
+  &lt;element-to-show ƒ-show=&quot;--otherIntention&quot;&gt;other element to hide&lt;/element-to-show&gt;
+&lt;/template&gt;
+</code></pre>
+
+<p>If you press the button, it will trigger the <strong>&ndash;hideClicked</strong> and <strong>&ndash;other-intention</strong> wire.</p>
+
+<h2 id="multiple-wires-to-target">Multiple wires to target</h2>
+
+<p>You can receive from multiple wires by comma separating them.</p>
+
+<p><img src="https://veith.github.io/flowbased-polymer/images/mwTarget.png" alt="Multiple wires to target" /></p>
+
+<pre><code class="language-html">&lt;template&gt;
+  &lt;button @-click=&quot;--hideClicked&quot;&gt;hide&lt;/button&gt;
+  &lt;placeholder-element ƒ-hide=&quot;--hideClicked,--contentLoaded&quot;&gt;element to hide&lt;/placeholder-element&gt;
+  &lt;element-to-hide ƒ-hide=&quot;--hideClicked&quot;&gt;other element to hide&lt;/element-to-hide&gt;
+  &lt;main-content @-ready=&quot;--contentLoaded&quot; data=&quot;[[_content]]&quot;&gt;&lt;/main-content&gt;
+&lt;/template&gt;
+</code></pre>
+
+<p>The hide function of the placeholder-element will be triggered when &ndash;hideClicked or &ndash;contentLoaded will be fired.</p>
+
+<h2 id="passing-data">Passing data</h2>
+
+<p>Normally the <strong>event.detail</strong> is passed to the function you wire. But sometimes you want an event as trigger and another property then event.detail as payload.
+You have several ways to accomplish this task.</p>
+
+<p><strong>inject the property at the wire source</strong></p>
+
+<pre><code class="language-html">   &lt;paper-button @-tap=&quot;--wireWithProerty(_myProp)&quot;&gt; Press this &lt;/paper-button&gt;
+   &lt;other-component ƒ-demo=&quot;--wireWithProerty&quot;&gt;&lt;/other-component&gt;
+</code></pre>
+
+<p>_myProp is a normal polymer property.</p>
+
+<p><strong>using a component to replace event.detail with a property</strong></p>
+
+<p><img src="https://veith.github.io/flowbased-polymer/images/replaceData.png" alt="replace data" /></p>
+
+<pre><code class="language-html">   &lt;paper-button @-tap=&quot;--buttonPressed&quot;&gt; Press this &lt;/paper-button&gt;
+   &lt;replace-detail data=&quot;[[_myProp]]&quot; ƒ-in=&quot;--buttonPressed&quot; @-out=&quot;--wireWithProerty&quot;&gt;&lt;/replace-detail&gt;
+   &lt;other-component ƒ-demo=&quot;--wireWithProerty&quot;&gt;&lt;/other-component&gt;
+</code></pre>
+
+<h2 id="multiple-arguments">Multiple arguments</h2>
+
+<p>In some rare conditions, the functions you want to call, need more then one argument. In this case you can pass in an array of arguments to the function.</p>
+
+<pre><code class="language-html">  ...
+   &lt;multiply-values ƒ-calculate=&quot;--wireWithArray&quot; result=&quot;{{_result}}&quot;&gt;&lt;/multiply-values&gt;
+   &lt;paper-button @-tap=&quot;--wireWithArray(_values)&quot;&gt; calculate &lt;/paper-button&gt; 
+  ...
+  ...
+  ,properties:{
+      _values:{
+      type:Array,
+      value:[3,2]
+      }
+  }
+</code></pre>
+
+
+			<aside class="copyright" role="note">
+				
+				&copy; 2017 Released under the MIT license &ndash;
+				
+				Documentation built with
+				<a href="https://www.gohugo.io" target="_blank">Hugo</a>
+				using the
+				<a href="http://github.com/digitalcraftsman/hugo-material-docs" target="_blank">Material</a> theme.
+			</aside>
+
+			<footer class="footer">
+				
+
+<nav class="pagination" aria-label="Footer">
+  <div class="previous">
+  
+      <a href="https://veith.github.io/flowbased-polymer/getting-started/overview/" title="Getting started">
+        <span class="direction">
+          Previous
+        </span>
+        <div class="page">
+          <div class="button button-previous" role="button" aria-label="Previous">
+            <i class="icon icon-back"></i>
+          </div>
+          <div class="stretch">
+            <div class="title">
+              Getting started
+            </div>
+          </div>
+        </div>
+      </a>
+  
+  </div>
+
+  <div class="next">
+  
+      <a href="https://veith.github.io/flowbased-polymer/events/overview/" title="Firing events">
+        <span class="direction">
+          Next
+        </span>
+        <div class="page">
+          <div class="stretch">
+            <div class="title">
+              Firing events
+            </div>
+          </div>
+          <div class="button button-next" role="button" aria-label="Next">
+            <i class="icon icon-forward"></i>
+          </div>
+        </div>
+      </a>
+  
+  </div>
+</nav>
+
+
+
+
+
+			</footer>
+		</div>
+	</article>
+
+	<div class="results" role="status" aria-live="polite">
+		<div class="scrollable">
+			<div class="wrapper">
+				<div class="meta"></div>
+				<div class="list"></div>
+			</div>
+		</div>
+	</div>
+</main>
+
+    <script>
+    
+      var base_url = 'https:\/\/veith.github.io\/flowbased-polymer\/';
+      var repo_id  = 'veith\/flowbased-polymer';
+    
+    </script>
+
+    <script src="https://veith.github.io/flowbased-polymer/javascripts/application.js"></script>
+    
+
+    <script>
+      /* Add headers to scrollspy */
+      var headers   = document.getElementsByTagName("h2");
+      var scrollspy = document.getElementById('scrollspy');
+
+      if(scrollspy) {
+        if(headers.length > 0) {
+          for(var i = 0; i < headers.length; i++) {
+            var li = document.createElement("li");
+            li.setAttribute("class", "anchor");
+
+            var a  = document.createElement("a");
+            a.setAttribute("href", "#" + headers[i].id);
+            a.setAttribute("title", headers[i].innerHTML);
+            a.innerHTML = headers[i].innerHTML;
+
+            li.appendChild(a)
+            scrollspy.appendChild(li);
+          }
+        } else {
+          scrollspy.parentElement.removeChild(scrollspy)
+        }
+
+
+        /* Add permanent link next to the headers */
+        var headers = document.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+        for(var i = 0; i < headers.length; i++) {
+            var a = document.createElement("a");
+            a.setAttribute("class", "headerlink");
+            a.setAttribute("href", "#" + headers[i].id);
+            a.setAttribute("title", "Permanent link")
+            a.innerHTML = "#";
+            headers[i].appendChild(a);
+        }
+      }
+    </script>
+
+    
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>
+

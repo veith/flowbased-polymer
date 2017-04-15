@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Wireings on Flowbased Polymer</title>
+    <link>https://veith.github.io/flowbased-polymer/wireing/</link>
+    <description>Recent content in Wireings on Flowbased Polymer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Released under the MIT license</copyright>
+    <lastBuildDate>Fri, 14 Apr 2017 15:47:54 +0200</lastBuildDate>
+    
+	<atom:link href="https://veith.github.io/flowbased-polymer/wireing/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Connecting components</title>
+      <link>https://veith.github.io/flowbased-polymer/wireing/overview/</link>
+      <pubDate>Fri, 14 Apr 2017 15:47:54 +0200</pubDate>
+      
+      <guid>https://veith.github.io/flowbased-polymer/wireing/overview/</guid>
+      <description>Given following example: We have a button and some elements. We want to hide a element-to-hide, after the user presses the hide button.
+When you want to this in classical polymer, you have a lot of steps to do. This is not bad, but sometimes it is just to much work.
+First you have to register on the event, then you have to assign id&amp;rsquo;s to the target elements, write the function in javascript and call the function on the element you want to hide from the javascript.</description>
+    </item>
+    
+  </channel>
+</rss>
