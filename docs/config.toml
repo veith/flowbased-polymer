@@ -10,7 +10,7 @@ googleAnalytics = ""
 [params]
 	# General information
 	author = "veith"
-	description = "Flowbased Programming for web UIs"
+	description = "Flowbased Programming for web UIs. Minimizing the gap between idea and its expression"
 	copyright = "Released under the MIT license"
 
 	# Repository
@@ -42,7 +42,6 @@ googleAnalytics = ""
 [social]
 	twitter = "veith"
 	github  = "veith"
-	email   = "veithz@gmail.com"
 
 
 [[menu.main]]

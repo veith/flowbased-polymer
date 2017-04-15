@@ -50,8 +50,8 @@
   <div class="previous">
   </div>
 
-  {{ $title := (index (.Site.Pages.ByDate) 1).Title  }}
-  {{ $permalink := (index (.Site.Pages.ByDate) 1).Permalink }}
+  {{ $title := "Getting started" }}
+  {{ $permalink := "getting-started/overview/" }}
   <div class="next">
       <a href="{{ $permalink }}" title="{{ $title }}">
         <span class="direction">
@@ -60,7 +60,7 @@
         <div class="page">
           <div class="stretch">
             <div class="title">
-              {{ $title }}
+               {{ $title }}
             </div>
           </div>
           <div class="button button-next" role="button" aria-label="Next">
