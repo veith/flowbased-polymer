@@ -4,3 +4,4 @@ dist
 .divshot-cache
 .idea
 .DS_Store
+docs/public
