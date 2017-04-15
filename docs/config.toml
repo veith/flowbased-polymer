@@ -10,7 +10,7 @@ googleAnalytics = ""
 [params]
 	# General information
 	author = "veith"
-	description = "A material design theme for documentations."
+	description = "Flowbased Programming for web UIs"
 	copyright = "Released under the MIT license"
 
 	# Repository
