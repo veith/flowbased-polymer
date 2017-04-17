@@ -13,12 +13,14 @@
     
     
     <item>
-      <title>overview</title>
+      <title>Limitations</title>
       <link>https://veith.github.io/flowbased-polymer/limitations/overview/</link>
       <pubDate>Fri, 14 Apr 2017 16:49:27 +0200</pubDate>
       
       <guid>https://veith.github.io/flowbased-polymer/limitations/overview/</guid>
-      <description></description>
+      <description>You can not use the FBP syntax in a template tag (&amp;lt;template is=&amp;quot;dom-repeat&amp;quot;&amp;gt;). It is not reachable for the behavior :-( .
+Workaraound
+&amp;lt;div @-click=&amp;quot;--elementClicked&amp;quot;&amp;gt; &amp;lt;template is=&amp;quot;dom-repeat&amp;quot; items=&amp;quot;[[list]]&amp;quot;&amp;gt; &amp;lt;paper-button&amp;gt;[[item.name]]&amp;lt;/paper-button&amp;gt; &amp;lt;/template&amp;gt; &amp;lt;/div&amp;gt;  Use &amp;ldquo;event-delegation&amp;rdquo; and add a additional container around the template tag and wire your elements there.</description>
     </item>
     
   </channel>

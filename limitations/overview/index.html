@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=10" />
-    <title>overview - Flowbased Polymer</title>
+    <title>Limitations - Flowbased Polymer</title>
     <meta name="generator" content="Hugo 0.20.1" />
 
     
@@ -97,7 +97,7 @@
     </div>
     <div class="stretch">
       <div class="title">
-        overview
+        Limitations
       </div>
     </div>
 
@@ -342,24 +342,6 @@
 </li>
 
 
-
-<li>
-  
-    
-
-
-
-<a  title="history" href="https://veith.github.io/flowbased-polymer/history/">
-	
-	history
-</a>
-
-
-
-  
-</li>
-
-
         </ul>
         
 
@@ -396,9 +378,21 @@
 
 	<article class="article">
 		<div class="wrapper">
-			<h1>overview </h1>
+			<h1>Limitations </h1>
 
-			
+			<p>You can not use the FBP syntax in a template tag (<code>&lt;template is=&quot;dom-repeat&quot;&gt;</code>). It is not reachable for the behavior :-( .</p>
+
+<p><strong>Workaraound</strong></p>
+
+<pre><code class="language-html">&lt;div @-click=&quot;--elementClicked&quot;&gt;
+    &lt;template is=&quot;dom-repeat&quot; items=&quot;[[list]]&quot;&gt;
+        &lt;paper-button&gt;[[item.name]]&lt;/paper-button&gt;
+    &lt;/template&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p><em>Use &ldquo;event-delegation&rdquo; and add a additional container around the template tag and wire your elements there.</em></p>
+
 
 			<aside class="copyright" role="note">
 				
@@ -416,7 +410,7 @@
 <nav class="pagination" aria-label="Footer">
   <div class="previous">
   
-      <a href="https://veith.github.io/flowbased-polymer/helper/overview/" title="overview">
+      <a href="https://veith.github.io/flowbased-polymer/variables/overview/" title="Properties">
         <span class="direction">
           Previous
         </span>
@@ -426,7 +420,7 @@
           </div>
           <div class="stretch">
             <div class="title">
-              overview
+              Properties
             </div>
           </div>
         </div>
@@ -435,6 +429,22 @@
   </div>
 
   <div class="next">
+  
+      <a href="https://veith.github.io/flowbased-polymer/license/index/" title="License">
+        <span class="direction">
+          Next
+        </span>
+        <div class="page">
+          <div class="stretch">
+            <div class="title">
+              License
+            </div>
+          </div>
+          <div class="button button-next" role="button" aria-label="Next">
+            <i class="icon icon-forward"></i>
+          </div>
+        </div>
+      </a>
   
   </div>
 </nav>
