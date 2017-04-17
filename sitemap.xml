@@ -32,6 +32,11 @@
   </url>
   
   <url>
+    <loc>https://veith.github.io/flowbased-polymer/bestpractice/overview/</loc>
+    <lastmod>2017-04-17T14:02:04+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://veith.github.io/flowbased-polymer/license/index/</loc>
     <lastmod>2016-03-09T20:10:46+01:00</lastmod>
   </url>
@@ -44,6 +49,12 @@
   <url>
     <loc>https://veith.github.io/flowbased-polymer/helper/overview/</loc>
     <lastmod>2017-04-14T16:49:59+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://veith.github.io/flowbased-polymer/bestpractice/</loc>
+    <lastmod>2017-04-17T14:02:04+02:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>

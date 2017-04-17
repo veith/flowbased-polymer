@@ -9,18 +9,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=10" />
-    <title>License - Flowbased Polymer</title>
+    <title>Best practice - Flowbased Polymer</title>
     <meta name="generator" content="Hugo 0.20.1" />
 
     
     <meta name="description" content="Flowbased Programming for web UIs. Minimizing the gap between idea and its expression">
     
-    <link rel="canonical" href="https://veith.github.io/flowbased-polymer/license/index/">
+    <link rel="canonical" href="https://veith.github.io/flowbased-polymer/bestpractice/overview/">
     
     <meta name="author" content="veith">
     
 
-    <meta property="og:url" content="https://veith.github.io/flowbased-polymer/license/index/">
+    <meta property="og:url" content="https://veith.github.io/flowbased-polymer/bestpractice/overview/">
     <meta property="og:title" content="Flowbased Polymer">
     <meta property="og:image" content="https://veith.github.io/flowbased-polymer/images/logo.png">
     <meta name="apple-mobile-web-app-title" content="Flowbased Polymer">
@@ -97,7 +97,7 @@
     </div>
     <div class="stretch">
       <div class="title">
-        License
+        Best practice
       </div>
     </div>
 
@@ -292,11 +292,14 @@
 
 
 
-<a  title="Best practices" href="https://veith.github.io/flowbased-polymer/bestpractice/overview/">
+<a class="current" title="Best practices" href="https://veith.github.io/flowbased-polymer/bestpractice/overview/">
 	
 	Best practices
 </a>
 
+
+<ul id="scrollspy">
+</ul>
 
 
   
@@ -328,14 +331,11 @@
 
 
 
-<a class="current" title="License" href="https://veith.github.io/flowbased-polymer/license/index/">
+<a  title="License" href="https://veith.github.io/flowbased-polymer/license/index/">
 	
 	License
 </a>
 
-
-<ul id="scrollspy">
-</ul>
 
 
   
@@ -378,29 +378,24 @@
 
 	<article class="article">
 		<div class="wrapper">
-			<h1>License </h1>
+			<h1>Best practice </h1>
 
 			
 
-<h2 id="mit-license">MIT license</h2>
+<p>The best practices are a result from the feedback of our users, thanks to them.</p>
 
-<p>Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the &ldquo;Software&rdquo;), to
-deal in the Software without restriction, including without limitation the
-rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
-sell copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:</p>
+<p>Feel free to give us your feedback.</p>
 
-<p>The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.</p>
+<h2 id="wire-and-event-naming">Wire and event naming</h2>
 
-<p>THE SOFTWARE IS PROVIDED &ldquo;AS IS&rdquo;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-IN THE SOFTWARE.</p>
+<p>In fact you can use any string to name wires, but most of the users are using two dashes in front of the wire name and for the name they use camelCase notation.</p>
+
+<p>For the events they use the dashed-case notation, because the behavior does not convert the camelCase for the event to dash-case notation, which you will need to wire the event in another component.</p>
+
+<pre><code class="language-html">&lt;paper-button @-tap=&quot;--buttonTapped, ^^fired-event&quot;&gt;&lt;/paper-button&gt;
+</code></pre>
+
+<p>With this notation they can see the difference from a <strong>wire</strong> to an <strong>event</strong> they fire directly.</p>
 
 
 			<aside class="copyright" role="note">
@@ -419,7 +414,7 @@ IN THE SOFTWARE.</p>
 <nav class="pagination" aria-label="Footer">
   <div class="previous">
   
-      <a href="https://veith.github.io/flowbased-polymer/bestpractice/overview/" title="Best practice">
+      <a href="https://veith.github.io/flowbased-polymer/limitations/overview/" title="Limitations">
         <span class="direction">
           Previous
         </span>
@@ -429,7 +424,7 @@ IN THE SOFTWARE.</p>
           </div>
           <div class="stretch">
             <div class="title">
-              Best practice
+              Limitations
             </div>
           </div>
         </div>
@@ -439,14 +434,14 @@ IN THE SOFTWARE.</p>
 
   <div class="next">
   
-      <a href="https://veith.github.io/flowbased-polymer/history/" title="History">
+      <a href="https://veith.github.io/flowbased-polymer/license/index/" title="License">
         <span class="direction">
           Next
         </span>
         <div class="page">
           <div class="stretch">
             <div class="title">
-              History
+              License
             </div>
           </div>
           <div class="button button-next" role="button" aria-label="Next">

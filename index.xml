@@ -81,6 +81,18 @@ Workaraound
     </item>
     
     <item>
+      <title>Best practice</title>
+      <link>https://veith.github.io/flowbased-polymer/bestpractice/overview/</link>
+      <pubDate>Mon, 17 Apr 2017 14:02:04 +0200</pubDate>
+      
+      <guid>https://veith.github.io/flowbased-polymer/bestpractice/overview/</guid>
+      <description>The best practices are a result from the feedback of our users, thanks to them.
+Feel free to give us your feedback.
+Wire and event naming In fact you can use any string to name wires, but most of the users are using two dashes in front of the wire name and for the name they use camelCase notation.
+For the events they use the dashed-case notation, because the behavior does not convert the camelCase for the event to dash-case notation, which you will need to wire the event in another component.</description>
+    </item>
+    
+    <item>
       <title>License</title>
       <link>https://veith.github.io/flowbased-polymer/license/index/</link>
       <pubDate>Wed, 09 Mar 2016 20:10:46 +0100</pubDate>

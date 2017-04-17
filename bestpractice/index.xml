@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bestpractices on Flowbased Polymer</title>
+    <link>https://veith.github.io/flowbased-polymer/bestpractice/</link>
+    <description>Recent content in Bestpractices on Flowbased Polymer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Released under the MIT license</copyright>
+    <lastBuildDate>Mon, 17 Apr 2017 14:02:04 +0200</lastBuildDate>
+    
+	<atom:link href="https://veith.github.io/flowbased-polymer/bestpractice/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Best practice</title>
+      <link>https://veith.github.io/flowbased-polymer/bestpractice/overview/</link>
+      <pubDate>Mon, 17 Apr 2017 14:02:04 +0200</pubDate>
+      
+      <guid>https://veith.github.io/flowbased-polymer/bestpractice/overview/</guid>
+      <description>The best practices are a result from the feedback of our users, thanks to them.
+Feel free to give us your feedback.
+Wire and event naming In fact you can use any string to name wires, but most of the users are using two dashes in front of the wire name and for the name they use camelCase notation.
+For the events they use the dashed-case notation, because the behavior does not convert the camelCase for the event to dash-case notation, which you will need to wire the event in another component.</description>
+    </item>
+    
+  </channel>
+</rss>
