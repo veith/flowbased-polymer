@@ -79,7 +79,7 @@ if you press the button, all elements which are connected to the wire will trigg
 
 ## Multiple sources
 A wire can also have multiple sources. 
-![Multiple targets](/images/multipleSources.png)
+![Multiple sources](/images/multipleSources.png)
 ```html
 <template>
   <button @-click="--hideClicked">hide</button>
@@ -92,7 +92,7 @@ It doesn't matter if you press the first or the second hide button. Both will tr
 ## Multiple sources and targets 
 A wire can also have multiple sources and targets.
 
-![Multiple targets](/images/multiSourceAndTarget.png)
+![Multiple sources and targets](/images/multiSourceAndTarget.png)
 ```html
   <template>
     <button @-click="--hideClicked">hide</button>
@@ -108,7 +108,7 @@ A wire can also have multiple sources and targets.
 ## Multiple wires from source
 You can trigger multiple wires from one source by comma separating them.
 
-![Multiple targets](/images/multiWireFromSource.png)
+![Multiple wires from source](/images/multiWireFromSource.png)
 *the black wire is --otherIntention*
 
 ```html
