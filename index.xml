@@ -53,7 +53,18 @@ First you have to register on the event, then you have to assign id&amp;rsquo;s 
       <pubDate>Fri, 14 Apr 2017 16:38:32 +0200</pubDate>
       
       <guid>https://veith.github.io/flowbased-polymer/events/overview/</guid>
-      <description> non bubbling events bubbling events </description>
+      <description>Elements use events to communicate state changes up the DOM tree to parent elements. Polymer elements can use the standard DOM APIs for creating, dispatching, and listening for events.
+FBP also provides a notation for events (bubbling [^^e] and non bubbling [^e]), which allow you to specify events declaratively.
+On the first view, it does not make a lot sense to rename events. But imagine a simple controller component with 3 buttons labeled with play, pause and next.</description>
+    </item>
+    
+    <item>
+      <title>Properties</title>
+      <link>https://veith.github.io/flowbased-polymer/variables/overview/</link>
+      <pubDate>Fri, 14 Apr 2017 16:39:52 +0200</pubDate>
+      
+      <guid>https://veith.github.io/flowbased-polymer/variables/overview/</guid>
+      <description>Storing event-data to properties Sending custom data with events More about sending data with events here..</description>
     </item>
     
     <item>
@@ -94,15 +105,6 @@ minimizing the &amp;ldquo;gap&amp;rdquo; between idea and its expression
       
       <guid>https://veith.github.io/flowbased-polymer/limitations/overview/</guid>
       <description></description>
-    </item>
-    
-    <item>
-      <title>overview</title>
-      <link>https://veith.github.io/flowbased-polymer/variables/overview/</link>
-      <pubDate>Fri, 14 Apr 2017 16:39:52 +0200</pubDate>
-      
-      <guid>https://veith.github.io/flowbased-polymer/variables/overview/</guid>
-      <description> storing event-data to properties sending custom data with events </description>
     </item>
     
   </channel>

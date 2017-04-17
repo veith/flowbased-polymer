@@ -400,9 +400,73 @@
 
 			
 
-<h2 id="non-bubbling-events">non bubbling events</h2>
+<p>Elements use events to communicate state changes up the DOM tree to parent elements.
+Polymer elements can use the standard DOM APIs for creating, dispatching, and listening for events.</p>
 
-<h2 id="bubbling-events">bubbling events</h2>
+<p>FBP also provides a notation for events (bubbling [<strong>^^e</strong>] and non bubbling [<strong>^e</strong>]), which allow you to specify events  declaratively.</p>
+
+<p>On the first view, it does not make a lot sense to <em>rename</em> events. But imagine a simple controller component with 3 buttons labeled with play, pause and next. It is much easier to wire @-play, @-next and @-pause then just the @-tap. The @-tap can come from each button and you have to find out which button was pressed.</p>
+
+<p><a href="https://www.polymer-project.org/2.0/docs/devguide/events">learn more about events&hellip;</a></p>
+
+<h2 id="non-bubbling-events">Non bubbling events</h2>
+
+<p>Non bubbling events will stop at the next dom parent.</p>
+
+<p><img src="https://veith.github.io/flowbased-polymer/images/nonBubbling.png" alt="fire non bubbling event" />
+<strong>non bubbling example</strong></p>
+
+<pre><code class="language-html">  &lt;paper-button @-tap=&quot;--searchClicked&quot;&gt;Search&lt;/paper-button&gt;
+    &lt;iron-ajax
+        ƒ-generate-request=&quot;--searchClicked&quot;
+        url=&quot;https://www.googleapis.com/youtube/v3/search&quot;
+        handle-as=&quot;json&quot;
+        params='{&quot;part&quot;:&quot;snippet&quot;, &quot;q&quot;:&quot;polymer&quot;, &quot;key&quot;: &quot;YOUTUBE_API_KEY&quot;, &quot;type&quot;: &quot;video&quot;}'
+        @-response=&quot;^data-received&quot;
+        debounce-duration=&quot;300&quot;&gt;            
+    &lt;/iron-ajax&gt;
+</code></pre>
+
+<p><em>when iron-ajax fires the</em> <strong><em>response</em></strong> <em>event, the</em> <strong><em>data-received</em></strong> <em>event will be fired</em></p>
+
+<h2 id="bubbling-events">Bubbling events</h2>
+
+<p>To fire a bubbling-event use <strong>^^event-name</strong>.</p>
+
+<p><img src="https://veith.github.io/flowbased-polymer/images/bubblingEvent.png" alt="fire non bubbling event" /></p>
+
+<pre><code class="language-html">  &lt;paper-button @-tap=&quot;--searchClicked&quot;&gt;Search&lt;/paper-button&gt;
+    &lt;iron-ajax
+        ƒ-generate-request=&quot;--searchClicked&quot;
+        url=&quot;https://www.googleapis.com/youtube/v3/search&quot;
+        handle-as=&quot;json&quot;
+        params='{&quot;part&quot;:&quot;snippet&quot;, &quot;q&quot;:&quot;polymer&quot;, &quot;key&quot;: &quot;YOUTUBE_API_KEY&quot;, &quot;type&quot;: &quot;video&quot;}'
+        @-response=&quot;^^data-received&quot;
+        debounce-duration=&quot;300&quot;&gt;            
+    &lt;/iron-ajax&gt;
+</code></pre>
+
+<p><em>the</em> <strong><em>data-received</em></strong> <em>event will bubble.</em></p>
+
+<h2 id="sending-host-data-with-events">Sending host data with events</h2>
+
+<p>Sometimes you want to send some values with your event, because the default <strong>event.detail</strong> is not useful. You can send any documented host property with your event by giving the property name in brackets like  ^^some-event(<strong>propertyName</strong>) .</p>
+
+<p><strong>bubbling event with custom data</strong></p>
+
+<pre><code class="language-html">   &lt;paper-button @-tap=&quot;^^some-event(_privateProperty)&quot;&gt; check &lt;/paper-button&gt; 
+</code></pre>
+
+<p><em>The tap event sends usually a number for the amount of taps with a certain time distance. So it will send 1 for a click, 2 for a doubleClick, 3 for a trippleClick,&hellip;</em></p>
+
+<h2 id="sending-multiple-events-from-a-single-source">Sending multiple events from a single source</h2>
+
+<p>You can also send multiple events from a single source.</p>
+
+<pre><code class="language-html">   &lt;paper-button @-tap=&quot;^^some-event(_privateProperty),^other-event,--chekTapped&quot;&gt; check &lt;/paper-button&gt; 
+</code></pre>
+
+<p><em>When the button is tapped,</em> <strong><em>some-event</em></strong> <em>and</em> <strong><em>other-event</em></strong> <em>will be fired and the wire</em> <strong><em>&ndash;checkTapped</em></strong> <em>will be triggered.</em></p>
 
 
 			<aside class="copyright" role="note">
@@ -441,14 +505,14 @@
 
   <div class="next">
   
-      <a href="https://veith.github.io/flowbased-polymer/license/index/" title="License">
+      <a href="https://veith.github.io/flowbased-polymer/variables/overview/" title="Properties">
         <span class="direction">
           Next
         </span>
         <div class="page">
           <div class="stretch">
             <div class="title">
-              License
+              Properties
             </div>
           </div>
           <div class="button button-next" role="button" aria-label="Next">

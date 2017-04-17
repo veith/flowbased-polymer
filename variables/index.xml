@@ -13,12 +13,12 @@
     
     
     <item>
-      <title>overview</title>
+      <title>Properties</title>
       <link>https://veith.github.io/flowbased-polymer/variables/overview/</link>
       <pubDate>Fri, 14 Apr 2017 16:39:52 +0200</pubDate>
       
       <guid>https://veith.github.io/flowbased-polymer/variables/overview/</guid>
-      <description> storing event-data to properties sending custom data with events </description>
+      <description>Storing event-data to properties Sending custom data with events More about sending data with events here..</description>
     </item>
     
   </channel>

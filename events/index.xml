@@ -18,7 +18,9 @@
       <pubDate>Fri, 14 Apr 2017 16:38:32 +0200</pubDate>
       
       <guid>https://veith.github.io/flowbased-polymer/events/overview/</guid>
-      <description> non bubbling events bubbling events </description>
+      <description>Elements use events to communicate state changes up the DOM tree to parent elements. Polymer elements can use the standard DOM APIs for creating, dispatching, and listening for events.
+FBP also provides a notation for events (bubbling [^^e] and non bubbling [^e]), which allow you to specify events declaratively.
+On the first view, it does not make a lot sense to rename events. But imagine a simple controller component with 3 buttons labeled with play, pause and next.</description>
     </item>
     
   </channel>
