@@ -1,8 +1,10 @@
 ---
 date: 2017-04-14T16:39:52+02:00
-title: overview
+title: Properties
+weight: 400
 ---
 
-## storing event-data to properties
+## Storing event-data to properties
 
-## sending custom data with events
+## Sending custom data with events
+More about sending data with events [here..](/events/overview/#sending-host-data-with-events)
