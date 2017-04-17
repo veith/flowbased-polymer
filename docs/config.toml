@@ -90,12 +90,6 @@ googleAnalytics = ""
 	weight = 800
 
 
-[[menu.main]]
-	name   = "history"
-	url    = "history/"
-	weight = 900
-
-
 [blackfriday]
 	smartypants	= true
 	fractions = true
