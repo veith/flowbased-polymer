@@ -10,28 +10,6 @@
    */
 
 
-  // var _FBPtestProbes = _FBPtestProbes || {};
-
-  if (window._FBPtestProbes) {
-    Polymer.Base.$$$ = function (slctr) {
-      return Polymer.dom(this.root).querySelectorAll(slctr);
-    };
-    window._FBPselector = {
-      // shortcut for querySelector
-      $$: function (selector) {
-        return this.$$$(selector)[0];
-      },
-      // shortcut for querySelectorAll
-      $$$: function (selector) {
-        var ele = _FBPtestProbes[selector.toUpperCase()];
-        if (ele === undefined || ele.length === 0) {
-          throw new Error('Element "' + selector + '" does not exist.');
-        }
-        return ele;
-      }
-    };
-  }
-
   /*
    * @polymerBehavior Polymer.FlowBasedProgramming
    */
@@ -234,14 +212,6 @@
       });
 
       self._PolymerFlowBasedProgrammingEvents = tmp_PolymerFlowBasedProgrammingEvents;
-
-      //registerTestingPoints
-      if (window._FBPtestProbes) {
-        if (!_FBPtestProbes.hasOwnProperty(self.nodeName)) {
-          _FBPtestProbes[self.nodeName] = [];
-        }
-        _FBPtestProbes[self.nodeName].push(self);
-      }
 
     },
 
