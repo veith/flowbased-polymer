@@ -395,7 +395,57 @@
 <pre><code class="language-html">&lt;paper-button @-tap=&quot;--buttonTapped, ^^fired-event&quot;&gt;&lt;/paper-button&gt;
 </code></pre>
 
-<p>With this notation they can see the difference from a <strong>wire</strong> to an <strong>event</strong> they fire directly.</p>
+<p>With this notation they can see the difference between a <strong>wire</strong> to an <strong>event</strong> they fire directly.</p>
+
+<h2 id="use-declarative-wire-names-don-t-be-imperative">Use declarative wire names, don&rsquo;t be imperative</h2>
+
+<p>When you use declarative names, it would be easier to read and modify a wired program.</p>
+
+<p><strong>bad example</strong></p>
+
+<pre><code class="language-html">&lt;paper-button @-tap=&quot;--closeView&quot;&gt;&lt;/paper-button&gt;
+&lt;my-view ƒ-close=&quot;--closeView&quot;&gt;&lt;/my-view&gt;
+&lt;data-component ƒ-save=&quot;--closeView&quot;&gt;&lt;/data-component&gt;
+</code></pre>
+
+<p><strong>good example</strong></p>
+
+<pre><code class="language-html">&lt;paper-button @-tap=&quot;--closeButtonTapped&quot;&gt;&lt;/paper-button&gt;
+&lt;my-view ƒ-close=&quot;--closeButtonTapped&quot;&gt;&lt;/my-view&gt;
+&lt;data-component ƒ-save=&quot;--closeButtonTapped&quot;&gt;&lt;/data-component&gt;
+</code></pre>
+
+<p><em>It is a subtile but relevant difference between this two examles.</em></p>
+
+<h2 id="use-event-delegation">Use <em>event delegation</em></h2>
+
+<p>When you use a set of components, you don&rsquo;t have to wire every single component to the appropriate target. Use <em>event delegation</em> whenever possible. It is faster and easier to read.</p>
+
+<p><strong>without event delegation</strong>
+<img src="https://veith.github.io/flowbased-polymer/images/withoutEventDelegation.png" alt="without event delegation" /></p>
+
+<pre><code class="language-html">    &lt;div &gt;
+      &lt;mole-hole key=&quot;a&quot; @-closed=&quot;--moleClosed&quot; @-continue=&quot;--continue&quot; @-miss=&quot;--missed&quot; @-whack=&quot;--whacked&quot;&gt;&lt;/mole-hole&gt;
+      &lt;mole-hole key=&quot;s&quot; @-closed=&quot;--moleClosed&quot; @-continue=&quot;--continue&quot; @-miss=&quot;--missed&quot; @-whack=&quot;--whacked&quot;&gt;&lt;/mole-hole&gt;
+      &lt;mole-hole key=&quot;d&quot; @-closed=&quot;--moleClosed&quot; @-continue=&quot;--continue&quot; @-miss=&quot;--missed&quot; @-whack=&quot;--whacked&quot;&gt;&lt;/mole-hole&gt;
+      &lt;mole-hole key=&quot;f&quot; @-closed=&quot;--moleClosed&quot; @-continue=&quot;--continue&quot; @-miss=&quot;--missed&quot; @-whack=&quot;--whacked&quot;&gt;&lt;/mole-hole&gt;
+      &lt;mole-hole key=&quot;g&quot; @-closed=&quot;--moleClosed&quot; @-continue=&quot;--continue&quot; @-miss=&quot;--missed&quot; @-whack=&quot;--whacked&quot;&gt;&lt;/mole-hole&gt;
+      &lt;mole-hole key=&quot;w&quot; @-closed=&quot;--moleClosed&quot; @-continue=&quot;--continue&quot; @-miss=&quot;--missed&quot; @-whack=&quot;--whacked&quot;&gt;&lt;/mole-hole&gt;
+    &lt;/div&gt;
+</code></pre>
+
+<p><strong>with event delegation</strong>
+<img src="https://veith.github.io/flowbased-polymer/images/eventDelegation.png" alt="with event delegation" /></p>
+
+<pre><code class="language-html">    &lt;div @-closed=&quot;--moleClosed&quot; @-continue=&quot;--continue&quot; @-miss=&quot;--missed&quot; @-whack=&quot;--whacked&quot;&gt;
+      &lt;mole-hole key=&quot;a&quot;&gt;&lt;/mole-hole&gt;
+      &lt;mole-hole key=&quot;s&quot;&gt;&lt;/mole-hole&gt;
+      &lt;mole-hole key=&quot;d&quot;&gt;&lt;/mole-hole&gt;
+      &lt;mole-hole key=&quot;f&quot;&gt;&lt;/mole-hole&gt;
+      &lt;mole-hole key=&quot;g&quot;&gt;&lt;/mole-hole&gt;
+      &lt;mole-hole key=&quot;w&quot;&gt;&lt;/mole-hole&gt;
+    &lt;/div&gt;
+</code></pre>
 
 
 			<aside class="copyright" role="note">

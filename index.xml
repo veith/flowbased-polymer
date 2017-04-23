@@ -108,7 +108,8 @@ The above copyright notice and this permission notice shall be included in all c
       <pubDate>Fri, 14 Apr 2017 16:52:45 +0200</pubDate>
       
       <guid>https://veith.github.io/flowbased-polymer/history/</guid>
-      <description>After reading Flow-based Programming, i wanted to implement FBP for web-ui&amp;rsquo;s, with the goal to have a easy method to build web-applications. The i: Not suited for ui&amp;rsquo;s,&amp;hellip;
+      <description>After reading Flow-based Programming in 2013, i was fascinated with the concept and started to build a implementation for making user interfaces.
+i wanted to implement FBP for web-ui&amp;rsquo;s, with the goal to have a easy method to build web-applications. The i: Not suited for ui&amp;rsquo;s,&amp;hellip;
 &amp;ndash; FBP&amp;rsquo;s orientation towards reuse also forces one to distinguish between a particular use of a component and its general definition. This may seem obvious in hindsight, but, even when documenting conventional programs, you would be amazed how often programmers give a fine generalized description of, say, a date routine, but forget to tell the reader which of its functions is being used in a particular situation.</description>
     </item>
     
