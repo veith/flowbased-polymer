@@ -41,10 +41,20 @@
       properties: {
         received:{
           type:Number
+        },
+          sumval:{
+          type:Number,
+          notify:true,
+              value:1
         }
       },
         reg:function (val) {
             this.set('received',val);
+        },
+        sum:function (a,b,c) {
+            var val = (a+b+c);
+            this.set('sumval',val);
+
         }
 
     });

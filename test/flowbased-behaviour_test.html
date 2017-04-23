@@ -73,7 +73,12 @@
             element.$.buttonA.click();
         });
 
-
+        test('multiple arguments', function () {
+            var element = fixture('basic');
+            element.$.buttonC.click();
+            element.$.buttonA.click();
+            assert.equal(element.$.receive.sumval, 12);
+        });
 
     });
 </script>

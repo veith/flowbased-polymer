@@ -143,7 +143,8 @@
                       if (typeof receiver.element[receiver.method] === 'function') {
                         // array spreaden
                         if(Array.isArray(detailData) && receiver.element[receiver.method].length >1){
-                          receiver.element[receiver.method].apply(null, detailData);
+
+                          receiver.element[receiver.method].apply(receiver.element, detailData);
                         }else{
                         receiver.element[receiver.method](detailData);
                         }

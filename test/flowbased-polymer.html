@@ -19,14 +19,17 @@
         </style>
 
         <div>
-        <paper-button id="buttonA" @-tap="--buttonTapped,((prop)),--tapped(sendval), ^^bubbling, ^nonbubbling">Button</paper-button>
+            <paper-button id="buttonA" @-tap="--buttonTapped,((prop)),--tapped(sendval), ^^bubbling, ^nonbubbling">
+                Button
+            </paper-button>
         </div>
 
         <count-points id="counter" counter="{{counter}}" ƒ-increment="--buttonTapped,--buttonBTapped"></count-points>
 
-        <receive-value id="receive" ƒ-reg="--tapped"></receive-value>
+        <receive-value id="receive" ƒ-reg="--tapped" ƒ-sum="--buttonCTapped"></receive-value>
 
         <paper-button id="buttonB" @-tap="--buttonBTapped">Button</paper-button>
+        <paper-button id="buttonC" @-tap="--buttonCTapped(args)">Button</paper-button>
 
     </template>
 
@@ -41,13 +44,17 @@
                     type: Number,
                     value: 0
                 },
-                prop:{
-                  type:Number,
-                    value:10
+                prop: {
+                    type: Number,
+                    value: 10
                 },
-                sendval:{
-                  type:Number,
-                    value:42
+                sendval: {
+                    type: Number,
+                    value: 42
+                },
+                args: {
+                    type: Array,
+                    value: [3, 4, 5]
                 }
             }
         });
