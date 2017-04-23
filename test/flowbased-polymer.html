@@ -26,10 +26,12 @@
 
         <count-points id="counter" counter="{{counter}}" ƒ-increment="--buttonTapped,--buttonBTapped"></count-points>
 
-        <receive-value id="receive" ƒ-reg="--tapped" ƒ-sum="--buttonCTapped"></receive-value>
+        <receive-value id="receive" ƒ-reg="--tapped" ƒ-sum="--buttonCTapped" ƒ-camel-case="--buttonDTapped" ƒ-nonexistent="--buttonETapped"></receive-value>
 
         <paper-button id="buttonB" @-tap="--buttonBTapped">Button</paper-button>
         <paper-button id="buttonC" @-tap="--buttonCTapped(args)">Button</paper-button>
+        <paper-button id="buttonD" @-tap="--buttonDTapped">Button</paper-button>
+        <paper-button id="buttonE" @-tap="--buttonETapped">Button</paper-button>
 
     </template>
 

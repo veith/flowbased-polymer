@@ -99,6 +99,20 @@
             assert.equal(element.$.receive.sumval, 12);
         });
 
+        test('camelCased method call', function () {
+            var element = fixture('basic');
+            element.$.buttonD.click();
+            assert.equal(element.$.receive.received, 137);
+        });
+
+
+        test('call non existent method, should just log a warning', function () {
+            var element = fixture('basic');
+            element.$.buttonE.click();
+            assert.equal(1, 1);
+        });
+
+
     });
 </script>
 </body>
