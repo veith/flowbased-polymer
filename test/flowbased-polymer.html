@@ -1,5 +1,7 @@
-
+<link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../behaviour.html">
+<link rel="import" href="count-points.html">
+<link rel="import" href="receive-value.html">
 
 
 <!--
@@ -8,24 +10,46 @@
 
 <dom-module id="flowbased-polymer">
 
-  <template>
+    <template>
 
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
 
-    HI
-  </template>
+        <div>
+        <paper-button id="buttonA" @-tap="--buttonTapped,((prop)),--tapped(sendval), ^^bubbling, ^nonbubbling">Button</paper-button>
+        </div>
 
-  <script>
+        <count-points id="counter" counter="{{counter}}" ƒ-increment="--buttonTapped,--buttonBTapped"></count-points>
 
-    Polymer({
-      is: 'flowbased-polymer',
-      behaviors: [Polymer.FlowBasedProgramming],
+        <receive-value id="receive" ƒ-reg="--tapped"></receive-value>
 
-      properties: {}
-    });
-  </script>
+        <paper-button id="buttonB" @-tap="--buttonBTapped">Button</paper-button>
+
+    </template>
+
+    <script>
+
+        Polymer({
+            is: 'flowbased-polymer',
+            behaviors: [Polymer.FlowBasedProgramming],
+
+            properties: {
+                counter: {
+                    type: Number,
+                    value: 0
+                },
+                prop:{
+                  type:Number,
+                    value:10
+                },
+                sendval:{
+                  type:Number,
+                    value:42
+                }
+            }
+        });
+    </script>
 </dom-module>

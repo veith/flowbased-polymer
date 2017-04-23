@@ -1,7 +1,7 @@
 <!doctype html>
 
 <html>
-  <head>
+<head>
     <title>flowbased-polymer test</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
@@ -9,24 +9,73 @@
     <script src="../../web-component-tester/browser.js"></script>
 
     <link rel="import" href="./flowbased-polymer.html">
-  </head>
-  <body>
+</head>
+<body>
 
-    <test-fixture id="basic">
-      <template>
+<test-fixture id="basic">
+    <template>
         <flowbased-polymer></flowbased-polymer>
-      </template>
-    </test-fixture>
+    </template>
+</test-fixture>
 
-    <script>
-      suite('flowbased-polymer', function() {
+<script>
+    suite('flowbased-polymer', function () {
 
-        test('instantiating the element works', function() {
-          var element = fixture('basic');
-          assert.equal(element.is, 'flowbased-polymer');
+        test('instantiating the element container works', function () {
+            var element = fixture('basic');
+            assert.equal(element.is, 'flowbased-polymer');
         });
 
-      });
-    </script>
-  </body>
+
+        test('trigger a simple wire', function () {
+            var element = fixture('basic');
+            element.$.buttonA.click();
+
+            assert.equal(element.counter, 1);
+        });
+
+        test('wire with data', function () {
+            var element = fixture('basic');
+            element.$.buttonA.click();
+            assert.equal(element.prop, 0);
+        });
+
+        test('wire with property to send', function () {
+            var element = fixture('basic');
+            element.$.buttonA.click();
+            assert.equal(element.$.receive.received, 42);
+        });
+
+        test('multiple receiving wires', function () {
+            var element = fixture('basic');
+            element.$.buttonA.click();
+            element.$.buttonB.click();
+            assert.equal(element.counter, 2);
+        });
+
+        test('bubbling event', function (done) {
+            var element = fixture('basic');
+
+            element.addEventListener('bubbling', function (d) {
+                assert.equal(element.counter, 1);
+                done();
+            });
+            element.$.buttonA.click();
+        });
+
+        test('nonbubbling event', function (done) {
+            var element = fixture('basic');
+
+            element.addEventListener('nonbubbling', function (d) {
+                assert.equal(element.counter, 1);
+                done();
+            });
+            element.$.buttonA.click();
+        });
+
+
+
+    });
+</script>
+</body>
 </html>
