@@ -73,6 +73,25 @@
             element.$.buttonA.click();
         });
 
+        test('bubbling event with data', function (done) {
+            var element = fixture('basic');
+
+            element.addEventListener('bubblingdata', function (d) {
+                assert.equal(d.detail, 42);
+                done();
+            });
+            element.$.buttonA.click();
+        });
+      test('nonbubbling event with data', function (done) {
+            var element = fixture('basic');
+
+            element.addEventListener('nonbubblingdata', function (d) {
+                assert.equal(d.detail, 42);
+                done();
+            });
+            element.$.buttonA.click();
+        });
+
         test('multiple arguments', function () {
             var element = fixture('basic');
             element.$.buttonC.click();
