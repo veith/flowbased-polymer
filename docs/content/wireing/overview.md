@@ -116,10 +116,10 @@ You can trigger multiple wires from one source by comma separating them.
   <button @-click="--hideClicked,--otherIntention">hide</button>
   <element-to-hide ƒ-hide="--hideClicked">element to hide</element-to-hide>
   <element-to-hide ƒ-hide="--hideClicked">other element to hide</element-to-hide>
-  <element-to-show ƒ-show="--otherIntention">other element to hide</element-to-show>
+  <element-to-show ƒ-show="--otherIntention"> element to show</element-to-show>
 </template>
 ```
-If you press the button, it will trigger the **--hideClicked** and **--other-intention** wire.
+If you press the button, it will trigger the **--hideClicked** and **--otherIntention** wire *(in black)*.
  
 ## Multiple wires to target
 You can receive from multiple wires by comma separating them.
