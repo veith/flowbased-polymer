@@ -96,6 +96,7 @@
             var element = fixture('basic');
             element.$.buttonC.click();
             element.$.buttonA.click();
+
             assert.equal(element.$.receive.sumval, 12);
         });
 
@@ -110,6 +111,16 @@
             var element = fixture('basic');
             element.$.buttonE.click();
             assert.equal(1, 1);
+        });
+
+
+
+        test('ƒ-xxx should trigger response with event @-ƒ-xxx', function () {
+            var element = fixture('basic');
+            element.$.buttonC.click();
+
+            assert.equal(element.atf, 12);
+            assert.equal(element.$.receive.sumval, 12);
         });
 
 

@@ -141,13 +141,18 @@
                   if (wirebundle[effectiveWire]) {
                     wirebundle[effectiveWire].forEach(function (receiver) {
                       if (typeof receiver.element[receiver.method] === 'function') {
+
+                        var response;
                         // array spreaden
                         if(Array.isArray(detailData) && receiver.element[receiver.method].length >1){
-
-                          receiver.element[receiver.method].apply(receiver.element, detailData);
+                            response = receiver.element[receiver.method].apply(receiver.element, detailData);
                         }else{
-                        receiver.element[receiver.method](detailData);
+                            response = receiver.element[receiver.method](detailData);
                         }
+                        // @-ƒ-function auslösen
+                          var customEvent = new Event('ƒ-' + receiver.method, {bubbles: false});
+                          customEvent.detail = response;
+                          receiver.element.dispatchEvent(customEvent);
 
                       } else {
                         console.warn(receiver.method + ' is neither a listener nor a function of ' + receiver.element.nodeName)
