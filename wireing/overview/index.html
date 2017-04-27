@@ -142,7 +142,7 @@
         </div>
       
       <div class="name">
-        <strong>Flowbased Polymer <span class="version">1.15.6</span></strong>
+        <strong>Flowbased Polymer <span class="version">1.16.0</span></strong>
         
           <br>
           veith/flowbased-polymer
@@ -499,11 +499,11 @@ More on this you can read in section  <a href="#passing-data">passing data</a></
   &lt;button @-click=&quot;--hideClicked,--otherIntention&quot;&gt;hide&lt;/button&gt;
   &lt;element-to-hide ƒ-hide=&quot;--hideClicked&quot;&gt;element to hide&lt;/element-to-hide&gt;
   &lt;element-to-hide ƒ-hide=&quot;--hideClicked&quot;&gt;other element to hide&lt;/element-to-hide&gt;
-  &lt;element-to-show ƒ-show=&quot;--otherIntention&quot;&gt;other element to hide&lt;/element-to-show&gt;
+  &lt;element-to-show ƒ-show=&quot;--otherIntention&quot;&gt; element to show&lt;/element-to-show&gt;
 &lt;/template&gt;
 </code></pre>
 
-<p>If you press the button, it will trigger the <strong>&ndash;hideClicked</strong> and <strong>&ndash;other-intention</strong> wire.</p>
+<p>If you press the button, it will trigger the <strong>&ndash;hideClicked</strong> and <strong>&ndash;otherIntention</strong> wire <em>(in black)</em>.</p>
 
 <h2 id="multiple-wires-to-target">Multiple wires to target</h2>
 
@@ -559,6 +559,36 @@ You have several ways to accomplish this task.</p>
       }
   }
 </code></pre>
+
+<h2 id="handling-responses-from-functions">Handling responses from functions</h2>
+
+<p>When you wire a ƒ-function, a non bubbling event <em>ƒ-function</em> with the response value in event.detail will be fired.
+There is no difference to another fired event. You can fire another event, which eventually bubbles, store the response to a property, wire it,&hellip;</p>
+
+<p>You can receive and rewire the response from a function with <strong>@-ƒ-functionname=&ldquo;&hellip;&rdquo;&rdquo;</strong>.</p>
+
+<pre><code class="language-html">  ...
+   &lt;paper-button @-tap=&quot;--wireWithArray(_values)&quot;&gt; calculate &lt;/paper-button&gt;
+    
+   &lt;multiply-values ƒ-calculate=&quot;--wireWithArray&quot; @-ƒ-calculate=&quot;--calculated&quot;&gt;&lt;/multiply-values&gt;
+   &lt;multiply-values ƒ-calculate=&quot;--wireWithArray&quot; @-ƒ-calculate=&quot;((_result))&quot;&gt;&lt;/multiply-values&gt;
+  ...
+  ...
+  ,properties:{
+      _values:{
+      type:Array,
+      value:[3,2]
+      },
+      _result:{
+      type:Number
+      }
+  }
+</code></pre>
+
+<ul>
+<li>When you press the button, both multiply-values.calculate functions are called. The first one will trigger the wire &ndash;calculated, the second one will
+write the response to the property _result.*</li>
+</ul>
 
 
 			<aside class="copyright" role="note">
