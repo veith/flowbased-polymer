@@ -201,5 +201,6 @@ You can receive and rewire the response from a function with **@-ƒ-functionname
       }
   }
 ```
-* When you press the button, both multiply-values.calculate functions are called. The first one will trigger the wire --calculated, the second one will
+
+*When you press the button, both multiply-values.calculate functions are called. The first one will trigger the wire --calculated, the second one will
 write the response to the property _result.*
