@@ -28,6 +28,9 @@
 
 			{{ .Content }}
 
+<div style="margin-top: 60px">
+            {{ template "_internal/disqus.html" . }}
+</div>
 			<aside class="copyright" role="note">
 				{{ with .Site.Params.copyright }}
 				&copy; {{ now.Format "2006" }} {{ . }} &ndash;
@@ -42,7 +45,9 @@
 				{{ partial "footer" . }}
 			</footer>
 		</div>
-	</article>
+
+
+    </article>
 
 	<div class="results" role="status" aria-live="polite">
 		<div class="scrollable">
@@ -53,5 +58,4 @@
 		</div>
 	</div>
 </main>
-
 {{ partial "footer_js" . }}

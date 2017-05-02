@@ -12,6 +12,7 @@ googleAnalytics = "UA-97538731-1"
 	author = "veith"
 	description = "Flowbased Programming for web UIs. Minimizing the gap between idea and its expression"
 	copyright = "Released under the MIT license"
+    disqusShortname = "https-veith-github-io-flowbased-polymer"
 
 	# Repository
 	provider = "GitHub"

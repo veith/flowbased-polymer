@@ -10,7 +10,7 @@ weight: 1
 
 
 
-Flowbased-polymer is a polymer implementation (behaviour) of [Flow-Based Programming](https://en.wikipedia.org/wiki/Flow-based_programming) ([FBP-inspired System](http://www.jpaulmorrison.com/fbp/noflo.html)). Separating the control flow of web applications from the actual software logic. 
+Flowbased-polymer is a polymer implementation (behaviour) of   [Flow-Based Programming](https://en.wikipedia.org/wiki/Flow-based_programming) ([FBP-inspired System](http://www.jpaulmorrison.com/fbp/noflo.html)). Separating the control flow of web applications from the actual software logic. 
   
 Write your applications like you make the concept for your application. Normaly you draw a few components and some arrows to connect the components to describe your intention. Why you don't do the same to write your app or component?
 
