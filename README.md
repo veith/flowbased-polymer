@@ -34,7 +34,9 @@ I wanted to build a version which is suited to make user interfaces, even there 
 
 ## Credits
 
-[John Paul Morrison](http://www.jpaulmorrison.com/)
+[John Paul Morrison](http://www.jpaulmorrison.com/) for inventing FBP
+[Kevin Shaaf](https://github.com/kevinpschaaf) for the hints he gave in the [polymer slack channel](polymer.slack.com)
+[the Polymer contributors](https://github.com/orgs/Polymer/people) for all the good tools
 
 ## License
 
