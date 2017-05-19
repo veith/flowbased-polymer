@@ -14,7 +14,7 @@ bower i -S flowbased-polymer
 ```
 
 ## Usage
-
+It takes about 10 minutes to understand the main concept.  
 Please read the [documentation page](https://veith.github.io/flowbased-polymer/) for more information.
 
 

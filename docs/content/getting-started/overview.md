@@ -14,12 +14,17 @@ bower install flowbased-polymer --save
 
 ### Import the behavior in your component
 
+
+```html
+<link rel="import" href="../flowbased-polymer/behaviour.html">
+```
+OR
 ```html
 <link rel="import" href="../bower_components/flowbased-polymer/behaviour.html">
 ```
 
 
-Add the behaviour to your component
+###Add the behaviour to your component
 
 **Polymer 1.x**
 ```javascript
@@ -45,5 +50,5 @@ Add the behaviour to your component
 
 
 {{<note title="Tipp">}}
-Do not forget to import and define the behaviour. It is a common pitfall to forget the definition or the import in the component you are writing. 
+Do not forget to import and define the behaviour. It is a common pitfall to forget the definition or the import in the component you are writing.  
 {{</note >}}
