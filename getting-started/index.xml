@@ -19,11 +19,11 @@
       
       <guid>https://veith.github.io/flowbased-polymer/getting-started/overview/</guid>
       <description>Installation Before you can use the flowbased-polymer behavior you need to install it in your project.
-bower install flowbased-polymer --save  Import the behavior in your component &amp;lt;link rel=&amp;quot;import&amp;quot; href=&amp;quot;../bower_components/flowbased-polymer/behaviour.html&amp;quot;&amp;gt;  Add the behaviour to your component
+bower install flowbased-polymer --save  Import the behavior in your component &amp;lt;link rel=&amp;quot;import&amp;quot; href=&amp;quot;../flowbased-polymer/behaviour.html&amp;quot;&amp;gt;  OR
+&amp;lt;link rel=&amp;quot;import&amp;quot; href=&amp;quot;../bower_components/flowbased-polymer/behaviour.html&amp;quot;&amp;gt;  ###Add the behaviour to your component
 Polymer 1.x
 { behaviors: [Polymer.FlowBasedProgramming] }  Polymer 2.x
- &amp;lt;script&amp;gt; class MyComponent extends Polymer.mixinBehaviors([ Polymer.FlowBasedProgramming], Polymer.Element){ static get is() { return &#39;my-view1&#39;; } } window.customElements.define(MyComponent.is, MyComponent); &amp;lt;/script&amp;gt;  Tipp
-Do not forget to import and define the behaviour.</description>
+ &amp;lt;script&amp;gt; class MyComponent extends Polymer.mixinBehaviors([ Polymer.FlowBasedProgramming], Polymer.Element){ static get is() { return &#39;my-view1&#39;; } } window.customElements.define(MyComponent.is, MyComponent); &amp;lt;/script&amp;gt;  Tipp</description>
     </item>
     
   </channel>
