@@ -4,6 +4,7 @@ Flowbased-polymer is a polymer behaviour, which enables you to write your polyme
 
 It is a sort of Flow-Based-Programming inspired System.
  
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/veith/flowbased-polymer)
 
 
 ## Installation
