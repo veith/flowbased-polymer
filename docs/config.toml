@@ -41,7 +41,7 @@ googleAnalytics = "UA-97538731-1"
 
 
 [social]
-	twitter = "veith"
+	#twitter = "veith"
 	github  = "veith"
 
 
