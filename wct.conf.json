@@ -6,6 +6,7 @@
             "dir": "./coverage",
             "reporters": ["text-summary", "lcov"],
             "include": [
+                "/mixin.html",
                 "/behaviour.html"
             ],
             "exclude": []

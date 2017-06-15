@@ -8,7 +8,7 @@
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <script src="../../web-component-tester/browser.js"></script>
 
-    <link rel="import" href="./flowbased-polymer.html">
+    <link rel="import" href="./class-based.html">
 </head>
 <body>
 
@@ -117,6 +117,23 @@
 
         test('ƒ-xxx should trigger response with event @-ƒ-xxx', function () {
             var element = fixture('basic');
+            element.$.buttonC.click();
+
+            assert.equal(element.atf, 12);
+            assert.equal(element.$.receive.sumval, 12);
+
+        });
+
+
+        test('remove eventlistener', function () {
+            var element = fixture('basic');
+            element.$.buttonC.click();
+
+            assert.equal(element.atf, 12);
+            assert.equal(element.$.receive.sumval, 12);
+            element.remove();
+            element.$.buttonC.click();
+            element.$.buttonC.click();
             element.$.buttonC.click();
 
             assert.equal(element.atf, 12);

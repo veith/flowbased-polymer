@@ -32,8 +32,7 @@
       }
     },
     ready: function () {
-      var WSources = {};
-      var self = this;
+       var self = this;
       var wirebundle = {};
       var tmp_PolymerFlowBasedProgrammingEvents = new Array;
 
@@ -179,11 +178,6 @@
               var trimmedWire = fwire.trim();
 
 
-              if (!WSources[element._flowName]) {
-                WSources[element._flowName] = [];
-
-              }
-
               var type = "call";
               if (trimmedWire.startsWith('((')) {
                 wire = trimmedWire.substring(2, trimmedWire.length - 2);
@@ -202,13 +196,6 @@
               } else {
                 wire = trimmedWire;
                 type = "call";
-
-                WSources[element._flowName].push({
-                  "node": element._flowName,
-                  "wire": wire,
-                  "event": eventname,
-                  "path": self._getElementPath(element)
-                });
 
 
               }
@@ -234,7 +221,7 @@
       var self = this;
       // remove event listeners
       this._PolymerFlowBasedProgrammingEvents.forEach(function (e) {
-        e.element.removeEventListener(e.event, e.hadler);
+        e.element.removeEventListener(e.event, e.handler);
       })
     },
 

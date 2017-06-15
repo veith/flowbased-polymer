@@ -1,5 +1,5 @@
+<link rel="import" href="../mixin.html">
 <link rel="import" href="../../polymer/polymer.html">
-<link rel="import" href="../behaviour.html">
 <link rel="import" href="count-points.html">
 <link rel="import" href="receive-value.html">
 
@@ -19,8 +19,7 @@
         </style>
 
         <div>
-            <paper-button id="buttonA"
-                          @-tap="--buttonTapped,((prop)),--tapped(sendval), ^^bubbling, ^nonbubbling, ^^bubblingdata(sendval), ^nonbubblingdata(sendval)">
+            <paper-button id="buttonA" @-tap="--buttonTapped,((prop)),--tapped(sendval), ^^bubbling, ^nonbubbling, ^^bubblingdata(sendval), ^nonbubblingdata(sendval)">
                 Button
             </paper-button>
         </div>
@@ -39,11 +38,13 @@
 
     <script>
 
-        Polymer({
-            is: 'flowbased-polymer',
-            behaviors: [Polymer.FlowBasedProgramming],
+        class FlowbasedPolymer extends FBPMixin(Polymer.Element) {
+            static get is() {
+                return 'flowbased-polymer';
+            }
 
-            properties: {
+            static get properties(){
+            return {
                 counter: {
                     type: Number,
                     value: 0
@@ -65,6 +66,11 @@
                     value: [3, 4, 5]
                 }
             }
-        });
+            }
+        }
+
+        window.customElements.define(FlowbasedPolymer.is, FlowbasedPolymer);
+
+
     </script>
 </dom-module>

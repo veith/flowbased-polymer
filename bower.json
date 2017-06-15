@@ -9,7 +9,7 @@
         "lint": "polymer lint --input *.html",
         "test": "polymer test"
     },
-    "homepage": "https://veith.github.io/flowbased-polymer/components/flowbased-polymer/",
+    "homepage": "https://veith.github.io/flowbased-polymer/",
     "keywords": [
         "polymer",
         "web-components",
@@ -25,6 +25,8 @@
     },
     "ignore": [
         "test",
-        "docs"
+        "docs",
+        "index.html",
+        "wct.conf.json"
     ]
 }
