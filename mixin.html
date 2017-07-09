@@ -10,17 +10,22 @@
         return class extends superClass {
             constructor() {
                 super();
-                this._eventlistener = [];
+                this.__FBPEventlistener = [];
             }
 
-            connectedCallback() {
-                super.connectedCallback();
 
+            _attachDom(dom) {
+                this._appendFBP(dom);
+                super._attachDom(dom);
+            }
+
+
+            _appendFBP(dom) {
                 let self = this;
                 let wirebundle = {};
 
                 // get all elements which live in the host
-                this.shadowRoot.querySelectorAll('*').forEach(function (element) {
+                dom.querySelectorAll('*').forEach(function (element) {
                     for (let i = 0; i < element.attributes.length; i++) {
                         // collect receiving tags
                         if (element.attributes[i].name.startsWith('ƒ-')) {
@@ -53,6 +58,7 @@
                              * @param wire
                              */
                             function registerEvent(eventname, type, wire) {
+                                console.log('register', eventname)
                                 let handler = function (e) {
                                     // find properties in wire
                                     let match = wire.match(/([a-z\-_]+)(?!\()([a-z0-9\-\._]+)/gi);
@@ -136,7 +142,7 @@
                                 };
 
                                 element.addEventListener(eventname, handler, false);
-                                self._eventlistener.push({
+                                self.__FBPEventlistener.push({
                                     "element": element,
                                     "event": eventname,
                                     "handler": handler
@@ -184,7 +190,7 @@
             disconnectedCallback() {
                 super.disconnectedCallback();
                 /* remove event listeners*/
-                this._eventlistener.forEach(function (e) {
+                this.__FBPEventlistener.forEach(function (e) {
                     e.element.removeEventListener(e.event, e.handler, false);
                 })
             }
