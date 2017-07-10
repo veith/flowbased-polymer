@@ -3,7 +3,7 @@
     "description": "Do flowbased programming with polymer.",
     "main": "flowbased-polymer.html",
     "dependencies": {
-        "polymer": "Polymer/polymer#^2.0.0"
+        "polymer": "Polymer/polymer#^1.4.0||^2.0.0"
     },
     "scripts": {
         "lint": "polymer lint --input *.html",
