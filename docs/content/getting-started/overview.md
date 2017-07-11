@@ -22,6 +22,11 @@ OR
 ```html
 <link rel="import" href="../bower_components/flowbased-polymer/behaviour.html">
 ```
+OR
+```html
+<link rel="import" href="../bower_components/flowbased-polymer/mixin.html">
+
+```
 
 
 ###Add the behaviour to your component
@@ -36,6 +41,20 @@ OR
 ```
 
 **Polymer 2.x**
+```
+<link rel="import" href="../bower_components/flowbased-polymer/mixin.html">
+  <script>
+
+    class MyComponent  extends FBPMixin(Polymer.Element) { 
+      static get is() { return 'my-view1'; }
+    }
+    window.customElements.define(MyComponent.is, MyComponent);
+
+  </script>
+
+```
+
+**or Polymer 2.x**
 ``` 
   <script>
 
