@@ -138,7 +138,7 @@
         </div>
       
       <div class="name">
-        <strong>Flowbased Polymer <span class="version">2.0.1</span></strong>
+        <strong>Flowbased Polymer <span class="version">2.1.3</span></strong>
         
           <br>
           veith/flowbased-polymer
@@ -389,6 +389,12 @@
 <pre><code class="language-html">&lt;link rel=&quot;import&quot; href=&quot;../bower_components/flowbased-polymer/behaviour.html&quot;&gt;
 </code></pre>
 
+<p>OR</p>
+
+<pre><code class="language-html">&lt;link rel=&quot;import&quot; href=&quot;../bower_components/flowbased-polymer/mixin.html&quot;&gt;
+
+</code></pre>
+
 <p>###Add the behaviour to your component</p>
 
 <p><strong>Polymer 1.x</strong></p>
@@ -401,6 +407,20 @@
 </code></pre>
 
 <p><strong>Polymer 2.x</strong></p>
+
+<pre><code>&lt;link rel=&quot;import&quot; href=&quot;../bower_components/flowbased-polymer/mixin.html&quot;&gt;
+  &lt;script&gt;
+
+    class MyComponent  extends FBPMixin(Polymer.Element) { 
+      static get is() { return 'my-view1'; }
+    }
+    window.customElements.define(MyComponent.is, MyComponent);
+
+  &lt;/script&gt;
+
+</code></pre>
+
+<p><strong>or Polymer 2.x</strong></p>
 
 <pre><code>  &lt;script&gt;
 

@@ -30,10 +30,11 @@ Write your applications like you make the concept for your application. Normaly 
       <guid>https://veith.github.io/flowbased-polymer/getting-started/overview/</guid>
       <description>Installation Before you can use the flowbased-polymer behavior you need to install it in your project.
 bower install flowbased-polymer --save  Import the behavior in your component &amp;lt;link rel=&amp;quot;import&amp;quot; href=&amp;quot;../flowbased-polymer/behaviour.html&amp;quot;&amp;gt;  OR
-&amp;lt;link rel=&amp;quot;import&amp;quot; href=&amp;quot;../bower_components/flowbased-polymer/behaviour.html&amp;quot;&amp;gt;  ###Add the behaviour to your component
+&amp;lt;link rel=&amp;quot;import&amp;quot; href=&amp;quot;../bower_components/flowbased-polymer/behaviour.html&amp;quot;&amp;gt;  OR
+&amp;lt;link rel=&amp;quot;import&amp;quot; href=&amp;quot;../bower_components/flowbased-polymer/mixin.html&amp;quot;&amp;gt;  ###Add the behaviour to your component
 Polymer 1.x
 { behaviors: [Polymer.FlowBasedProgramming] }  Polymer 2.x
- &amp;lt;script&amp;gt; class MyComponent extends Polymer.mixinBehaviors([ Polymer.FlowBasedProgramming], Polymer.Element){ static get is() { return &#39;my-view1&#39;; } } window.customElements.define(MyComponent.is, MyComponent); &amp;lt;/script&amp;gt;  Tipp</description>
+&amp;lt;link rel=&amp;quot;import&amp;quot; href=&amp;quot;../bower_components/flowbased-polymer/mixin.html&amp;quot;&amp;gt; &amp;lt;script&amp;gt; class MyComponent extends FBPMixin(Polymer.Element) { static get is() { return &#39;my-view1&#39;; } } window.</description>
     </item>
     
     <item>
