@@ -159,7 +159,12 @@ _myProp is a normal polymer property.
    <other-component ƒ-demo="--wireWithProerty"></other-component>
 ```
 
+## Send the raw *event* instead of *event.detail*
+**Attention: This is only implemented in the mixin**
 
+Sometimes the e.detail is not useful or you need the event itself (for a `e.preventDefault();`). 
+
+With an asterix as argument `--wireName(*)` you will send the raw event. 
 
 ## Multiple arguments
 In some rare conditions, the functions you want to call, need more then one argument. In this case you can pass in an array of arguments to the function.  
