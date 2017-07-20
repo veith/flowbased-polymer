@@ -33,10 +33,10 @@
                             let methodname = element.attributes[i].name.substr(2).replace(/-([a-z])/g, function (g) {
                                 return g[1].toUpperCase();
                             });
-                            let mwire = element.attributes[i].value;
+
 
                             // collect receiver
-                            mwire.split(',').forEach(function (w) {
+                            element.attributes[i].value.split(',').forEach(function (w) {
                                 let receivingWire = w.trim();
                                 if (!wirebundle[receivingWire]) {
                                     wirebundle[receivingWire] = [];
@@ -60,7 +60,8 @@
                             function registerEvent(eventname, type, wire) {
                                 let handler = function (e) {
                                     // find properties in wire
-                                    let match = wire.match(/([a-z\-_]+)(?!\()([a-z0-9\-\._]+)/gi);
+                                    //let match = wire.match(/([a-z\-_]+)(?!\()([a-z0-9\-\._]+)/gi);
+                                    let match = wire.match(/([a-z\-_*]+)/gi);
                                     switch (type) {
                                         case "call":
                                             /**
@@ -72,7 +73,12 @@
                                             let effectiveWire = wire;
                                             let detailData = e.detail;
                                             if (match !== null && match.length > 1) {
+                                              // --wireName(*) sends the raw event
+                                              if(match[1] === '*'){
+                                                detailData = e;
+                                              }else{
                                                 detailData = self[match[1]];
+                                              }
                                                 effectiveWire = match[0];
                                             }
 

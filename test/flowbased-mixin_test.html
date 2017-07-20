@@ -100,6 +100,13 @@
             assert.equal(element.$.receive.sumval, 12);
         });
 
+        test('Send event data with click', function () {
+            var element = fixture('basic');
+            element.$.buttonEvent.click();
+
+            assert.equal(element.$.receive.received.type, 'click');
+        });
+
         test('camelCased method call', function () {
             var element = fixture('basic');
             element.$.buttonD.click();
@@ -121,7 +128,6 @@
 
             assert.equal(element.atf, 12);
             assert.equal(element.$.receive.sumval, 12);
-
         });
 
 
