@@ -138,7 +138,7 @@
         </div>
       
       <div class="name">
-        <strong>Flowbased Polymer <span class="version">2.1.3</span></strong>
+        <strong>Flowbased Polymer <span class="version">2.2.0</span></strong>
         
           <br>
           veith/flowbased-polymer
@@ -532,6 +532,14 @@ You have several ways to accomplish this task.</p>
    &lt;replace-detail data=&quot;[[_myProp]]&quot; ƒ-in=&quot;--buttonPressed&quot; @-out=&quot;--wireWithProerty&quot;&gt;&lt;/replace-detail&gt;
    &lt;other-component ƒ-demo=&quot;--wireWithProerty&quot;&gt;&lt;/other-component&gt;
 </code></pre>
+
+<h2 id="send-the-raw-event-instead-of-event-detail">Send the raw <em>event</em> instead of <em>event.detail</em></h2>
+
+<p><strong>Attention: This is only implemented in the mixin</strong></p>
+
+<p>Sometimes the e.detail is not useful or you need the event itself (for a <code>e.preventDefault();</code>).</p>
+
+<p>With an asterix as argument <code>--wireName(*)</code> you will send the raw event.</p>
 
 <h2 id="multiple-arguments">Multiple arguments</h2>
 
