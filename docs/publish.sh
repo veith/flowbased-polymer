@@ -1,5 +1,5 @@
 #! /bin/bash
-
+cd docs
 hugo
 cd public
 git add --all

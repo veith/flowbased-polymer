@@ -24,172 +24,184 @@
                 let self = this;
                 let wirebundle = {};
 
+
                 // get all elements which live in the host
                 dom.querySelectorAll('*').forEach(function (element) {
-                    for (let i = 0; i < element.attributes.length; i++) {
-                        // collect receiving tags
-                        if (element.attributes[i].name.startsWith('ƒ-')) {
-                            // get method name and convert to camel case
-                            let methodname = element.attributes[i].name.substr(2).replace(/-([a-z])/g, function (g) {
-                                return g[1].toUpperCase();
-                            });
+                        for (let i = 0; i < element.attributes.length; i++) {
+                            // collect receiving tags
+                            if (element.attributes[i].name.startsWith('ƒ-')) {
+                                // get method name and convert to camel case
+                                let methodname = element.attributes[i].name.substr(2).replace(/-([a-z])/g, function (g) {
+                                    return g[1].toUpperCase();
+                                });
 
 
-                            // collect receiver
-                            element.attributes[i].value.split(',').forEach(function (w) {
-                                let receivingWire = w.trim();
-                                if (!wirebundle[receivingWire]) {
-                                    wirebundle[receivingWire] = [];
-                                }
-                                wirebundle[receivingWire].push({"element": element, "method": methodname});
-                            });
-                        }
-
-                        // collect sending tags
-                        if (element.attributes[i].name.startsWith('@-')) {
-                            let eventname = element.attributes[i].name.substr(2);
-                            let useSetter = false;
-                            let wire;
-
-                            /**
-                             * register event on current element
-                             * @param eventname
-                             * @param type
-                             * @param wire
-                             */
-                            function registerEvent(eventname, type, wire) {
-                                let handler = function (e) {
-                                    // find properties in wire
-                                    //let match = wire.match(/([a-z\-_]+)(?!\()([a-z0-9\-\._]+)/gi);
-                                    let match = wire.match(/([a-z\-_*]+)/gi);
-                                    switch (type) {
-                                        case "call":
-                                            /**
-                                             * Prüfe ob die Funktion mit einem Wert aus dem Host oder mit den Details des Events ausgeführt werden soll.
-                                             * --wire(hostName) ==> wirft this.hostName in die Funktion sonst wird e.detail verwendet
-                                             *
-                                             */
-
-                                            let effectiveWire = wire;
-                                            let detailData = e.detail;
-                                            if (match !== null && match.length > 1) {
-                                              // --wireName(*) sends the raw event
-                                              if(match[1] === '*'){
-                                                detailData = e;
-                                              }else{
-                                                detailData = self[match[1]];
-                                              }
-                                                effectiveWire = match[0];
-                                            }
-
-                                            // Methoden aufrufen
-                                            if (wirebundle[effectiveWire]) {
-                                                wirebundle[effectiveWire].forEach(function (receiver) {
-                                                    if (typeof receiver.element[receiver.method] === 'function') {
-
-                                                        let response;
-                                                        // array spreaden
-                                                        if (Array.isArray(detailData) && receiver.element[receiver.method].length > 1) {
-                                                            response = receiver.element[receiver.method].apply(receiver.element, detailData);
-                                                        } else {
-                                                            response = receiver.element[receiver.method](detailData);
-                                                        }
-                                                        // @-ƒ-function auslösen
-                                                        let customEvent = new Event('ƒ-' + receiver.method, {bubbles: false});
-                                                        customEvent.detail = response;
-                                                        receiver.element.dispatchEvent(customEvent);
-
-                                                    } else {
-                                                        console.warn(receiver.method + ' is neither a listener nor a function of ' + receiver.element.nodeName)
-                                                    }
-
-                                                });
-                                            }
-                                            break;
-
-                                        case "fire":
-                                            if (match !== null && match.length > 1) {
-                                                let prop = match[1];
-                                                let theEvent = match[0];
-                                                let customEvent = new Event(theEvent, {bubbles: false});
-                                                customEvent.detail = self[prop];
-                                                self.dispatchEvent(customEvent);
-                                            } else {
-
-                                                let customEvent = new Event(wire, {bubbles: false});
-                                                customEvent.detail = e.detail;
-                                                self.dispatchEvent(customEvent);
-                                            }
-                                            break;
-
-                                        case "fireBubble":
-                                            if (match !== null && match.length > 1) {
-                                                let prop = match[1];
-                                                let theEvent = match[0];
-                                                let customEvent = new Event(theEvent, {bubbles: true});
-                                                customEvent.detail = self[prop];
-                                                self.dispatchEvent(customEvent);
-                                            } else {
-
-                                                let customEvent = new Event(wire, {bubbles: true});
-                                                customEvent.detail = e.detail;
-                                                self.dispatchEvent(customEvent);
-
-                                            }
-                                            break;
-
-                                        case "setValue":
-                                            self.set(wire, e.detail, self);
-                                            break;
+                                // collect receiver
+                                element.attributes[i].value.split(',').forEach(function (w) {
+                                    let receivingWire = w.trim();
+                                    if (!wirebundle[receivingWire]) {
+                                        wirebundle[receivingWire] = [];
                                     }
-
-
-                                };
-
-                                element.addEventListener(eventname, handler, false);
-                                self.__FBPEventlistener.push({
-                                    "element": element,
-                                    "event": eventname,
-                                    "handler": handler
+                                    wirebundle[receivingWire].push({"element": element, "method": methodname});
                                 });
                             }
 
-                            //----
-
-                            let fwires = element.attributes[i].value;
-                            fwires.split(',').forEach(function (fwire) {
-                                useSetter = false;
-                                let trimmedWire = fwire.trim();
-
-                                let type = "call";
-                                if (trimmedWire.startsWith('((')) {
-                                    wire = trimmedWire.substring(2, trimmedWire.length - 2);
-                                    type = "setValue";
+                            // collect sending tags
+                            if (element.attributes[i].name.startsWith('@-')) {
+                                let eventname = element.attributes[i].name.substr(2);
+                                 let wire;
 
 
-                                } else if (trimmedWire.startsWith('^')) {
-                                    wire = trimmedWire.substring(1);
-                                    type = "fire";
-                                    if (trimmedWire.startsWith('^^')) {
-                                        wire = trimmedWire.substring(2);
-                                        type = "fireBubble";
+                                let fwires = element.attributes[i].value;
+                                fwires.split(',').forEach(function (fwire) {
+                                     let trimmedWire = fwire.trim();
+
+                                    let type = "call";
+                                    if (trimmedWire.startsWith('((')) {
+                                        wire = trimmedWire.substring(2, trimmedWire.length - 2);
+                                        type = "setValue";
+
+
+                                    } else if (trimmedWire.startsWith('^')) {
+                                        wire = trimmedWire.substring(1);
+                                        type = "fire";
+                                        if (trimmedWire.startsWith('^^')) {
+                                            wire = trimmedWire.substring(2);
+                                            type = "fireBubble";
+                                        }
+
+                                    } else {
+                                        wire = trimmedWire;
+                                        type = "call";
                                     }
 
-                                } else {
-                                    wire = trimmedWire;
-                                    type = "call";
-                                }
+                                    // register click on tap event like polymer
+                                    if (eventname === 'tap') {
+                                        eventname = 'click';
+                                    }
 
-                                // register click on tap event like polymer
-                                if (eventname === 'tap') {
-                                    eventname = 'click';
-                                }
-
-                                registerEvent(eventname, type, wire);
-                            });
+                                    registerEvent(eventname, type, wire, element);
+                                });
+                            }
                         }
                     }
-                });
+                );
+
+
+                /**
+                 * register event on current element
+                 * @param eventname
+                 * @param type
+                 * @param wire
+                 */
+                function registerEvent(eventname, type, wire, element) {
+                    // find properties in wire
+                    element.__atf={};
+                    let match = wire.match(/([a-z\-_*]+)/gi);
+                    // store @-ƒ-attributes existence
+                    for (let i = 0; i < element.attributes.length; i++) {
+                        element.__atf[element.attributes[i].name] = true;
+                    }
+
+
+                    let handler = {
+                        "call": function (e) {
+                            /**
+                             * Prüfe ob die Funktion mit einem Wert aus dem Host oder mit den Details des Events ausgeführt werden soll.
+                             * --wire(hostName) ==> wirft this.hostName in die Funktion sonst wird e.detail verwendet
+                             *
+                             */
+
+                            let effectiveWire = wire;
+                            let detailData = e.detail;
+                            if (match !== null && match.length > 1) {
+                                // --wireName(*) sends the raw event
+                                if (match[1] === '*') {
+                                    detailData = e;
+                                } else {
+                                    detailData = self[match[1]];
+                                }
+                                effectiveWire = match[0];
+                            }
+
+                            // Methoden aufrufen
+                            if (wirebundle[effectiveWire]) {
+                                wirebundle[effectiveWire].forEach(function (receiver) {
+                                    if (typeof receiver.element[receiver.method] === 'function') {
+
+                                        let response;
+                                        // array spreaden
+                                        if (Array.isArray(detailData) && receiver.element[receiver.method].length > 1) {
+                                            response = receiver.element[receiver.method].apply(receiver.element, detailData);
+                                        } else {
+                                            response = receiver.element[receiver.method](detailData);
+                                        }
+                                        // @-ƒ-function auslösen wenn ein listener existiert
+                                        if (receiver.element.__atf && receiver.element.__atf['@-ƒ-' + receiver.method]) {
+
+                                            let customEvent = new Event('ƒ-' + receiver.method, {bubbles: false});
+                                            customEvent.detail = response;
+                                            receiver.element.dispatchEvent(customEvent);
+                                        }
+
+                                    } else {
+                                        console.warn(receiver.method + ' is neither a listener nor a function of ' + receiver.element.nodeName)
+                                    }
+
+                                });
+                            }
+                        },
+
+
+                        "fire": function (e) {
+                            if (match !== null && match.length > 1) {
+                                let prop = match[1];
+                                let theEvent = match[0];
+                                let customEvent = new Event(theEvent, {bubbles: false});
+                                customEvent.detail = self[prop];
+                                self.dispatchEvent(customEvent);
+                            } else {
+
+                                let customEvent = new Event(wire, {bubbles: false});
+                                customEvent.detail = e.detail;
+                                self.dispatchEvent(customEvent);
+                            }
+                        },
+
+                        "fireBubble": function (e) {
+                            if (match !== null && match.length > 1) {
+                                let prop = match[1];
+                                let theEvent = match[0];
+                                let customEvent = new Event(theEvent, {bubbles: true});
+                                customEvent.detail = self[prop];
+                                self.dispatchEvent(customEvent);
+                            } else {
+
+                                let customEvent = new Event(wire, {bubbles: true});
+                                customEvent.detail = e.detail;
+                                self.dispatchEvent(customEvent);
+
+                            }
+                        },
+
+                        "setValue": function (e) {
+                            self.set(wire, e.detail, self);
+                        }
+
+
+                    };
+
+
+                    element.addEventListener(eventname, handler[type], false);
+                    self.__FBPEventlistener.push({
+                        "element": element,
+                        "event": eventname,
+                        "handler": handler[type]
+                    });
+
+                }
+
+                //----
             }
 
             disconnectedCallback() {
