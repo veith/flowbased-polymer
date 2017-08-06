@@ -20,6 +20,12 @@
                 super._attachDom(dom);
             }
 
+            /**
+             * Triggers a wire
+             * @param wire (String) Name of the wire like --buttonClicked
+             * @param detailData (*) data to pass
+             * @private
+             */
             _FBPTriggerWire(wire, detailData) {
                 if (this.__wirebundle[wire]) {
                     this.__wirebundle[wire].forEach(function (receiver) {
