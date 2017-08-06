@@ -73,12 +73,12 @@
                             // collect sending tags
                             if (element.attributes[i].name.startsWith('@-')) {
                                 let eventname = element.attributes[i].name.substr(2);
-                                 let wire;
+                                let wire;
 
 
                                 let fwires = element.attributes[i].value;
                                 fwires.split(',').forEach(function (fwire) {
-                                     let trimmedWire = fwire.trim();
+                                    let trimmedWire = fwire.trim();
 
                                     let type = "call";
                                     if (trimmedWire.startsWith('((')) {
@@ -120,7 +120,7 @@
                  */
                 function registerEvent(eventname, type, wire, element) {
                     // find properties in wire
-                    element.__atf={};
+                    element.__atf = {};
                     let match = wire.match(/([a-z\-_*]+)/gi);
                     // store @-ƒ-attributes existence
                     for (let i = 0; i < element.attributes.length; i++) {
@@ -148,32 +148,8 @@
                                 effectiveWire = match[0];
                             }
 
-                            // Methoden aufrufen
-                            if (wirebundle[effectiveWire]) {
-                                wirebundle[effectiveWire].forEach(function (receiver) {
-                                    if (typeof receiver.element[receiver.method] === 'function') {
+                            self._FBPTriggerWire(effectiveWire, detailData);
 
-                                        let response;
-                                        // array spreaden
-                                        if (Array.isArray(detailData) && receiver.element[receiver.method].length > 1) {
-                                            response = receiver.element[receiver.method].apply(receiver.element, detailData);
-                                        } else {
-                                            response = receiver.element[receiver.method](detailData);
-                                        }
-                                        // @-ƒ-function auslösen wenn ein listener existiert
-                                        if (receiver.element.__atf && receiver.element.__atf['@-ƒ-' + receiver.method]) {
-
-                                            let customEvent = new Event('ƒ-' + receiver.method, {bubbles: false});
-                                            customEvent.detail = response;
-                                            receiver.element.dispatchEvent(customEvent);
-                                        }
-
-                                    } else {
-                                        console.warn(receiver.method + ' is neither a listener nor a function of ' + receiver.element.nodeName)
-                                    }
-
-                                });
-                            }
                         },
 
 
@@ -185,7 +161,6 @@
                                 customEvent.detail = self[prop];
                                 self.dispatchEvent(customEvent);
                             } else {
-
                                 let customEvent = new Event(wire, {bubbles: false});
                                 customEvent.detail = e.detail;
                                 self.dispatchEvent(customEvent);
@@ -200,19 +175,14 @@
                                 customEvent.detail = self[prop];
                                 self.dispatchEvent(customEvent);
                             } else {
-
                                 let customEvent = new Event(wire, {bubbles: true});
                                 customEvent.detail = e.detail;
                                 self.dispatchEvent(customEvent);
-
                             }
                         },
-
                         "setValue": function (e) {
                             self.set(wire, e.detail, self);
                         }
-
-
                     };
 
 
