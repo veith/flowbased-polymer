@@ -31,15 +31,6 @@ OR
 
 ###Add the behaviour to your component
 
-**Polymer 1.x**
-```javascript
-
-{
-    behaviors: [Polymer.FlowBasedProgramming]
-}
-
-```
-
 **Polymer 2.x**
 ```
 <link rel="import" href="../bower_components/flowbased-polymer/mixin.html">
@@ -66,6 +57,16 @@ OR
   </script>
 
 ```
+
+**Polymer 1.x**
+```javascript
+
+{
+    behaviors: [Polymer.FlowBasedProgramming]
+}
+
+```
+
 
 
 {{<note title="Tipp">}}
