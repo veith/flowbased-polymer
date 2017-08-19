@@ -22,9 +22,8 @@
 bower install flowbased-polymer --save  Import the behavior in your component &amp;lt;link rel=&amp;quot;import&amp;quot; href=&amp;quot;../flowbased-polymer/behaviour.html&amp;quot;&amp;gt;  OR
 &amp;lt;link rel=&amp;quot;import&amp;quot; href=&amp;quot;../bower_components/flowbased-polymer/behaviour.html&amp;quot;&amp;gt;  OR
 &amp;lt;link rel=&amp;quot;import&amp;quot; href=&amp;quot;../bower_components/flowbased-polymer/mixin.html&amp;quot;&amp;gt;  ###Add the behaviour to your component
-Polymer 1.x
-{ behaviors: [Polymer.FlowBasedProgramming] }  Polymer 2.x
-&amp;lt;link rel=&amp;quot;import&amp;quot; href=&amp;quot;../bower_components/flowbased-polymer/mixin.html&amp;quot;&amp;gt; &amp;lt;script&amp;gt; class MyComponent extends FBPMixin(Polymer.Element) { static get is() { return &#39;my-view1&#39;; } } window.</description>
+Polymer 2.x
+&amp;lt;link rel=&amp;quot;import&amp;quot; href=&amp;quot;../bower_components/flowbased-polymer/mixin.html&amp;quot;&amp;gt; &amp;lt;script&amp;gt; class MyComponent extends FBPMixin(Polymer.Element) { static get is() { return &#39;my-view1&#39;; } } window.customElements.define(MyComponent.is, MyComponent); &amp;lt;/script&amp;gt;  or Polymer 2.</description>
     </item>
     
   </channel>
