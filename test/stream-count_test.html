@@ -1,0 +1,69 @@
+<!doctype html>
+
+<html>
+<head>
+    <title>flowbased-polymer test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../stream-count.html">
+</head>
+<body>
+
+<test-fixture id="basic">
+    <template>
+        <stream-count></stream-count>
+    </template>
+</test-fixture>
+
+<script>
+    suite('stream-count', function () {
+
+
+        test('count up', function () {
+            var element = fixture('basic');
+
+            element.count({});
+            element.count([]);
+            element.count(55);
+            assert.equal(element.counter, 3);
+
+        });
+
+
+        test('count down', function () {
+            var element = fixture('basic');
+            element.count([]);
+            element.decrement({});
+            element.decrement([]);
+            element.decrement(55);
+            assert.equal(element.counter, -2);
+
+        });
+
+        test('reset count', function () {
+            var element = fixture('basic');
+            element.count([]);
+            element.decrement({});
+            element.decrement([]);
+            element.decrement(55);
+            element.reset();
+            assert.equal(element.counter, 0);
+        });
+        test('set counter value', function () {
+            var element = fixture('basic');
+            element.setValue(6);
+            element.count([]);
+            element.decrement({});
+            element.decrement([]);
+            element.decrement(55);
+            assert.equal(element.counter, 4);
+        });
+
+
+    });
+</script>
+</body>
+</html>

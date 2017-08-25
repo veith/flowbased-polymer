@@ -34,7 +34,7 @@ Properties are displayed inline, event data will be logged to the console.
 
         Polymer({
             is: 'inspect-flow',
-          behaviors: [Polymer.FlowBasedProgramming],
+            behaviors: [Polymer.FlowBasedProgramming],
             properties: {
                 /**
                  * The property you want to inspect
@@ -56,6 +56,7 @@ Properties are displayed inline, event data will be logged to the console.
              * @param data Payload which comes with the event. **event.detail**
              */
             event: function (data) {
+                console.warn('inspect flow is deprecated');
                 console.log(data);
             },
             /**
@@ -64,6 +65,7 @@ Properties are displayed inline, event data will be logged to the console.
              * @param data Payload which comes with the event. **event.detail**
              */
             log: function (data) {
+                console.warn('inspect flow is deprecated');
                 console.log(data);
             },
             /**
@@ -72,9 +74,11 @@ Properties are displayed inline, event data will be logged to the console.
              * @param data Payload which comes with the event. **event.detail**
              */
             dir: function (data) {
+                console.warn('inspect flow is deprecated');
                 console.dir(data);
             },
-            ready:function () {
+            ready: function () {
+                console.warn('inspect flow is deprecated');
                 console.warn('inspect-flow used in ' + this.parentNode.nodeName + '. Dont forget to remove it when complete. ');
             }
         });

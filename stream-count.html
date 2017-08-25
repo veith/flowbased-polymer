@@ -1,0 +1,94 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<script>
+    /**
+     * Stream count is an element to count something
+     *
+     * ```
+     *    <stream-count ƒ-count="--event" @-tick="--countedClicks"></stream-count>
+     * ```
+     *
+     */
+
+    class StreamCount extends Polymer.Element {
+
+        static get is() {
+            return 'stream-count';
+        }
+
+        static get properties() {
+            return {
+                /**
+                 * Current value of counted events
+                 */
+                counter: {type: Number, value: 0}
+            }
+        }
+
+        /**
+         * Adds 1 to the counter
+         */
+        count(){
+          let next = this.counter + 1;
+          this.set('counter',next);
+          /**
+          * Fired when the counter is incremented
+          * detail payload: current value of counter
+          * @event tick
+          */
+          let customEvent = new Event('tick', {bubbles: true});
+          customEvent.detail = this.counter;
+          this.dispatchEvent(customEvent)
+        }
+
+        /**
+         * Subtracts 1 from the counter
+         */
+        decrement(){
+          let prev = this.counter - 1;
+          this.set('counter',prev);
+            /**
+             * Fired when the counter is incremented
+             * detail payload: current value of counter
+             * @event tick
+             */
+            let customEvent = new Event('counter-incremented', {bubbles: true});
+            customEvent.detail = this.counter;
+            this.dispatchEvent(customEvent)
+        }
+
+        /**
+         * Resets the counter to 0
+         */
+        reset(){
+          this.set('counter',0);
+          /**
+          * Fired when counter was reseted
+          * detail payload: current value of counter, should be 0
+          * @event counter-reseted
+          */
+          let customEvent = new Event('counter-reseted', {bubbles: true});
+          customEvent.detail = 0;
+          this.dispatchEvent(customEvent)
+        }
+
+        /**
+         * Sets the counter to val
+         * @param val (int)
+         */
+        setValue(val){
+          this.set('counter',val);
+          /**
+          * Fired when counter was reseted
+          * detail payload: current value of counter, should be 0
+          * @event counter-seted
+          */
+          let customEvent = new Event('counter-seted', {bubbles: true});
+          customEvent.detail = val;
+          this.dispatchEvent(customEvent)
+        }
+    }
+
+    window.customElements.define(StreamCount.is, StreamCount);
+
+</script>

@@ -7,7 +7,8 @@
             "reporters": ["text-summary", "lcov"],
             "include": [
                 "/mixin.html",
-                "/behaviour.html"
+                "/behaviour.html",
+                "/stream-count.html"
             ],
             "exclude": []
         },
