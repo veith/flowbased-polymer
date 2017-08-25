@@ -1,0 +1,44 @@
+<link rel="import" href="../../polymer/polymer-element.html">
+
+
+
+<script>
+    /**
+     * Delays an event for 250ms (default)
+     *
+     * ```
+     *     <delay-event ƒ-in="--buttonClicked" @-out="--delayedClick"></delay-event>
+     * ```
+     */
+
+    class DelayEvent extends Polymer.Element {
+
+        static get is() {
+            return 'delay-event';
+        }
+        static get properties() {
+            return {
+                /**
+                 * Delay duration in ms
+                 */
+                duration: {
+                    type: Number,
+                    value: 250
+                }
+            }
+        }
+
+        in(data) {
+            let self = this;
+            setTimeout(function () {
+                self.dispatchEvent(new CustomEvent('out', {
+                    composed: true,
+                    detail: data
+                }));
+            }, self.delay)
+        }
+    }
+
+    window.customElements.define(DelayEvent.is, DelayEvent);
+
+</script>

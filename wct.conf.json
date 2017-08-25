@@ -8,7 +8,7 @@
             "include": [
                 "/mixin.html",
                 "/behaviour.html",
-                "/stream-count.html"
+                "/basic/stream-count.html"
             ],
             "exclude": []
         },
