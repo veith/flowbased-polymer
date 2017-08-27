@@ -160,7 +160,12 @@ _myProp is a normal polymer property.
 ```
 
 ## Send the raw *event* instead of *event.detail*
-**Attention: This is only implemented in the mixin**
+
+{{<note title="Note">}}
+This is only implemented in the mixin.html for Polymer 2+ 
+{{</note >}}
+
+
 
 Sometimes the e.detail is not useful or you need the event itself (for a `e.preventDefault();`). 
 
@@ -209,3 +214,17 @@ You can receive and rewire the response from a function with **@-ƒ-functionname
 
 *When you press the button, both multiply-values.calculate functions are called. The first one will trigger the wire --calculated, the second one will
 write the response to the property _result.*
+
+
+## Trigger a wire imperatively (from javascript)
+
+In some rare conditions you have to trigger a wire from the sources. 
+If you have applied the mixin, you can call the **_FBPTriggerWire** method.
+ 
+```
+ready(){
+  super.ready();
+  this._FBPTriggerWire('--wireName', this.dataYouWantToPass);
+}
+``` 
+*this will trigger the wire **--wireName** on all components who receive this wire i.e. `<load-data ƒ-start="--wireName"></load-data>`).*
