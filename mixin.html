@@ -39,7 +39,7 @@
                                 response = receiver.element[receiver.method](detailData);
                             }
                             // @-ƒ-function auslösen
-                            let customEvent = new Event('ƒ-' + receiver.method, {bubbles: false});
+                            let customEvent = new Event('ƒ-' + receiver.method, {composed:true, bubbles: false});
                             customEvent.detail = response;
                             receiver.element.dispatchEvent(customEvent);
 
@@ -163,11 +163,11 @@
                             if (match !== null && match.length > 1) {
                                 let prop = match[1];
                                 let theEvent = match[0];
-                                let customEvent = new Event(theEvent, {bubbles: false});
+                                let customEvent = new Event(theEvent, {composed:true, bubbles: false});
                                 customEvent.detail = self[prop];
                                 self.dispatchEvent(customEvent);
                             } else {
-                                let customEvent = new Event(wire, {bubbles: false});
+                                let customEvent = new Event(wire, {composed:true, bubbles: false});
                                 customEvent.detail = e.detail;
                                 self.dispatchEvent(customEvent);
                             }
@@ -177,11 +177,11 @@
                             if (match !== null && match.length > 1) {
                                 let prop = match[1];
                                 let theEvent = match[0];
-                                let customEvent = new Event(theEvent, {bubbles: true});
+                                let customEvent = new Event(theEvent, {composed:true, bubbles: true});
                                 customEvent.detail = self[prop];
                                 self.dispatchEvent(customEvent);
                             } else {
-                                let customEvent = new Event(wire, {bubbles: true});
+                                let customEvent = new Event(wire, {composed:true, bubbles: true});
                                 customEvent.detail = e.detail;
                                 self.dispatchEvent(customEvent);
                             }
