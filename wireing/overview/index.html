@@ -138,7 +138,7 @@
         </div>
       
       <div class="name">
-        <strong>Flowbased Polymer <span class="version">2.2.*</span></strong>
+        <strong>Flowbased Polymer <span class="version">2.3.*</span></strong>
         
           <br>
           veith/flowbased-polymer
@@ -535,7 +535,10 @@ You have several ways to accomplish this task.</p>
 
 <h2 id="send-the-raw-event-instead-of-event-detail">Send the raw <em>event</em> instead of <em>event.detail</em></h2>
 
-<p><strong>Attention: This is only implemented in the mixin</strong></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is only implemented in the mixin.html for Polymer 2+</p>
+</div>
 
 <p>Sometimes the e.detail is not useful or you need the event itself (for a <code>e.preventDefault();</code>).</p>
 
@@ -585,6 +588,19 @@ There is no difference to another fired event. You can fire another event, which
 
 <p><em>When you press the button, both multiply-values.calculate functions are called. The first one will trigger the wire &ndash;calculated, the second one will
 write the response to the property _result.</em></p>
+
+<h2 id="trigger-a-wire-imperatively-from-javascript">Trigger a wire imperatively (from javascript)</h2>
+
+<p>In some rare conditions you have to trigger a wire from the sources.
+If you have applied the mixin, you can call the <strong>_FBPTriggerWire</strong> method.</p>
+
+<pre><code>ready(){
+  super.ready();
+  this._FBPTriggerWire('--wireName', this.dataYouWantToPass);
+}
+</code></pre>
+
+<p>*this will trigger the wire <strong>&ndash;wireName</strong> on all components who receive this wire i.e. <code>&lt;load-data ƒ-start=&quot;--wireName&quot;&gt;&lt;/load-data&gt;</code>).*</p>
 
 
 <div style="margin-top: 60px">
