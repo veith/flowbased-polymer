@@ -372,64 +372,29 @@
 
 			
 
-<h4 id="given-following-example">Given following example:</h4>
-
-<p>We have a button and some elements. We want to hide a element-to-hide, after the user presses the hide button.</p>
-
-<p>When you want to this in classical polymer, you have a lot of steps to do. This is not bad, but sometimes it is just to much work.</p>
-
-<p>First you have to register on the event, then you have to assign id&rsquo;s to the target elements, write the function in javascript and call the function on the element you want to hide from the javascript.</p>
-
-<p><strong>the classical way</strong></p>
-
-<pre><code class="language-html">&lt;dom-module id=&quot;hide-example&quot;&gt;
-&lt;template&gt;
-  &lt;button on-click=&quot;hide&quot;&gt;hide&lt;/button&gt;
-  &lt;element-to-hide id=&quot;target&quot;&gt;First element to hide&lt;/element-to-hide&gt;
-&lt;/template&gt;
-  &lt;script&gt;
-    Polymer({     
-      is: 'hide-example',
-      //hide element-to-hide
-      hide:function() {       
-        this.$.target.hide();
-      }
-    });
-  &lt;/script&gt;
-&lt;/dom-module&gt;
-
-</code></pre>
-
-<p>This example is not a problem to keep track of, but it becomes then a problem when you have a lot of elements where multiple sources will address multiple targets. You will end up with a lot of <em>boilerplate</em> code which just do some trivial tasks.</p>
+<p>With FBP you connect the the output of an event with the</p>
 
 <h2 id="connecting-things">Connecting things</h2>
 
-<p>The same example as above, but with flowbased-polymer behaviour will look like this.</p>
+<p>We have a button and an elements which we want to hide after the button is clicked.</p>
 
 <p><img src="https://veith.github.io/flowbased-polymer/images/hideExample.png" alt="hide example" /></p>
 
 <p><strong>the flowbased way</strong></p>
 
-<pre><code class="language-html">&lt;dom-module id=&quot;hide-example&quot;&gt;
+<pre><code class="language-html">
 &lt;template&gt;
   &lt;button @-click=&quot;--hideClicked&quot;&gt;hide&lt;/button&gt;
   &lt;element-to-hide ƒ-hide=&quot;--hideClicked&quot;&gt;First element to hide&lt;/element-to-hide&gt;
 &lt;/template&gt;
-  &lt;script&gt;
-    Polymer({     
-      is: 'hide-example',
-      behaviors: [Polymer.FlowBasedProgramming]
-    });
-  &lt;/script&gt;
-&lt;/dom-module&gt;
 
 </code></pre>
 
-<p>This doesnt look very impressive in the first moment. But when you look at the <em>element-to-hide</em> component in the first example, how do you know when the hide function will be triggered? You have to read the source to find it out. What will happen when the id changes? What do you do if you have a second target to hide?</p>
+<p>This doesnt look very impressive in the first moment. But like you can see, there is no scripting involved and there are no id&rsquo;s assigned to the components. This will be more useful if you have more then 2 components.</p>
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The ƒ-function will be called with <strong>event.detail</strong> as an argument.
+<p>The ƒ-hide method from <code>element-to-hide</code> will be called with <strong>event.detail</strong> from the click event as an argument.
 More on this you can read in section  <a href="#passing-data">passing data</a></p>
 </div>
 

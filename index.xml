@@ -42,9 +42,10 @@ Polymer 2.x
       <pubDate>Fri, 14 Apr 2017 15:47:54 +0200</pubDate>
       
       <guid>https://veith.github.io/flowbased-polymer/wireing/overview/</guid>
-      <description>Given following example: We have a button and some elements. We want to hide a element-to-hide, after the user presses the hide button.
-When you want to this in classical polymer, you have a lot of steps to do. This is not bad, but sometimes it is just to much work.
-First you have to register on the event, then you have to assign id&amp;rsquo;s to the target elements, write the function in javascript and call the function on the element you want to hide from the javascript.</description>
+      <description>With FBP you connect the the output of an event with the
+Connecting things We have a button and an elements which we want to hide after the button is clicked.
+the flowbased way
+&amp;lt;template&amp;gt; &amp;lt;button @-click=&amp;quot;--hideClicked&amp;quot;&amp;gt;hide&amp;lt;/button&amp;gt; &amp;lt;element-to-hide ƒ-hide=&amp;quot;--hideClicked&amp;quot;&amp;gt;First element to hide&amp;lt;/element-to-hide&amp;gt; &amp;lt;/template&amp;gt;  This doesnt look very impressive in the first moment. But like you can see, there is no scripting involved and there are no id&amp;rsquo;s assigned to the components.</description>
     </item>
     
     <item>
