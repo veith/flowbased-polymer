@@ -1,9 +1,7 @@
 # flowbased-polymer
 
-Flowbased-polymer is a polymer behaviour, which enables you to write your polymer components in a completly declarative way.
+Flowbased-polymer is like declarative polymer on steroids.
 
-It is a sort of Flow-Based-Programming inspired System.
- 
 [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/veith/flowbased-polymer)
 
 
