@@ -1,6 +1,6 @@
 ---
 date: 2017-04-14T15:47:54+02:00
-title: Connecting components
+title: Getting started
 weight: 200
 ---
 With FBP you connect the the output of an event with the 
