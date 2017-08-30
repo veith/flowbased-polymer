@@ -51,12 +51,12 @@ googleAnalytics = "UA-97538731-1"
 	weight = 1
 
 [[menu.main]]
-	name   = "Getting started"
-	url    = "getting-started/overview/"
+	name   = "Installation"
+	url    = "install/overview/"
 	weight = 100
 
 [[menu.main]]
-	name   = "Connecting components"
+	name   = "Getting started"
 	url    = "wireing/overview/"
 	weight = 200
 
