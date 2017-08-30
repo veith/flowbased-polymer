@@ -9,18 +9,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=10" />
-    <title>Getting started - Flowbased Polymer</title>
+    <title>Installation - Flowbased Polymer</title>
     <meta name="generator" content="Hugo 0.20.1" />
 
     
     <meta name="description" content="Flowbased Programming for web UIs. Minimizing the gap between idea and its expression">
     
-    <link rel="canonical" href="https://veith.github.io/flowbased-polymer/wireing/overview/">
+    <link rel="canonical" href="https://veith.github.io/flowbased-polymer/install/overview/">
     
     <meta name="author" content="veith">
     
 
-    <meta property="og:url" content="https://veith.github.io/flowbased-polymer/wireing/overview/">
+    <meta property="og:url" content="https://veith.github.io/flowbased-polymer/install/overview/">
     <meta property="og:title" content="Flowbased Polymer">
     <meta property="og:image" content="https://veith.github.io/flowbased-polymer/images/logoorange.png">
     <meta name="apple-mobile-web-app-title" content="Flowbased Polymer">
@@ -97,7 +97,7 @@
     </div>
     <div class="stretch">
       <div class="title">
-        Getting started
+        Installation
       </div>
     </div>
 
@@ -216,14 +216,11 @@
 
 
 
-<a class="current" title="Connecting components" href="https://veith.github.io/flowbased-polymer/wireing/overview/">
+<a  title="Connecting components" href="https://veith.github.io/flowbased-polymer/wireing/overview/">
 	
 	Connecting components
 </a>
 
-
-<ul id="scrollspy">
-</ul>
 
 
   
@@ -368,213 +365,84 @@
 
 	<article class="article">
 		<div class="wrapper">
-			<h1>Getting started </h1>
+			<h1>Installation </h1>
 
 			
 
-<p>With FBP you connect the the output of an event with the</p>
+<h2 id="installation">Installation</h2>
 
-<h2 id="connecting-things">Connecting things</h2>
+<p>Before you can use the flowbased-polymer behavior you need to install it in your project.</p>
 
-<p>We have a button and an elements which we want to hide after the button is clicked.</p>
+<pre><code class="language-sh">bower install flowbased-polymer --save
+</code></pre>
 
-<p><img src="https://veith.github.io/flowbased-polymer/images/hideExample.png" alt="hide example" /></p>
+<h3 id="import-the-behavior-in-your-component">Import the behavior in your component</h3>
 
-<p><strong>the flowbased way</strong></p>
+<pre><code class="language-html">&lt;link rel=&quot;import&quot; href=&quot;../flowbased-polymer/behaviour.html&quot;&gt;
+</code></pre>
 
-<pre><code class="language-html">
-&lt;template&gt;
-  &lt;button @-click=&quot;--hideClicked&quot;&gt;hide&lt;/button&gt;
-  &lt;element-to-hide ƒ-hide=&quot;--hideClicked&quot;&gt;First element to hide&lt;/element-to-hide&gt;
-&lt;/template&gt;
+<p>OR</p>
+
+<pre><code class="language-html">&lt;link rel=&quot;import&quot; href=&quot;../bower_components/flowbased-polymer/behaviour.html&quot;&gt;
+</code></pre>
+
+<p>OR</p>
+
+<pre><code class="language-html">&lt;link rel=&quot;import&quot; href=&quot;../bower_components/flowbased-polymer/mixin.html&quot;&gt;
 
 </code></pre>
 
-<p>This doesnt look very impressive in the first moment. But like you can see, there is no scripting involved and there are no id&rsquo;s assigned to the components. This will be more useful if you have more then 2 components.</p>
+<p>###Add the behaviour to your component</p>
 
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The ƒ-hide method from <code>element-to-hide</code> will be called with <strong>event.detail</strong> from the click event as an argument.
-More on this you can read in section  <a href="#passing-data">passing data</a></p>
-</div>
+<p><strong>Polymer 2.x</strong></p>
 
-<h2 id="multiple-targets">Multiple targets</h2>
+<pre><code>&lt;link rel=&quot;import&quot; href=&quot;../bower_components/flowbased-polymer/mixin.html&quot;&gt;
+  &lt;script&gt;
 
-<p>A wire can have multiple targets. The <strong>&ndash;hideClicked</strong> wire from above can trigger multiple elements if you want.</p>
+    class MyComponent  extends FBPMixin(Polymer.Element) { 
+      static get is() { return 'my-view1'; }
+    }
+    window.customElements.define(MyComponent.is, MyComponent);
 
-<p><img src="https://veith.github.io/flowbased-polymer/images/multipleTargets.png" alt="Multiple targets" /></p>
+  &lt;/script&gt;
 
-<pre><code class="language-html">&lt;template&gt;
-  &lt;button @-click=&quot;--hideClicked&quot;&gt;hide&lt;/button&gt;
-  &lt;element-to-hide ƒ-hide=&quot;--hideClicked&quot;&gt;element to hide&lt;/element-to-hide&gt;
-  &lt;element-to-hide ƒ-hide=&quot;--hideClicked&quot;&gt;other element to hide&lt;/element-to-hide&gt;
-  &lt;element-to-show ƒ-show=&quot;--hideClicked&quot;&gt;other element to hide&lt;/element-to-show&gt;
-&lt;/template&gt;
 </code></pre>
 
-<p>if you press the button, all elements which are connected to the wire will trigger the defined function. In this example the first to will call the hide and the third element will call the show function.</p>
+<p><strong>or Polymer 2.x</strong></p>
 
-<h2 id="multiple-sources">Multiple sources</h2>
+<pre><code>  &lt;script&gt;
 
-<p>A wire can also have multiple sources.
-<img src="https://veith.github.io/flowbased-polymer/images/multipleSources.png" alt="Multiple sources" /></p>
+    class MyComponent extends Polymer.mixinBehaviors([ Polymer.FlowBasedProgramming], Polymer.Element){
+      static get is() { return 'my-view1'; }
+    }
+    window.customElements.define(MyComponent.is, MyComponent);
 
-<pre><code class="language-html">&lt;template&gt;
-  &lt;button @-click=&quot;--hideClicked&quot;&gt;hide&lt;/button&gt;
-  &lt;element-to-hide ƒ-hide=&quot;--hideClicked&quot;&gt;element to hide&lt;/element-to-hide&gt; 
-  &lt;button @-click=&quot;--hideClicked&quot;&gt;other hide&lt;/button&gt;
-&lt;/template&gt;
+  &lt;/script&gt;
+
 </code></pre>
 
-<p>It doesn&rsquo;t matter if you press the first or the second hide button. Both will trigger the wire <strong>&ndash;hideClicked</strong>.</p>
+<p><strong>Polymer 1.x</strong></p>
 
-<h2 id="multiple-sources-and-targets">Multiple sources and targets</h2>
-
-<p>A wire can also have multiple sources and targets.</p>
-
-<p><img src="https://veith.github.io/flowbased-polymer/images/multiSourceAndTarget.png" alt="Multiple sources and targets" /></p>
-
-<pre><code class="language-html">  &lt;template&gt;
-    &lt;button @-click=&quot;--hideClicked&quot;&gt;hide&lt;/button&gt;
-    &lt;element-to-hide ƒ-hide=&quot;--hideClicked&quot;&gt;element to hide&lt;/element-to-hide&gt;
-    &lt;element-to-hide ƒ-hide=&quot;--hideClicked&quot;&gt;other element to hide&lt;/element-to-hide&gt;
-    &lt;element-to-show ƒ-show=&quot;--hideClicked&quot;&gt;other element to hide&lt;/element-to-show&gt;
-    &lt;button @-click=&quot;--hideClicked&quot;&gt;other hide&lt;/button&gt;
-  &lt;/template&gt;
-</code></pre>
-
-<h2 id="multiple-wires-from-source">Multiple wires from source</h2>
-
-<p>You can trigger multiple wires from one source by comma separating them.</p>
-
-<p><img src="https://veith.github.io/flowbased-polymer/images/multiWireFromSource.png" alt="Multiple wires from source" />
-<em>the black wire is &ndash;otherIntention</em></p>
-
-<pre><code class="language-html">&lt;template&gt;
-  &lt;button @-click=&quot;--hideClicked,--otherIntention&quot;&gt;hide&lt;/button&gt;
-  &lt;element-to-hide ƒ-hide=&quot;--hideClicked&quot;&gt;element to hide&lt;/element-to-hide&gt;
-  &lt;element-to-hide ƒ-hide=&quot;--hideClicked&quot;&gt;other element to hide&lt;/element-to-hide&gt;
-  &lt;element-to-show ƒ-show=&quot;--otherIntention&quot;&gt; element to show&lt;/element-to-show&gt;
-&lt;/template&gt;
-</code></pre>
-
-<p>If you press the button, it will trigger the <strong>&ndash;hideClicked</strong> and <strong>&ndash;otherIntention</strong> wire <em>(in black)</em>.</p>
-
-<h2 id="multiple-wires-to-target">Multiple wires to target</h2>
-
-<p>You can receive from multiple wires by comma separating them.</p>
-
-<p><img src="https://veith.github.io/flowbased-polymer/images/mwTarget.png" alt="Multiple wires to target" /></p>
-
-<pre><code class="language-html">&lt;template&gt;
-  &lt;button @-click=&quot;--hideClicked&quot;&gt;hide&lt;/button&gt;
-  &lt;placeholder-element ƒ-hide=&quot;--hideClicked,--contentLoaded&quot;&gt;element to hide&lt;/placeholder-element&gt;
-  &lt;element-to-hide ƒ-hide=&quot;--hideClicked&quot;&gt;other element to hide&lt;/element-to-hide&gt;
-  &lt;main-content @-ready=&quot;--contentLoaded&quot; data=&quot;[[_content]]&quot;&gt;&lt;/main-content&gt;
-&lt;/template&gt;
-</code></pre>
-
-<p>The hide function of the placeholder-element will be triggered when &ndash;hideClicked or &ndash;contentLoaded will be fired.</p>
-
-<h2 id="passing-data">Passing data</h2>
-
-<p>Normally the <strong>event.detail</strong> is passed to the function you wire. But sometimes you want an event as trigger and another property then event.detail as payload.
-You have several ways to accomplish this task.</p>
-
-<p><strong>inject the property at the wire source</strong></p>
-
-<pre><code class="language-html">   &lt;paper-button @-tap=&quot;--wireWithProerty(_myProp)&quot;&gt; Press this &lt;/paper-button&gt;
-   &lt;other-component ƒ-demo=&quot;--wireWithProerty&quot;&gt;&lt;/other-component&gt;
-</code></pre>
-
-<p>_myProp is a normal polymer property.</p>
-
-<p><strong>using a component to replace event.detail with a property</strong></p>
-
-<p><img src="https://veith.github.io/flowbased-polymer/images/replaceData.png" alt="replace data" /></p>
-
-<pre><code class="language-html">   &lt;paper-button @-tap=&quot;--buttonPressed&quot;&gt; Press this &lt;/paper-button&gt;
-   &lt;replace-detail data=&quot;[[_myProp]]&quot; ƒ-in=&quot;--buttonPressed&quot; @-out=&quot;--wireWithProerty&quot;&gt;&lt;/replace-detail&gt;
-   &lt;other-component ƒ-demo=&quot;--wireWithProerty&quot;&gt;&lt;/other-component&gt;
-</code></pre>
-
-<h2 id="send-the-raw-event-instead-of-event-detail">Send the raw <em>event</em> instead of <em>event.detail</em></h2>
-
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This is only implemented in the mixin.html for Polymer 2+</p>
-</div>
-
-<p>Sometimes the e.detail is not useful or you need the event itself (for a <code>e.preventDefault();</code>).</p>
-
-<p>With an asterix as argument <code>--wireName(*)</code> you will send the raw event.</p>
-
-<h2 id="multiple-arguments">Multiple arguments</h2>
-
-<p>In some rare conditions, the functions you want to call, need more then one argument. In this case you can pass in an array of arguments to the function.</p>
-
-<pre><code class="language-html">  ...
-   &lt;multiply-values ƒ-calculate=&quot;--wireWithArray&quot; result=&quot;{{_result}}&quot;&gt;&lt;/multiply-values&gt;
-   &lt;paper-button @-tap=&quot;--wireWithArray(_values)&quot;&gt; calculate &lt;/paper-button&gt; 
-  ...
-  ...
-  ,properties:{
-      _values:{
-      type:Array,
-      value:[3,2]
-      }
-  }
-</code></pre>
-
-<h2 id="handling-responses-from-functions">Handling responses from functions</h2>
-
-<p>When you wire a ƒ-function, a non bubbling event <em>ƒ-function</em> with the response value in event.detail will be fired.
-There is no difference to another fired event. You can fire another event, which eventually bubbles, store the response to a property, wire it,&hellip;</p>
-
-<p>You can receive and rewire the response from a function with <strong>@-ƒ-functionname=&ldquo;&hellip;&rdquo;&rdquo;</strong>.</p>
-
-<pre><code class="language-html">  ...
-   &lt;paper-button @-tap=&quot;--wireWithArray(_values)&quot;&gt; calculate &lt;/paper-button&gt;
-    
-   &lt;multiply-values ƒ-calculate=&quot;--wireWithArray&quot; @-ƒ-calculate=&quot;--calculated&quot;&gt;&lt;/multiply-values&gt;
-   &lt;multiply-values ƒ-calculate=&quot;--wireWithArray&quot; @-ƒ-calculate=&quot;((_result))&quot;&gt;&lt;/multiply-values&gt;
-  ...
-  ...
-  ,properties:{
-      _values:{
-      type:Array,
-      value:[3,2]
-      },
-      _result:{
-      type:Number
-      }
-  }
-</code></pre>
-
-<p><em>When you press the button, both multiply-values.calculate functions are called. The first one will trigger the wire &ndash;calculated, the second one will
-write the response to the property _result.</em></p>
-
-<h2 id="trigger-a-wire-imperatively-from-javascript">Trigger a wire imperatively (from javascript)</h2>
-
-<p>In some rare conditions you have to trigger a wire from the sources.
-If you have applied the mixin, you can call the <strong>_FBPTriggerWire</strong> method.</p>
-
-<pre><code>ready(){
-  super.ready();
-  this._FBPTriggerWire('--wireName', this.dataYouWantToPass);
+<pre><code class="language-javascript">
+{
+    behaviors: [Polymer.FlowBasedProgramming]
 }
+
 </code></pre>
 
-<p>*this will trigger the wire <strong>&ndash;wireName</strong> on all components who receive this wire i.e. <code>&lt;load-data ƒ-start=&quot;--wireName&quot;&gt;&lt;/load-data&gt;</code>).*</p>
+<div class="admonition note">
+<p class="admonition-title">Tipp</p>
+<p>Do not forget to import and define the behaviour. It is a common pitfall to forget the definition or the import in the component you are writing.</p>
+</div>
 
 
 <div style="margin-top: 60px">
             <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'https-veith-github-io-flowbased-polymer';
-    var disqus_identifier = 'https:\/\/veith.github.io\/flowbased-polymer\/wireing\/overview\/';
-    var disqus_title = 'Getting started';
-    var disqus_url = 'https:\/\/veith.github.io\/flowbased-polymer\/wireing\/overview\/';
+    var disqus_identifier = 'https:\/\/veith.github.io\/flowbased-polymer\/install\/overview\/';
+    var disqus_title = 'Installation';
+    var disqus_url = 'https:\/\/veith.github.io\/flowbased-polymer\/install\/overview\/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -601,7 +469,7 @@ If you have applied the mixin, you can call the <strong>_FBPTriggerWire</strong>
 <nav class="pagination" aria-label="Footer">
   <div class="previous">
   
-      <a href="https://veith.github.io/flowbased-polymer/install/overview/" title="Installation">
+      <a href="https://veith.github.io/flowbased-polymer/index/" title="Flowbased polymer">
         <span class="direction">
           Previous
         </span>
@@ -611,7 +479,7 @@ If you have applied the mixin, you can call the <strong>_FBPTriggerWire</strong>
           </div>
           <div class="stretch">
             <div class="title">
-              Installation
+              Flowbased polymer
             </div>
           </div>
         </div>
@@ -621,14 +489,14 @@ If you have applied the mixin, you can call the <strong>_FBPTriggerWire</strong>
 
   <div class="next">
   
-      <a href="https://veith.github.io/flowbased-polymer/events/overview/" title="Firing events">
+      <a href="https://veith.github.io/flowbased-polymer/wireing/overview/" title="Getting started">
         <span class="direction">
           Next
         </span>
         <div class="page">
           <div class="stretch">
             <div class="title">
-              Firing events
+              Getting started
             </div>
           </div>
           <div class="button button-next" role="button" aria-label="Next">

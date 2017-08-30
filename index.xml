@@ -23,11 +23,11 @@ Write your applications like you make the concept for your application. Normaly 
     </item>
     
     <item>
-      <title>Getting started</title>
-      <link>https://veith.github.io/flowbased-polymer/getting-started/overview/</link>
+      <title>Installation</title>
+      <link>https://veith.github.io/flowbased-polymer/install/overview/</link>
       <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
       
-      <guid>https://veith.github.io/flowbased-polymer/getting-started/overview/</guid>
+      <guid>https://veith.github.io/flowbased-polymer/install/overview/</guid>
       <description>Installation Before you can use the flowbased-polymer behavior you need to install it in your project.
 bower install flowbased-polymer --save  Import the behavior in your component &amp;lt;link rel=&amp;quot;import&amp;quot; href=&amp;quot;../flowbased-polymer/behaviour.html&amp;quot;&amp;gt;  OR
 &amp;lt;link rel=&amp;quot;import&amp;quot; href=&amp;quot;../bower_components/flowbased-polymer/behaviour.html&amp;quot;&amp;gt;  OR
@@ -37,7 +37,7 @@ Polymer 2.x
     </item>
     
     <item>
-      <title>Connecting components</title>
+      <title>Getting started</title>
       <link>https://veith.github.io/flowbased-polymer/wireing/overview/</link>
       <pubDate>Fri, 14 Apr 2017 15:47:54 +0200</pubDate>
       
