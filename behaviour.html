@@ -88,16 +88,16 @@
                   if (match !== null && match.length > 1) {
                     var prop = match[1];
                     var theEvent = match[0];
-                    var customEvent = new Event(theEvent, {bubbles: false});
+                    var customEvent = new Event(theEvent, {bubbles: false, composed: true});
                     customEvent.detail = self[prop];
                     self.dispatchEvent(customEvent);
-                    // self.fire(theEvent, self[prop], {bubbles: false});
+                    // self.fire(theEvent, self[prop], {bubbles: false, composed: true});
                   } else {
 
-                    var customEvent = new Event(wire, {bubbles: false});
+                    var customEvent = new Event(wire, {bubbles: false, composed: true});
                     customEvent.detail = e.detail;
                     self.dispatchEvent(customEvent);
-                    // self.fire(wire, e.detail, {bubbles: false});
+                    // self.fire(wire, e.detail, {bubbles: false, composed: true});
                   }
                 }
                 if (type === "fireBubble") {
@@ -107,14 +107,14 @@
                   if (match !== null && match.length > 1) {
                     var prop = match[1];
                     var theEvent = match[0];
-                    var customEvent = new Event(theEvent, {bubbles: true});
+                    var customEvent = new Event(theEvent, {bubbles: true, composed: true});
                     customEvent.detail = self[prop];
 
                     self.dispatchEvent(customEvent);
 
                   } else {
 
-                    var customEvent = new Event(wire, {bubbles: true});
+                    var customEvent = new Event(wire, {bubbles: true, composed: true});
                     customEvent.detail = e.detail;
                     self.dispatchEvent(customEvent);
 
@@ -149,7 +149,7 @@
                             response = receiver.element[receiver.method](detailData);
                         }
                         // @-ƒ-function auslösen
-                          var customEvent = new Event('ƒ-' + receiver.method, {bubbles: false});
+                          var customEvent = new Event('ƒ-' + receiver.method, {bubbles: false, composed: true});
                           customEvent.detail = response;
                           receiver.element.dispatchEvent(customEvent);
 
