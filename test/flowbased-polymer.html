@@ -20,7 +20,7 @@
 
         <div>
             <paper-button id="buttonA"
-                          @-tap="--buttonTapped,((prop)),--tapped(sendval), ^^bubbling, ^nonbubbling, ^^bubblingdata(sendval), ^nonbubblingdata(sendval)">
+                          @-click="--buttonTapped,((prop)),--tapped(sendval), ^^bubbling, ^nonbubbling, ^^bubblingdata(sendval), ^nonbubblingdata(sendval)">
                 Button
             </paper-button>
         </div>
@@ -30,10 +30,10 @@
         <receive-value id="receive" ƒ-reg="--tapped" ƒ-sum="--buttonCTapped" @-ƒ-sum="((atf))"
                        ƒ-camel-case="--buttonDTapped" ƒ-nonexistent="--buttonETapped"></receive-value>
 
-        <paper-button id="buttonB" @-tap="--buttonBTapped">Button</paper-button>
-        <paper-button id="buttonC" @-tap="--buttonCTapped(args)">Button</paper-button>
-        <paper-button id="buttonD" @-tap="--buttonDTapped">Button</paper-button>
-        <paper-button id="buttonE" @-tap="--buttonETapped">Button</paper-button>
+        <paper-button id="buttonB" @-click="--buttonBTapped">Button</paper-button>
+        <paper-button id="buttonC" @-click="--buttonCTapped(args)">Button</paper-button>
+        <paper-button id="buttonD" @-click="--buttonDTapped">Button</paper-button>
+        <paper-button id="buttonE" @-click="--buttonETapped">Button</paper-button>
 
     </template>
 

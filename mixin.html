@@ -105,18 +105,6 @@
                                         type = "call";
                                     }
 
-                                    // register click on tap event like polymer
-                                    /**
-                                     * In general, use the standard click event instead of tap in mobile browsers.
-                                     * The tap event is included in the gesture event mixin for backwards compatibility,
-                                     * but it's no longer required in modern mobile browsers.
-                                     * https://www.polymer-project.org/2.0/docs/devguide/gesture-events
-                                     */
-
-                                    if (eventname === 'tap') {
-                                        eventname = 'click';
-                                    }
-
                                     registerEvent(eventname, type, wire, element);
                                 });
                             }
