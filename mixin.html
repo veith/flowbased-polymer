@@ -1,4 +1,5 @@
 <script>
+
     /**
      *
      * @polymerMixin FBPMixin
@@ -39,7 +40,7 @@
                                 response = receiver.element[receiver.method](detailData);
                             }
                             // @-ƒ-function auslösen
-                            let customEvent = new Event('ƒ-' + receiver.method, {composed:true, bubbles: false});
+                            let customEvent = new Event('ƒ-' + receiver.method, {composed: true, bubbles: false});
                             customEvent.detail = response;
                             receiver.element.dispatchEvent(customEvent);
 
@@ -158,11 +159,11 @@
                             if (match !== null && match.length > 1) {
                                 let prop = match[1];
                                 let theEvent = match[0];
-                                let customEvent = new Event(theEvent, {composed:true, bubbles: false});
+                                let customEvent = new Event(theEvent, {composed: true, bubbles: false});
                                 customEvent.detail = self[prop];
                                 self.dispatchEvent(customEvent);
                             } else {
-                                let customEvent = new Event(wire, {composed:true, bubbles: false});
+                                let customEvent = new Event(wire, {composed: true, bubbles: false});
                                 customEvent.detail = e.detail;
                                 self.dispatchEvent(customEvent);
                             }
@@ -172,11 +173,11 @@
                             if (match !== null && match.length > 1) {
                                 let prop = match[1];
                                 let theEvent = match[0];
-                                let customEvent = new Event(theEvent, {composed:true, bubbles: true});
+                                let customEvent = new Event(theEvent, {composed: true, bubbles: true});
                                 customEvent.detail = self[prop];
                                 self.dispatchEvent(customEvent);
                             } else {
-                                let customEvent = new Event(wire, {composed:true, bubbles: true});
+                                let customEvent = new Event(wire, {composed: true, bubbles: true});
                                 customEvent.detail = e.detail;
                                 self.dispatchEvent(customEvent);
                             }
@@ -187,7 +188,8 @@
                     };
 
 
-                    element.addEventListener(eventname, handler[type], false);
+
+                    element.addEventListener(eventname, handler[type]);
                     self.__FBPEventlistener.push({
                         "element": element,
                         "event": eventname,
@@ -203,7 +205,7 @@
                 super.disconnectedCallback();
                 /* remove event listeners*/
                 this.__FBPEventlistener.forEach(function (e) {
-                    e.element.removeEventListener(e.event, e.handler, false);
+                    e.element.removeEventListener(e.event, e.handler);
                 })
             }
 
