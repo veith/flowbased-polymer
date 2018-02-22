@@ -1,4 +1,5 @@
 coverage/* linguist-generated=true
 demo/* linguist-documentation
+docs/* linguist-documentation
 *.html linguist-language=Polymer
 
