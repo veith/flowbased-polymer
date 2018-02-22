@@ -2,6 +2,63 @@
   "schema_version": "1.0.0",
   "elements": [
     {
+      "description": "`flow-bind`\n\nCustom element to allow using Polymer's template features (Flowbased Polymer,  data binding,\ndeclarative event listeners, etc.) in the main document without defining\na new custom element.\n\n`<template>` tags utilizing bindings may be wrapped with the `<flow-bind>`\nelement, which will immediately stamp the wrapped template into the main\ndocument, attach the declarative @-events, ƒ-functions and bind elements to the `flow-bind` element itself as the\nbinding scope.",
+      "summary": "Custom element to allow using Flowbased-Polymer's template features (data\n  binding, declarative event listeners, etc.) in the main document.",
+      "path": "flow-bind.html",
+      "properties": [],
+      "methods": [
+        {
+          "name": "connectedCallback",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 24,
+              "column": 8
+            },
+            "end": {
+              "line": 28,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "params": []
+        }
+      ],
+      "staticMethods": [],
+      "demos": [
+        {
+          "url": "demo/flow-bind.html",
+          "description": ""
+        }
+      ],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 23,
+          "column": 4
+        },
+        "end": {
+          "line": 33,
+          "column": 5
+        }
+      },
+      "privacy": "public",
+      "superclass": "HTMLElement",
+      "name": "FlowBind",
+      "attributes": [],
+      "events": [],
+      "styling": {
+        "cssVariables": [],
+        "selectors": []
+      },
+      "slots": [],
+      "tagname": "flow-bind",
+      "mixins": [
+        "FBPMixin"
+      ]
+    },
+    {
       "description": "Sometimes you want to see the current values of a property or check if an @-event is triggered or what kind of data comes with the event.\n\nProperties are displayed inline, event data will be logged to the console.",
       "summary": "",
       "path": "inspect-flow.html",
@@ -325,7 +382,7 @@
               "column": 12
             },
             "end": {
-              "line": 201,
+              "line": 200,
               "column": 13
             }
           },
@@ -342,11 +399,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 203,
+              "line": 202,
               "column": 12
             },
             "end": {
-              "line": 209,
+              "line": 208,
               "column": 13
             }
           },
@@ -363,7 +420,7 @@
           "column": 4
         },
         "end": {
-          "line": 212,
+          "line": 211,
           "column": 5
         }
       },

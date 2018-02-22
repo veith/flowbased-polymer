@@ -1,0 +1,49 @@
+<!doctype html>
+
+<html>
+<head>
+    <title>flowbased-polymer test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../flow-bind.html">
+</head>
+<body>
+
+<test-fixture id="basic">
+    <template>
+        <flow-bind id="elem">
+            <template >
+                <button id="btn" @-click="--clk"></button>
+                <div id="dd"   ƒ-done="--clk">x</div>
+                <script>
+                    console.dir(elem.$.dd)
+                </script>
+            </template>
+        </flow-bind>
+
+    </template>
+</test-fixture>
+
+<script>
+    suite('flowbased-polymer ', function () {
+
+        test('click should call done on div', (done) => {
+
+            const element = fixture('basic');
+            console.dir(element)
+            assert.equal(element.$.dd.innerText,"x");
+            element.$.dd.done = function () {
+                done()
+            };
+            element.$.btn.click();
+
+        });
+
+
+    });
+</script>
+</body>
+</html>

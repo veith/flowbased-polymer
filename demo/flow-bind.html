@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+    <title>flowbased-polymer demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+
+    <link rel="import" href="../inspect-flow.html">
+    <link rel="import" href="../../iron-ajax/iron-ajax.html">
+
+    <link rel="import" href="../flow-bind.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+    </style>
+</head>
+<body>
+
+<div class="vertical-section-container centered">
+    <h3>Basic dynamic flowbased-polymer  Demo</h3>
+
+
+    <demo-snippet>
+
+        <template>
+            <flow-bind id="elem">
+                <template>
+                    <button id="btn" @-click="--clk">click me</button>
+                    <div id="dd" ƒ-done="--clk"></div>
+                    <script>
+                        let host = elem;
+                        elem.$.dd.done = e => {
+                            alert(e);
+                        }
+                    </script>
+                </template>
+            </flow-bind>
+        </template>
+
+    </demo-snippet>
+</div>
+
+</body>
+</html>
