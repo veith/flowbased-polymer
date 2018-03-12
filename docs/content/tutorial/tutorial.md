@@ -245,7 +245,7 @@ At this moment this sample will not work because we have no functions called hid
 
 So we create a hide and show function on the hideable-element:
 
-```ecmascript 6
+```javascript
 hide(e) {
     this.set('hidden', true);
 }
