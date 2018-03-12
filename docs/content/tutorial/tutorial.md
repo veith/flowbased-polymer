@@ -1,13 +1,16 @@
+---
+date: 2017-04-14T15:47:54+02:00
+title: Tutorial
+weight: 250
+---
+
+
 Welcome to the tutorial!
 
 We hope you have read the Getting Started Site.
 
-In this tutorial we build an element that witch can be showed and hideed.
+In this tutorial we build an element witch can be showed and hideed.
 
-First install FBP 
-```sh
-bower install flowbased-polymer --save
-```
 
 Generate a polymer element
 ```sh
