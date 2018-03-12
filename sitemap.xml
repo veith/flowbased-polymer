@@ -17,6 +17,11 @@
   </url>
   
   <url>
+    <loc>https://veith.github.io/flowbased-polymer/tutorial/tutorial/</loc>
+    <lastmod>2017-04-14T15:47:54+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://veith.github.io/flowbased-polymer/events/overview/</loc>
     <lastmod>2017-04-14T16:38:32+02:00</lastmod>
   </url>
@@ -49,10 +54,6 @@
   <url>
     <loc>https://veith.github.io/flowbased-polymer/helper/overview/</loc>
     <lastmod>2017-04-14T16:49:59+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://veith.github.io/flowbased-polymer/tutorial/tutorial/</loc>
   </url>
   
   <url>
@@ -109,6 +110,7 @@
   
   <url>
     <loc>https://veith.github.io/flowbased-polymer/tutorial/</loc>
+    <lastmod>2017-04-14T15:47:54+02:00</lastmod>
     <priority>0</priority>
   </url>
   

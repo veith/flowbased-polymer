@@ -48,6 +48,21 @@ Connecting things We have a button and an elements which we want to hide after t
     </item>
     
     <item>
+      <title>Tutorial</title>
+      <link>https://veith.github.io/flowbased-polymer/tutorial/tutorial/</link>
+      <pubDate>Fri, 14 Apr 2017 15:47:54 +0200</pubDate>
+      
+      <guid>https://veith.github.io/flowbased-polymer/tutorial/tutorial/</guid>
+      <description>Welcome to the tutorial!
+We hope you have read the Getting Started Site.
+In this tutorial we build an element witch can be showed and hideed.
+Generate a polymer element
+mkdir fbp-tutorial cd fbp-tutorial polymer init  Select polymer-2-element and run it. After this install flowbased polymer
+bower install flowbased-polymer --save  Open the project in you favourite editor.
+Open the fbp-tutorial.html file and add the import of flowbased polymer.</description>
+    </item>
+    
+    <item>
       <title>Firing events</title>
       <link>https://veith.github.io/flowbased-polymer/events/overview/</link>
       <pubDate>Fri, 14 Apr 2017 16:38:32 +0200</pubDate>
@@ -118,22 +133,6 @@ The above copyright notice and this permission notice shall be included in all c
       
       <guid>https://veith.github.io/flowbased-polymer/helper/overview/</guid>
       <description>&amp;lt;inspect-flow&amp;gt; coming soon</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://veith.github.io/flowbased-polymer/tutorial/tutorial/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://veith.github.io/flowbased-polymer/tutorial/tutorial/</guid>
-      <description>Welcome to the tutorial!
-We hope you have read the Getting Started Site.
-In this tutorial we build an element that witch can be showed and hideed.
-First install FBP
-bower install flowbased-polymer --save  Generate a polymer element
-mkdir fbp-tutorial cd fbp-tutorial polymer init  Select polymer-2-element and run it. After this install flowbased polymer
-bower install flowbased-polymer --save  Open the project in you favourite editor.
-Open the fbp-tutorial.</description>
     </item>
     
   </channel>
