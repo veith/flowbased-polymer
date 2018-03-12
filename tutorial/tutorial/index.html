@@ -624,23 +624,21 @@ Your elemnet should now look like this:
 
 <p>So we create a hide and show function on the hideable-element:</p>
 
-<p>```ecmascript 6
-hide(e) {
-    this.set(&lsquo;hidden&rsquo;, true);
-}</p>
+<pre><code class="language-javascript">hide(e) {
+    this.set('hidden', true);
+}
 
-<p>show(e) {
-     this.set(&lsquo;hidden&rsquo;, false);
-}</p>
+show(e) {
+     this.set('hidden', false);
+}
+</code></pre>
 
-<pre><code>
-These function will set the hidden attribute on the element.
+<p>These function will set the hidden attribute on the element.</p>
 
-So now we can serve our project and see the code in the demo.
-First we need to gennerate the doc and then we can serve the application
+<p>So now we can serve our project and see the code in the demo.
+First we need to gennerate the doc and then we can serve the application</p>
 
-```sh
-polymer analyze ./*.html &gt; analysis.json
+<pre><code class="language-sh">polymer analyze ./*.html &gt; analysis.json
 polymer serve -o
 </code></pre>
 
