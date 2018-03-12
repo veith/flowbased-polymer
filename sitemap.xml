@@ -52,6 +52,10 @@
   </url>
   
   <url>
+    <loc>https://veith.github.io/flowbased-polymer/tutorial/tutorial/</loc>
+  </url>
+  
+  <url>
     <loc>https://veith.github.io/flowbased-polymer/bestpractice/</loc>
     <lastmod>2017-04-17T14:02:04+02:00</lastmod>
     <priority>0</priority>
@@ -100,6 +104,11 @@
   
   <url>
     <loc>https://veith.github.io/flowbased-polymer/tags/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://veith.github.io/flowbased-polymer/tutorial/</loc>
     <priority>0</priority>
   </url>
   

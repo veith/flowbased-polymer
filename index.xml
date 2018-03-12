@@ -64,9 +64,8 @@ On the first view, it does not make a lot sense to rename events. But imagine a 
       <pubDate>Fri, 14 Apr 2017 16:39:52 +0200</pubDate>
       
       <guid>https://veith.github.io/flowbased-polymer/variables/overview/</guid>
-      <description>Sometimes people want to store data in variables/properties. It is not necessarily needed for FBP, when your components you are using are designed appropriately. But so many users requested this feature.
-Storing event-data to properties To store data from an event (event.detail) just use the @-event=&amp;rdquo;((property))&amp;rdquo; syntax. You have to use two brackets because the [ and the { are used in polymer itself.
-&amp;lt;paper-button @-tap=&amp;quot;--searchClicked&amp;quot;&amp;gt;Search&amp;lt;/paper-button&amp;gt; &amp;lt;iron-ajax ƒ-generate-request=&amp;quot;--searchClicked&amp;quot; url=&amp;quot;https://www.googleapis.com/youtube/v3/search&amp;quot; handle-as=&amp;quot;json&amp;quot; params=&#39;{&amp;quot;part&amp;quot;:&amp;quot;snippet&amp;quot;, &amp;quot;q&amp;quot;:&amp;quot;polymer&amp;quot;, &amp;quot;key&amp;quot;: &amp;quot;YOUTUBE_API_KEY&amp;quot;, &amp;quot;type&amp;quot;: &amp;quot;video&amp;quot;}&#39; @-response=&amp;quot;^^data-received, ((searchResults))&amp;quot; debounce-duration=&amp;quot;300&amp;quot;&amp;gt;&amp;lt;/iron-ajax&amp;gt;  The event.</description>
+      <description>Sometimes people want to store data in variables/properties. It is not necessarily needed for FBP, when the components you are using are designed appropriately. But it is not a problem to wire the payload of an event (e.details) to a property.
+Storing event-data to properties To store data from an event (event.detail) just use the @-event=&amp;rdquo;((property))&amp;rdquo; syntax. You have to use two brackets because the [ and the { are used in polymer itself.</description>
     </item>
     
     <item>
@@ -119,6 +118,22 @@ The above copyright notice and this permission notice shall be included in all c
       
       <guid>https://veith.github.io/flowbased-polymer/helper/overview/</guid>
       <description>&amp;lt;inspect-flow&amp;gt; coming soon</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://veith.github.io/flowbased-polymer/tutorial/tutorial/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://veith.github.io/flowbased-polymer/tutorial/tutorial/</guid>
+      <description>Welcome to the tutorial!
+We hope you have read the Getting Started Site.
+In this tutorial we build an element that witch can be showed and hideed.
+First install FBP
+bower install flowbased-polymer --save  Generate a polymer element
+mkdir fbp-tutorial cd fbp-tutorial polymer init  Select polymer-2-element and run it. After this install flowbased polymer
+bower install flowbased-polymer --save  Open the project in you favourite editor.
+Open the fbp-tutorial.</description>
     </item>
     
   </channel>

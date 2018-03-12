@@ -9,18 +9,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=10" />
-    <title>Properties - Flowbased Polymer</title>
+    <title> - Flowbased Polymer</title>
     <meta name="generator" content="Hugo 0.20.1" />
 
     
     <meta name="description" content="Flowbased Programming for web UIs.">
     
-    <link rel="canonical" href="https://veith.github.io/flowbased-polymer/variables/overview/">
+    <link rel="canonical" href="https://veith.github.io/flowbased-polymer/tutorial/tutorial/">
     
     <meta name="author" content="veith">
     
 
-    <meta property="og:url" content="https://veith.github.io/flowbased-polymer/variables/overview/">
+    <meta property="og:url" content="https://veith.github.io/flowbased-polymer/tutorial/tutorial/">
     <meta property="og:title" content="Flowbased Polymer">
     <meta property="og:image" content="https://veith.github.io/flowbased-polymer/images/logoorange.png">
     <meta name="apple-mobile-web-app-title" content="Flowbased Polymer">
@@ -97,7 +97,7 @@
     </div>
     <div class="stretch">
       <div class="title">
-        Properties
+        
       </div>
     </div>
 
@@ -234,11 +234,14 @@
 
 
 
-<a  title="Tutorial" href="https://veith.github.io/flowbased-polymer/tutorial/tutorial/">
+<a class="current" title="Tutorial" href="https://veith.github.io/flowbased-polymer/tutorial/tutorial/">
 	
 	Tutorial
 </a>
 
+
+<ul id="scrollspy">
+</ul>
 
 
   
@@ -270,14 +273,11 @@
 
 
 
-<a class="current" title="Using Properties" href="https://veith.github.io/flowbased-polymer/variables/overview/">
+<a  title="Using Properties" href="https://veith.github.io/flowbased-polymer/variables/overview/">
 	
 	Using Properties
 </a>
 
-
-<ul id="scrollspy">
-</ul>
 
 
   
@@ -386,49 +386,379 @@
 
 	<article class="article">
 		<div class="wrapper">
-			<h1>Properties </h1>
+			<h1> </h1>
 
-			
+			<p>Welcome to the tutorial!</p>
 
-<p>Sometimes people want to store data in variables/properties.
-It is not necessarily needed for FBP, when the components you are using are designed appropriately.
-But it is not a problem to wire the payload of an event (<strong>e.details</strong>) to a property.</p>
+<p>We hope you have read the Getting Started Site.</p>
 
-<h2 id="storing-event-data-to-properties">Storing event-data to properties</h2>
+<p>In this tutorial we build an element that witch can be showed and hideed.</p>
 
-<p>To store data from an event (<strong>event.detail</strong>) just use the @-event=&rdquo;<strong>((property))</strong>&rdquo; syntax. You have to use two brackets because the <strong>[</strong> and the <strong>{</strong> are used in polymer itself.</p>
+<p>First install FBP</p>
 
-<p><img src="https://veith.github.io/flowbased-polymer/images/eventToProperties.png" alt="Multiple targets" /></p>
-
-<pre><code class="language-html">&lt;paper-button @-tap=&quot;--searchClicked&quot;&gt;Search&lt;/paper-button&gt;
-    &lt;iron-ajax
-            ƒ-generate-request=&quot;--searchClicked&quot;
-            url=&quot;https://www.googleapis.com/youtube/v3/search&quot;
-            handle-as=&quot;json&quot;
-            params='{&quot;part&quot;:&quot;snippet&quot;, &quot;q&quot;:&quot;polymer&quot;, &quot;key&quot;: &quot;YOUTUBE_API_KEY&quot;, &quot;type&quot;: &quot;video&quot;}'
-            @-response=&quot;^^data-received, ((searchResults))&quot;
-            debounce-duration=&quot;300&quot;&gt;&lt;/iron-ajax&gt;
+<pre><code class="language-sh">bower install flowbased-polymer --save
 </code></pre>
 
-<p><em>The event.detail from the response event will be stored to the searchResults property</em></p>
+<p>Generate a polymer element</p>
 
-<h2 id="sending-custom-data-with-events">Sending custom data with events</h2>
+<pre><code class="language-sh">mkdir fbp-tutorial
+cd fbp-tutorial
+polymer init
+</code></pre>
 
-<p>More about sending data with events <a href="https://veith.github.io/flowbased-polymer/events/overview/#sending-host-data-with-events">here..</a></p>
+<p><img src="https://veith.github.io/flowbased-polymer/images/polymer-init.png" alt="polymer init" /></p>
 
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Properties can be viewed as a special form of a wire.</p>
-</div>
+<p>Select polymer-2-element and run it. After this install flowbased polymer</p>
+
+<pre><code class="language-sh">bower install flowbased-polymer --save
+</code></pre>
+
+<p>Open the project in you favourite editor.</p>
+
+<p>Open the fbp-tutorial.html file and add the import of flowbased polymer.</p>
+
+<pre><code class="language-html">&lt;link rel=&quot;import&quot; href=&quot;../flowbased-polymer/mixin.html&quot;&gt;
+</code></pre>
+
+<p>Extend the Polymer mixin:</p>
+
+<pre><code class="language-javascript">extends FBPMixin(Polymer.Element)
+</code></pre>
+
+<p>Remove unneded things like the h2 and the properties. Your File should look like this:</p>
+
+<pre><code class="language-html">&lt;link rel=&quot;import&quot; href=&quot;../polymer/polymer-element.html&quot;&gt;
+&lt;link rel=&quot;import&quot; href=&quot;../flowbased-polymer/mixin.html&quot;&gt;
+
+&lt;dom-module id=&quot;fbp-tutorial&quot;&gt;
+    &lt;template&gt;
+        &lt;style&gt;
+            :host {
+                display: block;
+            }
+        &lt;/style&gt;
+    &lt;/template&gt;
+
+    &lt;script&gt;
+        /**
+         * `fbp-tutorial`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class FbpTutorial extends FBPMixin(Polymer.Element) {
+            static get is() {
+                return 'fbp-tutorial';
+            }
+
+            static get properties() {
+                return {};
+            }
+        }
+
+        window.customElements.define(FbpTutorial.is, FbpTutorial);
+    &lt;/script&gt;
+&lt;/dom-module&gt;
+
+</code></pre>
+
+<p>In the next Step we make a Component witch is hideable.</p>
+
+<p>Create a new polymer 2 element called hideable-element.</p>
+
+<p>Add the FBP mixin.</p>
+
+<p>Add a span with e text insinde.</p>
+
+<pre><code class="language-html">&lt;span&gt;This should hide.&lt;/span&gt;
+</code></pre>
+
+<p>And your elemnet shoul look like this:</p>
+
+<pre><code class="language-html">&lt;link rel=&quot;import&quot; href=&quot;../polymer/polymer-element.html&quot;&gt;
+&lt;link rel=&quot;import&quot; href=&quot;../flowbased-polymer/mixin.html&quot;&gt;
+
+&lt;dom-module id=&quot;hideable-element&quot;&gt;
+    &lt;template&gt;
+        &lt;style&gt;
+            :host {
+                display: block;
+            }
+        &lt;/style&gt;
+        &lt;span&gt;This should hide.&lt;/span&gt;
+    &lt;/template&gt;
+    &lt;script&gt;
+        /**
+         * `hideable-element`
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/hideable-element_demo.html
+         */
+        class HideableElement extends FBPMixin(Polymer.Element) {
+            constructor() {
+                super();
+            }
+
+            static get is() {
+                return 'hideable-element';
+            }
+
+            static get properties() {
+                return {
+
+                };
+            }
+
+
+        }
+
+        window.customElements.define(HideableElement.is, HideableElement);
+    &lt;/script&gt;
+&lt;/dom-module&gt;
+</code></pre>
+
+<p>Now we want the span be able to be hidden.</p>
+
+<p>This can be done with css.</p>
+
+<p>First add this css in the Style section:</p>
+
+<pre><code class="language-css">:host([hidden]) span {
+                display: none;
+}
+</code></pre>
+
+<p>After we need a property hidden on the hideable-element.
+```ecmascript 6
+hidden: {
+       type: Boolean,
+       value: false,
+       notify: true,
+       reflectToAttribute: true
+}</p>
+
+<pre><code>
+Now by default your element is not hidden but when you set the hidden property the element hides.
+
+Your elemnet should now look like this:
+```html
+&lt;link rel=&quot;import&quot; href=&quot;../polymer/polymer-element.html&quot;&gt;
+&lt;link rel=&quot;import&quot; href=&quot;../flowbased-polymer/mixin.html&quot;&gt;
+
+&lt;dom-module id=&quot;hideable-element&quot;&gt;
+    &lt;template&gt;
+        &lt;style&gt;
+            :host {
+                display: block;
+            }
+            :host([hidden]) span {
+                            display: none;
+            }
+        &lt;/style&gt;
+        &lt;span&gt;This should hide.&lt;/span&gt;
+    &lt;/template&gt;
+    &lt;script&gt;
+        /**
+         * `hideable-element`
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/hideable-element_demo.html
+         */
+        class HideableElement extends FBPMixin(Polymer.Element) {
+            constructor() {
+                super();
+            }
+
+            static get is() {
+                return 'hideable-element';
+            }
+
+            static get properties() {
+                return {
+                    hidden: {
+                        type: Boolean,
+                        value: false,
+                        notify: true,
+                        reflectToAttribute: true
+                    }
+                };
+            }
+        }
+
+        window.customElements.define(HideableElement.is, HideableElement);
+    &lt;/script&gt;
+&lt;/dom-module&gt;
+</code></pre>
+
+<p>Now we want to use our hideable element.</p>
+
+<p>Go back to the fbp-tutorial element.</p>
+
+<p>Import the Element:</p>
+
+<pre><code class="language-html">&lt;link rel=&quot;import&quot; href=&quot;./hideable-element.html&quot;&gt;
+</code></pre>
+
+<p>And add the element in your template section with tow buttons:</p>
+
+<pre><code class="language-html">&lt;button&gt;hide&lt;/button&gt;
+&lt;button&gt;show&lt;/button&gt;
+&lt;hideable-element&gt;&lt;/hideable-element&gt;
+</code></pre>
+
+<p>Now we can start wiring the button with our element.</p>
+
+<p>First we need to listen to the click event of the button:</p>
+
+<pre><code class="language-html">&lt;button @-click=&quot;--hide&quot;&gt;hide&lt;/button&gt;
+&lt;button @-click=&quot;--show&quot;&gt;show&lt;/button&gt;
+</code></pre>
+
+<p>Now we want it to wire this on the hideable element:</p>
+
+<pre><code class="language-html">&lt;button @-click=&quot;--hide&quot;&gt;hide&lt;/button&gt;
+&lt;button @-click=&quot;--show&quot;&gt;show&lt;/button&gt;
+&lt;hideable-element ƒ-hide=&quot;--hide&quot; ƒ-show=&quot;--show&quot;&gt;&lt;/hideable-element&gt;
+</code></pre>
+
+<p>At this moment this sample will not work because we have no functions called hide and show in our hideable-element.</p>
+
+<p>So we create a hide and show function on the hideable-element:</p>
+
+<p>```ecmascript 6
+hide(e) {
+    this.set(&lsquo;hidden&rsquo;, true);
+}</p>
+
+<p>show(e) {
+     this.set(&lsquo;hidden&rsquo;, false);
+}</p>
+
+<pre><code>
+These function will set the hidden attribute on the element.
+
+So now we can serve our project and see the code in the demo.
+First we need to gennerate the doc and then we can serve the application
+
+```sh
+polymer analyze ./*.html &gt; analysis.json
+polymer serve -o
+</code></pre>
+
+<p>If something not working take a look at the finished files:</p>
+
+<pre><code class="language-html">&lt;link rel=&quot;import&quot; href=&quot;../polymer/polymer-element.html&quot;&gt;
+&lt;link rel=&quot;import&quot; href=&quot;../flowbased-polymer/mixin.html&quot;&gt;
+
+&lt;link rel=&quot;import&quot; href=&quot;./hideable-element.html&quot;&gt;
+
+&lt;dom-module id=&quot;fbp-tutorial&quot;&gt;
+    &lt;template&gt;
+        &lt;style&gt;
+            :host {
+                display: block;
+            }
+        &lt;/style&gt;
+
+        &lt;button @-click=&quot;--hide&quot;&gt;hide&lt;/button&gt;
+        &lt;button @-click=&quot;--show&quot;&gt;show&lt;/button&gt;
+        &lt;hideable-element ƒ-hide=&quot;--hide&quot; ƒ-show=&quot;--show&quot;&gt;&lt;/hideable-element&gt;
+
+    &lt;/template&gt;
+
+    &lt;script&gt;
+        /**
+         * `fbp-tutorial`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class FbpTutorial extends FBPMixin(Polymer.Element) {
+            static get is() {
+                return 'fbp-tutorial';
+            }
+
+            static get properties() {
+                return {};
+            }
+        }
+
+        window.customElements.define(FbpTutorial.is, FbpTutorial);
+    &lt;/script&gt;
+&lt;/dom-module&gt;
+</code></pre>
+
+<pre><code class="language-html">&lt;link rel=&quot;import&quot; href=&quot;../polymer/polymer-element.html&quot;&gt;
+&lt;link rel=&quot;import&quot; href=&quot;../flowbased-polymer/mixin.html&quot;&gt;
+
+&lt;dom-module id=&quot;hideable-element&quot;&gt;
+    &lt;template&gt;
+        &lt;style&gt;
+            :host {
+                display: block;
+            }
+            :host([hidden]) span {
+                display: none;
+            }
+        &lt;/style&gt;
+        &lt;span&gt;This should hide.&lt;/span&gt;
+    &lt;/template&gt;
+    &lt;script&gt;
+        /**
+         * `hideable-element`
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/hideable-element_demo.html
+         */
+        class HideableElement extends FBPMixin(Polymer.Element) {
+            constructor() {
+                super();
+            }
+
+            static get is() {
+                return 'hideable-element';
+            }
+
+            static get properties() {
+                return {
+                    hidden: {
+                        type: Boolean,
+                        value: false,
+                        notify: true,
+                        reflectToAttribute: true
+                    }
+                };
+            }
+
+            hide(e) {
+                this.set('hidden', true);
+            }
+
+            show(e) {
+                this.set('hidden', false);
+            }
+        }
+
+        window.customElements.define(HideableElement.is, HideableElement);
+    &lt;/script&gt;
+&lt;/dom-module&gt;
+</code></pre>
 
 
 <div style="margin-top: 60px">
             <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'https-veith-github-io-flowbased-polymer';
-    var disqus_identifier = 'https:\/\/veith.github.io\/flowbased-polymer\/variables\/overview\/';
-    var disqus_title = 'Properties';
-    var disqus_url = 'https:\/\/veith.github.io\/flowbased-polymer\/variables\/overview\/';
+    var disqus_identifier = 'https:\/\/veith.github.io\/flowbased-polymer\/tutorial\/tutorial\/';
+    var disqus_title = '';
+    var disqus_url = 'https:\/\/veith.github.io\/flowbased-polymer\/tutorial\/tutorial\/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -455,7 +785,7 @@ But it is not a problem to wire the payload of an event (<strong>e.details</stro
 <nav class="pagination" aria-label="Footer">
   <div class="previous">
   
-      <a href="https://veith.github.io/flowbased-polymer/events/overview/" title="Firing events">
+      <a href="https://veith.github.io/flowbased-polymer/helper/overview/" title="overview">
         <span class="direction">
           Previous
         </span>
@@ -465,7 +795,7 @@ But it is not a problem to wire the payload of an event (<strong>e.details</stro
           </div>
           <div class="stretch">
             <div class="title">
-              Firing events
+              overview
             </div>
           </div>
         </div>
@@ -474,22 +804,6 @@ But it is not a problem to wire the payload of an event (<strong>e.details</stro
   </div>
 
   <div class="next">
-  
-      <a href="https://veith.github.io/flowbased-polymer/limitations/overview/" title="Limitations">
-        <span class="direction">
-          Next
-        </span>
-        <div class="page">
-          <div class="stretch">
-            <div class="title">
-              Limitations
-            </div>
-          </div>
-          <div class="button button-next" role="button" aria-label="Next">
-            <i class="icon icon-forward"></i>
-          </div>
-        </div>
-      </a>
   
   </div>
 </nav>
