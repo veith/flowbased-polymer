@@ -30,26 +30,57 @@
             _FBPTriggerWire(wire, detailData) {
                 if (this.__wirebundle[wire]) {
                     this.__wirebundle[wire].forEach(function (receiver) {
-                        if (typeof receiver.element[receiver.method] === 'function') {
+                        // check for hooks
+                        if (typeof receiver === 'function') {
+                            receiver(detailData);
+                        }else{
+                            if (typeof receiver.element[receiver.method] === 'function') {
+                                let response;
+                                // array spreaden
+                                if (Array.isArray(detailData) && receiver.element[receiver.method].length > 1) {
+                                    response = receiver.element[receiver.method].apply(receiver.element, detailData);
+                                } else {
+                                    response = receiver.element[receiver.method](detailData);
+                                }
+                                // @-ƒ-function auslösen
+                                let customEvent = new Event('ƒ-' + receiver.method, {composed: true, bubbles: false});
+                                customEvent.detail = response;
+                                receiver.element.dispatchEvent(customEvent);
 
-                            let response;
-                            // array spreaden
-                            if (Array.isArray(detailData) && receiver.element[receiver.method].length > 1) {
-                                response = receiver.element[receiver.method].apply(receiver.element, detailData);
                             } else {
-                                response = receiver.element[receiver.method](detailData);
+                                console.warn(receiver.method + ' is neither a listener nor a function of ' + receiver.element.nodeName)
                             }
-                            // @-ƒ-function auslösen
-                            let customEvent = new Event('ƒ-' + receiver.method, {composed: true, bubbles: false});
-                            customEvent.detail = response;
-                            receiver.element.dispatchEvent(customEvent);
-
-                        } else {
-                            console.warn(receiver.method + ' is neither a listener nor a function of ' + receiver.element.nodeName)
                         }
 
                     });
                 }
+            }
+
+            /**
+             *
+             * @param wire (String) Name of the wire
+             * @param cb (function) Callback function cb(detailData)
+             * @param [before] (Boolean) append before the components are triggered, default is false
+             * @returns {number} Index of hook
+             * @private
+             */
+            _FBPAddWireHook(wire,cb,before){
+                before = before || false;
+                if(this.__wirebundle[wire]){
+                    if(before){
+                        this.__wirebundle[wire].unshift(cb);
+                        return 0;
+                    }else{
+                        let l = this.__wirebundle[wire].push(cb);
+                        return l-1;
+                    }
+
+                }else{
+                    console.warn(wire, 'does not exist on element',this);
+                    return -1;
+                }
+
+
             }
 
             _appendFBP(dom) {
