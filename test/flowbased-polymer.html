@@ -27,7 +27,7 @@
 
         <count-points id="counter" counter="{{counter}}" ƒ-increment="--buttonTapped,--buttonBTapped"></count-points>
 
-        <receive-value id="receive" ƒ-reg="--tapped" ƒ-sum="--buttonCTapped" @-ƒ-sum="((atf))"
+        <receive-value  @-hook-triggered="--hookTriggered" ƒ-hooktest="--hookTriggered" id="receive" ƒ-reg="--tapped" ƒ-sum="--buttonCTapped" @-ƒ-sum="((atf))"
                        ƒ-camel-case="--buttonDTapped" ƒ-nonexistent="--buttonETapped"></receive-value>
 
         <paper-button id="buttonB" @-click="--buttonBTapped">Button</paper-button>

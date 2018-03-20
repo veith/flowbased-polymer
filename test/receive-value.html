@@ -58,6 +58,14 @@
         },
         camelCase:function () {
             this.set('received',137)
+        },
+        hook:function(data){
+
+          this.fire('hook-triggered',data);
+        },
+        hooktest:function(data){
+
+          this.hooktestValue = data;
         }
 
     });

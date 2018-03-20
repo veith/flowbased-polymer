@@ -34,6 +34,32 @@
             assert.equal(element.counter, 1);
         });
 
+        test('hook should trigger too', function (done) {
+            var element = fixture('basic');
+
+            element._FBPAddWireHook('--hookTriggered',(e)=>{
+                assert.equal(e, 99);
+                assert.equal(element.$.receive.hooktestValue, 99);
+
+                done();
+            });
+            element.$.receive.hook(99);
+
+
+        });
+        test('hook BEFORE should trigger too', function (done) {
+            var element = fixture('basic');
+
+            element._FBPAddWireHook('--hookTriggered',(e)=>{
+                assert.equal(e, 99);
+                assert.equal(element.$.receive.hooktestValue, undefined);
+                done();
+            },true);
+            element.$.receive.hook(99);
+
+
+        });
+
         test('wire with data', function () {
             var element = fixture('basic');
             element.$.buttonA.click();
