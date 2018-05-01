@@ -27,13 +27,14 @@
         <count-points id="counter" counter="{{counter}}" ƒ-increment="--buttonTapped,--buttonBTapped"></count-points>
 
         <receive-value id="receive" ƒ-reg="--tapped" ƒ-sum="--buttonCTapped" @-ƒ-sum="((atf))"
-                       ƒ-camel-case="--buttonDTapped" ƒ-nonexistent="--buttonETapped"></receive-value>
+                       ƒ-camel-case="--buttonDTapped" ƒ-nonexistent="--buttonETapped" ƒ-deep="--buttonFTapped"></receive-value>
 
         <paper-button id="buttonB" @-click="--buttonBTapped">Button</paper-button>
         <paper-button id="buttonC" @-click="--buttonCTapped(args)">Button</paper-button>
         <paper-button id="buttonD" @-click="--buttonDTapped">Button</paper-button>
         <paper-button id="buttonE" @-click="--buttonETapped">Button</paper-button>
         <paper-button id="buttonEvent" @-click="--tapped(*)">Button</paper-button>
+        <paper-button id="buttonF" @-click="--buttonFTapped(sendvalDeep.a),^^bubbleDeep(sendvalDeep.a),^nonbubbleDeep(sendvalDeep.a)">Button</paper-button>
 
     </template>
 
@@ -66,6 +67,10 @@
                 args: {
                     type: Array,
                     value: [3, 4, 5]
+                },
+                sendvalDeep: {
+                    type: Object,
+                    value: {a:1337}
                 }
             }
             }

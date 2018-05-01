@@ -46,6 +46,17 @@
             assert.equal(element.$.receive.received, 42);
         });
 
+        test('wire with property to send', function (done) {
+            var element = fixture('basic');
+            element._FBPAddWireHook('--buttonFTapped',data =>{
+
+                assert.equal(data, 1337);
+                done();
+            })
+            element.$.buttonF.click();
+
+        });
+
         test('multiple receiving wires', function () {
             var element = fixture('basic');
             element.$.buttonA.click();
@@ -81,6 +92,25 @@
                 done();
             });
             element.$.buttonA.click();
+        });
+
+        test('bubbling event with deep data', function (done) {
+            var element = fixture('basic');
+
+            element.addEventListener('bubbleDeep', function (d) {
+                assert.equal(d.detail, 1337);
+                done();
+            });
+             element.$.buttonF.click();
+        });
+        test('nonbubbling event with deep data', function (done) {
+            var element = fixture('basic');
+
+            element.addEventListener('nonbubbleDeep', function (d) {
+                assert.equal(d.detail, 1337);
+                done();
+            });
+             element.$.buttonF.click();
         });
       test('nonbubbling event with data', function (done) {
             var element = fixture('basic');

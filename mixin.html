@@ -153,7 +153,7 @@
                 function registerEvent(eventname, type, wire, element) {
                     // find properties in wire
                     element.__atf = {};
-                    let match = wire.match(/([a-z\-_*]+)/gi);
+                    let match = wire.match(/([a-z\-_*\.]+)/gi);
                     // store @-ƒ-attributes existence
                     for (let i = 0; i < element.attributes.length; i++) {
                         element.__atf[element.attributes[i].name] = true;
@@ -175,7 +175,7 @@
                                 if (match[1] === '*') {
                                     detailData = e;
                                 } else {
-                                    detailData = self[match[1]];
+                                    detailData = Polymer.Path.get(self,match[1]);
                                 }
                                 effectiveWire = match[0];
                             }
@@ -190,7 +190,8 @@
                                 let prop = match[1];
                                 let theEvent = match[0];
                                 let customEvent = new Event(theEvent, {composed: true, bubbles: false});
-                                customEvent.detail = self[prop];
+                                customEvent.detail = Polymer.Path.get(self,prop);
+
                                 self.dispatchEvent(customEvent);
                             } else {
                                 let customEvent = new Event(wire, {composed: true, bubbles: false});
@@ -204,7 +205,7 @@
                                 let prop = match[1];
                                 let theEvent = match[0];
                                 let customEvent = new Event(theEvent, {composed: true, bubbles: true});
-                                customEvent.detail = self[prop];
+                                customEvent.detail = Polymer.Path.get(self,prop);
                                 self.dispatchEvent(customEvent);
                             } else {
                                 let customEvent = new Event(wire, {composed: true, bubbles: true});
@@ -227,8 +228,6 @@
                     });
 
                 }
-
-                //----
             }
 
             disconnectedCallback() {
