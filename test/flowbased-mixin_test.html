@@ -40,6 +40,12 @@
             assert.equal(element.prop, 0);
         });
 
+        test('deep property write', function () {
+            var element = fixture('basic');
+            element.$.buttonA.click();
+            assert.equal(element.deepprop.sub, 0);
+        });
+
         test('wire with property to send', function () {
             var element = fixture('basic');
             element.$.buttonA.click();

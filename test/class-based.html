@@ -19,7 +19,7 @@
         </style>
 
         <div>
-            <paper-button id="buttonA" @-click="--buttonTapped,((prop)),--tapped(sendval), ^^bubbling, ^nonbubbling, ^^bubblingdata(sendval), ^nonbubblingdata(sendval)">
+            <paper-button id="buttonA" @-click="--buttonTapped,((prop)),((deepprop.sub)),--tapped(sendval), ^^bubbling, ^nonbubbling, ^^bubblingdata(sendval), ^nonbubblingdata(sendval)">
                 Button
             </paper-button>
         </div>
@@ -55,6 +55,10 @@
                 prop: {
                     type: Number,
                     value: 10
+                },
+                deepprop: {
+                    type: Object,
+                    value: {sub:9999}
                 },
                 sendval: {
                     type: Number,
