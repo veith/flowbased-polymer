@@ -1,39 +1,57 @@
 # flowbased-polymer
 
-Flowbased-polymer is like declarative polymer on steroids.
+The Flowbased-polymer mixin offers you the possibility to write your components or apps fully declaratively. No more manual/imperative adding of eventlisteners in the source code and no more assignment of IDs to access the component you want.
+
+It is a hybrid form of flow-based programming and ordinary polymer and works with every component which is useable by polymer.
+
+You can use it to simply save adding eventlisteners in your source or to write entire components and applications according to the FBP programming paradigm without using a single line of JS. It's up to you how far you want to go.
+
+FBP code is also easy testable. It takes about 2 minutes to understand the main concept.
+
+
+##Simple Introduction
+In short, FBP combines events from one component `@-event` with methods from another component `ƒ-method` to trigger them. We call the connection a *wire*.
+
+```
+    <paper-button raised @-click="--btnPropsClicked">Show Props</paper-button>
+    <left-drawer ƒ-hide="--btnPropsClicked"></left-drawer>
+    <right-drawer ƒ-show="--btnPropsClicked"></right-drawer>
+```
+
+![simple intro](https://veith.github.io/flowbased-polymer/images/short-intro.png)
+
+*** Explanation
+When the user clicks on the `paper-button`, the `left-drawer` is hidden and the `right-drawer` is displayed.
+The button does not need to know that there is a left-drawer or right-drawer. It only informs about the wire `--btnPropsClicked` that it was clicked.
+
+
+
+## Further documentation
+It takes about 10 minutes to understand the main concept.
+Please read the [documentation page](https://veith.github.io/flowbased-polymer/) for more information.
+
 
 [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/veith/flowbased-polymer)
 
 
-## Installation
-
-```
-bower i -S flowbased-polymer
-```
-
 ## Usage
-It takes about 10 minutes to understand the main concept.  
-Please read the [documentation page](https://veith.github.io/flowbased-polymer/) for more information.
+Extend your component with the FBPMixin. Thats all you have to do.
+
+```
+ class MyComponent extends FBPMixin(Polymer.Element) {
+ }
+```
+
+## Detailed documentation
+Read more about FBPolymer on the  [documentation pages](https://veith.github.io/flowbased-polymer/).
 
 
-## Contributing
-
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
-
-## History
-
-After reading [Flow-based Programming](http://www.jpaulmorrison.com/fbp/) in 2013, i was fascinated by the concept. 
-I wanted to build a version which is suited to make user interfaces, even there are a lot of comments which say FBP is not suited to build UIs. I tried a lot of variants (with [jQuery](https://jquery.com/), [terrificjs](http://www.terrifically.org/), [AngularJS](https://angularjs.org/),... ) and was not successful, until i came across Polymer.  
 
 
 ## Credits
 
 * [John Paul Morrison](http://www.jpaulmorrison.com/) for inventing FBP
-* [Kevin Shaaf](https://github.com/kevinpschaaf) for the hints he gave in the [polymer slack channel](polymer.slack.com)
+* [Kevin Shaaf](https://github.com/kevinpschaaf) for the good hints he gave in the [polymer slack channel](polymer.slack.com)
 * [the Polymer contributors](https://github.com/orgs/Polymer/people) for all the good tools
 
 ## License
