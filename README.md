@@ -31,7 +31,7 @@ The button does not need to know that there is a left-drawer or right-drawer. It
 
 
 ## Further documentation
-Please read the [documentation page](https://veith.github.io/flowbased-polymer/) for more information.
+Please read the [documentation page](https://veith.github.io/flowbased-polymer/wireing/overview/) for more information.
 
 
 
