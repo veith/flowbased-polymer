@@ -9,7 +9,7 @@ You can use it to simply save adding eventlisteners in your source or to write e
 FBP code is also easy testable. It takes about 2 minutes to understand the main concept.
 
 
-##Simple Introduction
+## Simple Introduction
 In short, FBP combines events from one component `@-event` with methods from another component `ƒ-method` to trigger them. We call the connection a *wire*.
 
 ```
