@@ -13,8 +13,8 @@ In short, FBP combines events from one component `@-event` with methods from ano
 
 ```
     <paper-button raised @-click="--btnPropsClicked">Show Props</paper-button>
-    <left-drawer ƒ-hide="--btnPropsClicked"></left-drawer>
-    <right-drawer ƒ-show="--btnPropsClicked"></right-drawer>
+    <left-drawer ƒ-hide="--btnPropsClicked">Menu...</left-drawer>
+    <right-drawer ƒ-show="--btnPropsClicked">Props...</right-drawer>
 ```
 
 ![simple intro](https://veith.github.io/flowbased-polymer/images/short-intro.png)
@@ -22,6 +22,8 @@ In short, FBP combines events from one component `@-event` with methods from ano
 ### Explanation
 When the user clicks on the `paper-button`, the `left-drawer` is hidden and the `right-drawer` is displayed.
 The button does not need to know that there is a left-drawer or right-drawer. It only informs about the wire `--btnPropsClicked` that it was clicked.
+
+
 
 
 
@@ -34,11 +36,54 @@ Please read the [documentation page](https://veith.github.io/flowbased-polymer/)
 
 
 ## Usage
-Extend your component with the FBPMixin. Thats all you have to do.
+After importing the Mixin, extend your component with the **FBPMixin**. Thats all you have to do.
+
 
 ```
- class MyComponent extends FBPMixin(Polymer.Element) {
- }
+<link rel="import" href="../polymer/polymer-element.html">
+// import the mixin
+<link rel="import" href="../flowbased-polymer/mixin.html">
+
+// import the components you want to use in your component
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="left-drawer.html">
+<link rel="import" href="right-drawer.html">
+
+<dom-module id="my-component">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <paper-button raised @-click="--btnPropsClicked">Show Props</paper-button>
+    <left-drawer ƒ-hide="--btnPropsClicked">Menu...</left-drawer>
+    <right-drawer ƒ-show="--btnPropsClicked">Props...</right-drawer>
+
+  </template>
+</dom-module>
+
+
+<script>
+  /**
+   * `my-component`
+   *
+   *
+   * @customElement
+   * @polymer
+   * @demo demo/index.html
+   * @mixes FBPMixin
+   */
+  class MyComponent extends FBPMixin(Polymer.Element) {
+    static get is() {
+      return 'my-component';
+    }
+  }
+
+  window.customElements.define(MyComponent.is, MyComponent);
+
+</script>
 ```
 
 ## Detailed documentation
