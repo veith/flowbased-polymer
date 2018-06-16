@@ -31,7 +31,6 @@ The button does not need to know that there is a left-drawer or right-drawer. It
 
 
 ## Further documentation
-It takes about 10 minutes to understand the main concept.
 Please read the [documentation page](https://veith.github.io/flowbased-polymer/) for more information.
 
 
