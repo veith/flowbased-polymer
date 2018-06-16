@@ -8,6 +8,9 @@ FBP code is also easy testable. It takes about 2 minutes to understand the main 
 
 It is a hybrid form of flow-based programming and ordinary polymer and works with every component which is useable by polymer.
 
+
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/veith/flowbased-polymer)
+
 ## Simple Introduction
 In short, FBP combines events from one component `@-event` with methods from another component `ƒ-method` to trigger them. We call the connection a **wire**.
 
@@ -31,8 +34,6 @@ The button does not need to know that there is a left-drawer or right-drawer. It
 It takes about 10 minutes to understand the main concept.
 Please read the [documentation page](https://veith.github.io/flowbased-polymer/) for more information.
 
-
-[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/veith/flowbased-polymer)
 
 
 ## Usage
