@@ -1,9 +1,10 @@
+import * as Path from '@polymer/polymer/lib/utils/path.js';
 
 /**
  *
- * @polymerMixin FBPMixin
+ * @polymerMixin FBP
  */
-export const FBPMixin = (superClass) => {
+export const FBP = (superClass) => {
   /**
    * @polymerMixinClass
    */
@@ -16,7 +17,7 @@ export const FBPMixin = (superClass) => {
 
 
     _attachDom(dom) {
-      this._appendFBP(dom);
+      this.__appendFBP(dom);
       super._attachDom(dom);
     }
 
@@ -82,7 +83,7 @@ export const FBPMixin = (superClass) => {
 
     }
 
-    _appendFBP(dom) {
+      __appendFBP(dom) {
       let self = this;
       let wirebundle = this.__wirebundle;
       // get all elements which live in the host
@@ -174,7 +175,7 @@ export const FBPMixin = (superClass) => {
               if (match[1] === '*') {
                 detailData = e;
               } else {
-                detailData = Polymer.Path.get(self,match[1]);
+                detailData = Path.get(self,match[1]);
               }
               effectiveWire = match[0];
             }
@@ -189,7 +190,7 @@ export const FBPMixin = (superClass) => {
               let prop = match[1];
               let theEvent = match[0];
               let customEvent = new Event(theEvent, {composed: true, bubbles: false});
-              customEvent.detail = Polymer.Path.get(self,prop);
+              customEvent.detail = Path.get(self,prop);
 
               self.dispatchEvent(customEvent);
             } else {
@@ -204,7 +205,7 @@ export const FBPMixin = (superClass) => {
               let prop = match[1];
               let theEvent = match[0];
               let customEvent = new Event(theEvent, {composed: true, bubbles: true});
-              customEvent.detail = Polymer.Path.get(self,prop);
+              customEvent.detail = Path.get(self,prop);
               self.dispatchEvent(customEvent);
             } else {
               let customEvent = new Event(wire, {composed: true, bubbles: true});

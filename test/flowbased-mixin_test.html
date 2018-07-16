@@ -5,10 +5,10 @@
     <title>flowbased-polymer test</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-    <script src="../../web-component-tester/browser.js"></script>
+    <script src="../../../@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../../wct-browser-legacy/browser.js"></script>
 
-    <link rel="import" href="./class-based.html">
+    <script type="module" src="./class-based.js"></script>
 </head>
 <body>
 
@@ -18,173 +18,174 @@
     </template>
 </test-fixture>
 
-<script>
-    suite('flowbased-polymer ', function () {
+<script type="module">
+import './class-based.js';
+suite('flowbased-polymer ', function () {
 
-        test('instantiating the element container works', function () {
+    test('instantiating the element container works', function () {
 
-            var element = fixture('basic');
-            assert.equal(element.nodeName.toLowerCase(), 'flowbased-polymer');
-        });
+        var element = fixture('basic');
+        assert.equal(element.nodeName.toLowerCase(), 'flowbased-polymer');
+    });
 
-        test('trigger a simple wire', function () {
-            var element = fixture('basic');
-            element.$.buttonA.click();
+    test('trigger a simple wire', function () {
+        var element = fixture('basic');
+        element.$.buttonA.click();
 
-            assert.equal(element.counter, 1);
-        });
+        assert.equal(element.counter, 1);
+    });
 
-        test('wire with data', function () {
-            var element = fixture('basic');
-            element.$.buttonA.click();
-            assert.equal(element.prop, 0);
-        });
+    test('wire with data', function () {
+        var element = fixture('basic');
+        element.$.buttonA.click();
+        assert.equal(element.prop, 0);
+    });
 
-        test('deep property write', function () {
-            var element = fixture('basic');
-            element.$.buttonA.click();
-            assert.equal(element.deepprop.sub, 0);
-        });
+    test('deep property write', function () {
+        var element = fixture('basic');
+        element.$.buttonA.click();
+        assert.equal(element.deepprop.sub, 0);
+    });
 
-        test('wire with property to send', function () {
-            var element = fixture('basic');
-            element.$.buttonA.click();
-            assert.equal(element.$.receive.received, 42);
-        });
+    test('wire with property to send', function () {
+        var element = fixture('basic');
+        element.$.buttonA.click();
+        assert.equal(element.$.receive.received, 42);
+    });
 
-        test('wire with property to send', function (done) {
-            var element = fixture('basic');
-            element._FBPAddWireHook('--buttonFTapped',data =>{
+    test('wire with property to send', function (done) {
+        var element = fixture('basic');
+        element._FBPAddWireHook('--buttonFTapped',data =>{
 
-                assert.equal(data, 1337);
-                done();
-            })
-            element.$.buttonF.click();
-
-        });
-
-        test('multiple receiving wires', function () {
-            var element = fixture('basic');
-            element.$.buttonA.click();
-            element.$.buttonB.click();
-            assert.equal(element.counter, 2);
-        });
-
-        test('bubbling event', function (done) {
-            var element = fixture('basic');
-
-            element.addEventListener('bubbling', function (d) {
-                assert.equal(element.counter, 1);
-                done();
-            });
-            element.$.buttonA.click();
-        });
-
-        test('nonbubbling event', function (done) {
-            var element = fixture('basic');
-
-            element.addEventListener('nonbubbling', function (d) {
-                assert.equal(element.counter, 1);
-                done();
-            });
-            element.$.buttonA.click();
-        });
-
-        test('bubbling event with data', function (done) {
-            var element = fixture('basic');
-
-            element.addEventListener('bubblingdata', function (d) {
-                assert.equal(d.detail, 42);
-                done();
-            });
-            element.$.buttonA.click();
-        });
-
-        test('bubbling event with deep data', function (done) {
-            var element = fixture('basic');
-
-            element.addEventListener('bubbleDeep', function (d) {
-                assert.equal(d.detail, 1337);
-                done();
-            });
-             element.$.buttonF.click();
-        });
-        test('nonbubbling event with deep data', function (done) {
-            var element = fixture('basic');
-
-            element.addEventListener('nonbubbleDeep', function (d) {
-                assert.equal(d.detail, 1337);
-                done();
-            });
-             element.$.buttonF.click();
-        });
-      test('nonbubbling event with data', function (done) {
-            var element = fixture('basic');
-
-            element.addEventListener('nonbubblingdata', function (d) {
-                assert.equal(d.detail, 42);
-                done();
-            });
-            element.$.buttonA.click();
-        });
-
-        test('multiple arguments', function () {
-            var element = fixture('basic');
-            element.$.buttonC.click();
-            element.$.buttonA.click();
-
-            assert.equal(element.$.receive.sumval, 12);
-        });
-
-        test('Send event data with click', function () {
-            var element = fixture('basic');
-            element.$.buttonEvent.click();
-
-            assert.equal(element.$.receive.received.type, 'click');
-        });
-
-        test('camelCased method call', function () {
-            var element = fixture('basic');
-            element.$.buttonD.click();
-            assert.equal(element.$.receive.received, 137);
-        });
-
-
-        test('call non existent method, should just log a warning', function () {
-            var element = fixture('basic');
-            element.$.buttonE.click();
-            assert.equal(1, 1);
-        });
-
-
-
-        test('ƒ-xxx should trigger response with event @-ƒ-xxx', function () {
-            var element = fixture('basic');
-            element.$.buttonC.click();
-
-            assert.equal(element.atf, 12);
-            assert.equal(element.$.receive.sumval, 12);
-        });
-
-
-        test('remove eventlistener', function () {
-            var element = fixture('basic');
-            element.$.buttonC.click();
-
-            assert.equal(element.atf, 12);
-            assert.equal(element.$.receive.sumval, 12);
-            element.remove();
-            element.$.buttonC.click();
-            element.$.buttonC.click();
-            element.$.buttonC.click();
-
-            assert.equal(element.atf, 12);
-            assert.equal(element.$.receive.sumval, 12);
-
-        });
-
+            assert.equal(data, 1337);
+            done();
+        })
+        element.$.buttonF.click();
 
     });
+
+    test('multiple receiving wires', function () {
+        var element = fixture('basic');
+        element.$.buttonA.click();
+        element.$.buttonB.click();
+        assert.equal(element.counter, 2);
+    });
+
+    test('bubbling event', function (done) {
+        var element = fixture('basic');
+
+        element.addEventListener('bubbling', function (d) {
+            assert.equal(element.counter, 1);
+            done();
+        });
+        element.$.buttonA.click();
+    });
+
+    test('nonbubbling event', function (done) {
+        var element = fixture('basic');
+
+        element.addEventListener('nonbubbling', function (d) {
+            assert.equal(element.counter, 1);
+            done();
+        });
+        element.$.buttonA.click();
+    });
+
+    test('bubbling event with data', function (done) {
+        var element = fixture('basic');
+
+        element.addEventListener('bubblingdata', function (d) {
+            assert.equal(d.detail, 42);
+            done();
+        });
+        element.$.buttonA.click();
+    });
+
+    test('bubbling event with deep data', function (done) {
+        var element = fixture('basic');
+
+        element.addEventListener('bubbleDeep', function (d) {
+            assert.equal(d.detail, 1337);
+            done();
+        });
+         element.$.buttonF.click();
+    });
+    test('nonbubbling event with deep data', function (done) {
+        var element = fixture('basic');
+
+        element.addEventListener('nonbubbleDeep', function (d) {
+            assert.equal(d.detail, 1337);
+            done();
+        });
+         element.$.buttonF.click();
+    });
+  test('nonbubbling event with data', function (done) {
+        var element = fixture('basic');
+
+        element.addEventListener('nonbubblingdata', function (d) {
+            assert.equal(d.detail, 42);
+            done();
+        });
+        element.$.buttonA.click();
+    });
+
+    test('multiple arguments', function () {
+        var element = fixture('basic');
+        element.$.buttonC.click();
+        element.$.buttonA.click();
+
+        assert.equal(element.$.receive.sumval, 12);
+    });
+
+    test('Send event data with click', function () {
+        var element = fixture('basic');
+        element.$.buttonEvent.click();
+
+        assert.equal(element.$.receive.received.type, 'click');
+    });
+
+    test('camelCased method call', function () {
+        var element = fixture('basic');
+        element.$.buttonD.click();
+        assert.equal(element.$.receive.received, 137);
+    });
+
+
+    test('call non existent method, should just log a warning', function () {
+        var element = fixture('basic');
+        element.$.buttonE.click();
+        assert.equal(1, 1);
+    });
+
+
+
+    test('ƒ-xxx should trigger response with event @-ƒ-xxx', function () {
+        var element = fixture('basic');
+        element.$.buttonC.click();
+
+        assert.equal(element.atf, 12);
+        assert.equal(element.$.receive.sumval, 12);
+    });
+
+
+    test('remove eventlistener', function () {
+        var element = fixture('basic');
+        element.$.buttonC.click();
+
+        assert.equal(element.atf, 12);
+        assert.equal(element.$.receive.sumval, 12);
+        element.remove();
+        element.$.buttonC.click();
+        element.$.buttonC.click();
+        element.$.buttonC.click();
+
+        assert.equal(element.atf, 12);
+        assert.equal(element.$.receive.sumval, 12);
+
+    });
+
+
+});
 </script>
 </body>
 </html>

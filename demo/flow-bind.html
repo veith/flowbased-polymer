@@ -4,43 +4,61 @@
     <title>flowbased-polymer demo</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../../@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
 
-    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
-    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <script type="module" src="../../../@polymer/iron-demo-helpers/demo-pages-shared-styles.js"></script>
+    <script type="module" src="../../../@polymer/iron-demo-helpers/demo-snippet.js"></script>
 
-    <link rel="import" href="../inspect-flow.html">
-    <link rel="import" href="../../iron-ajax/iron-ajax.html">
+    <script type="module" src="../flow-bind.js"></script>
 
-    <link rel="import" href="../flow-bind.html">
+    <!-- FIXME(polymer-modulizer):
+        These imperative modules that innerHTML your HTML are
+        a hacky way to be sure that any mixins in included style
+        modules are ready before any elements that reference them are
+        instantiated, otherwise the CSS @apply mixin polyfill won't be
+        able to expand the underlying CSS custom properties.
+        See: https://github.com/Polymer/polymer-modulizer/issues/154
+        -->
+    <script type="module">
+const $_documentContainer = document.createElement('template');
 
-    <style is="custom-style" include="demo-pages-shared-styles">
-    </style>
+$_documentContainer.innerHTML = `<style is="custom-style" include="demo-pages-shared-styles">
+    </style>`;
+
+document.head.appendChild($_documentContainer.content);
+</script>
 </head>
 <body>
 
 <div class="vertical-section-container centered">
-    <h3>Basic dynamic flowbased-polymer  Demo</h3>
-
-
+    <h3>flow-bind  Demo</h3>
     <demo-snippet>
         <template>
             <flow-bind id="elem">
                 <template>
                     <button id="btn" @-click="--clk">click me</button>
-                    <div id="dd" ƒ-done="--clk"></div>
+                    <span id="dd" ƒ-done="--clk"></span>
+
+                    <button @-click="--bclicked" ƒ-remove="--bclicked">Remove Me</button>
+
                     <script>
+                        // you can also script with flow-bind
+
                         let host = elem;
-                        elem.$.dd.done = e => {
-                            alert(e);
+                        // add method done to element with id `dd`
+                        host.$.dd.done = e => {
+                            host.$.dd.innerHTML = e;
                         }
-                    </script>
+                     </script>
                 </template>
             </flow-bind>
         </template>
 
     </demo-snippet>
 </div>
+
+
+
 
 </body>
 </html>
