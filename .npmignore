@@ -10,3 +10,7 @@ dist
 docs/public
 coverage
 test
+.editorconfig
+.gitattributes
+analysis.json
+wct.conf.json
