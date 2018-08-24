@@ -2,7 +2,7 @@
 
 ## installation
 
-For Polymer 3 4 and higher use npm:
+For Polymer 3 and higher use npm:
 ```
 npm i --save  @furo/fpb
 ```
