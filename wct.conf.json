@@ -6,8 +6,7 @@
             "dir": "./coverage",
             "reporters": ["text-summary", "lcov"],
             "include": [
-                "/flow-bind.js",
-                "/fbp.js"
+                "*.js"
             ],
             "exclude": []
         },
