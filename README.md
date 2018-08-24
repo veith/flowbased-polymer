@@ -1,5 +1,20 @@
 # flowbased-polymer
 
+## installation
+
+For Polymer 3 4 and higher use npm:
+```
+npm install --save @furo/fbp
+```
+
+For Polymer 2 and below use bower:
+```
+bower install --save veith/flowbased-polymer
+```
+
+
+
+
 The flowbased-polymer mixin offers you the possibility to **write your components or apps fully declaratively**. No more manual/imperative adding of eventlisteners in the source code and no more assignment of IDs to access the component you want.
 
 You can use it to simply save adding eventlisteners in your source or to write entire components and applications according to the FBP programming paradigm without using a single line of JS. It's up to you how far you want to go.
