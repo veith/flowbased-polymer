@@ -4,7 +4,7 @@
 
 For Polymer 3 4 and higher use npm:
 ```
-npm install --save @furo/fbp
+npm i --save  @furo/fpb
 ```
 
 For Polymer 2 and below use bower:
