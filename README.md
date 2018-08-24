@@ -87,13 +87,6 @@ Read more about FBPolymer on the  [documentation pages](https://veith.github.io/
 
 
 
-
-## Credits
-
-* [John Paul Morrison](http://www.jpaulmorrison.com/) for inventing FBP
-* [Kevin Shaaf](https://github.com/kevinpschaaf) for the good hints he gave in the [polymer slack channel](polymer.slack.com)
-* [the Polymer contributors](https://github.com/orgs/Polymer/people) for all the good tools
-
 ## License
 
 MIT
