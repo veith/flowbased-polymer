@@ -8,142 +8,6 @@
       "properties": [],
       "methods": [
         {
-          "name": "_attachDom",
-          "description": "",
-          "privacy": "protected",
-          "sourceRange": {
-            "file": "fbp-mixin.js",
-            "start": {
-              "line": 18,
-              "column": 4
-            },
-            "end": {
-              "line": 21,
-              "column": 5
-            }
-          },
-          "metadata": {},
-          "params": [
-            {
-              "name": "dom"
-            }
-          ],
-          "return": {
-            "type": "void"
-          },
-          "inheritedFrom": "FBP"
-        },
-        {
-          "name": "_FBPTriggerWire",
-          "description": "Triggers a wire",
-          "privacy": "private",
-          "sourceRange": {
-            "file": "fbp-mixin.js",
-            "start": {
-              "line": 29,
-              "column": 4
-            },
-            "end": {
-              "line": 56,
-              "column": 5
-            }
-          },
-          "metadata": {},
-          "params": [
-            {
-              "name": "wire",
-              "description": "(String) Name of the wire like --buttonClicked"
-            },
-            {
-              "name": "detailData",
-              "description": "(*) data to pass"
-            }
-          ],
-          "return": {
-            "type": "void"
-          },
-          "inheritedFrom": "FBP"
-        },
-        {
-          "name": "_FBPAddWireHook",
-          "description": "",
-          "privacy": "protected",
-          "sourceRange": {
-            "file": "fbp-mixin.js",
-            "start": {
-              "line": 66,
-              "column": 4
-            },
-            "end": {
-              "line": 83,
-              "column": 5
-            }
-          },
-          "metadata": {},
-          "params": [
-            {
-              "name": "wire",
-              "description": "(String) Name of the wire"
-            },
-            {
-              "name": "cb",
-              "description": "(function) Callback function cb(detailData)"
-            },
-            {
-              "name": "before"
-            }
-          ],
-          "inheritedFrom": "FBP"
-        },
-        {
-          "name": "__appendFBP",
-          "description": "",
-          "privacy": "private",
-          "sourceRange": {
-            "file": "fbp-mixin.js",
-            "start": {
-              "line": 85,
-              "column": 6
-            },
-            "end": {
-              "line": 230,
-              "column": 5
-            }
-          },
-          "metadata": {},
-          "params": [
-            {
-              "name": "dom"
-            }
-          ],
-          "return": {
-            "type": "void"
-          },
-          "inheritedFrom": "FBP"
-        },
-        {
-          "name": "disconnectedCallback",
-          "description": "",
-          "privacy": "public",
-          "sourceRange": {
-            "file": "fbp-mixin.js",
-            "start": {
-              "line": 232,
-              "column": 4
-            },
-            "end": {
-              "line": 238,
-              "column": 5
-            }
-          },
-          "metadata": {},
-          "params": [],
-          "return": {
-            "type": "void"
-          },
-          "inheritedFrom": "FBP"
-        },
-        {
           "name": "connectedCallback",
           "description": "",
           "privacy": "public",
@@ -153,7 +17,7 @@
               "column": 4
             },
             "end": {
-              "line": 26,
+              "line": 25,
               "column": 5
             }
           },
@@ -178,7 +42,7 @@
           "column": 0
         },
         "end": {
-          "line": 32,
+          "line": 30,
           "column": 1
         }
       },
@@ -200,6 +64,37 @@
   ],
   "mixins": [
     {
+      "description": "flowbased-polymer\n\nThe flowbased-polymer mixin offers you the possibility to **write your components or apps fully declaratively**. No more manual/imperative adding of eventlisteners in the source code and no more assignment of IDs to access the component you want.\n\nYou can use it to simply save adding eventlisteners in your source or to write entire components and applications according to the FBP programming paradigm without using a single line of JS. It's up to you how far you want to go.\n\nFBP code is also easy testable. It takes about 2 minutes to understand the main concept.\n\nIt is a hybrid form of flow-based programming and ordinary polymer and works with every component which is useable by polymer.\n\n## Simple Introduction\nIn short, FBP combines events from one component `@-event` with methods from another component `ƒ-method` to trigger them. We call the connection a **wire**.\n\n ```\n<paper-button raised @-click=\"--btnPropsClicked\">Show Props</paper-button>\n<left-drawer ƒ-hide=\"--btnPropsClicked\">Menu...</left-drawer>\n<right-drawer ƒ-show=\"--btnPropsClicked\">Props...</right-drawer>\n```\n\n![simple intro](https://veith.github.io/flowbased-polymer/images/short-intro.png)\n\n\n### What happens in the example above\nWhen the user clicks on the `paper-button`, the `left-drawer` is hidden and the `right-drawer` is displayed.\nThe button does not need to know that there is a left-drawer or right-drawer. It only informs about the wire `--btnPropsClicked` that it was clicked.\n\n## Further documentation\nPlease read the [documentation page](https://veith.github.io/flowbased-polymer/wireing/overview/) for more information.\n\n\n## Detailed documentation\nRead more about FBPolymer on the  [documentation pages](https://veith.github.io/flowbased-polymer/).\n\n\n## License\n\nMIT",
+      "summary": "",
+      "path": "fbp-mixin.js",
+      "properties": [],
+      "methods": [],
+      "staticMethods": [],
+      "demos": [],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 289,
+          "column": 7
+        },
+        "end": {
+          "line": 289,
+          "column": 43
+        }
+      },
+      "privacy": "public",
+      "name": "FBP",
+      "attributes": [],
+      "events": [],
+      "styling": {
+        "cssVariables": [],
+        "selectors": []
+      },
+      "slots": []
+    }
+  ],
+  "classes": [
+    {
       "description": "",
       "summary": "",
       "path": "fbp-mixin.js",
@@ -207,16 +102,16 @@
       "methods": [
         {
           "name": "_attachDom",
-          "description": "",
+          "description": "für Polymer",
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 18,
-              "column": 4
+              "line": 17,
+              "column": 8
             },
             "end": {
-              "line": 21,
-              "column": 5
+              "line": 20,
+              "column": 9
             }
           },
           "metadata": {},
@@ -235,12 +130,12 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 29,
-              "column": 4
+              "line": 28,
+              "column": 8
             },
             "end": {
-              "line": 56,
-              "column": 5
+              "line": 55,
+              "column": 9
             }
           },
           "metadata": {},
@@ -264,12 +159,12 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 66,
-              "column": 4
+              "line": 65,
+              "column": 8
             },
             "end": {
-              "line": 83,
-              "column": 5
+              "line": 82,
+              "column": 9
             }
           },
           "metadata": {},
@@ -288,23 +183,24 @@
           ]
         },
         {
-          "name": "__appendFBP",
-          "description": "",
+          "name": "_appendFBP",
+          "description": "parses the dom for flowbased programming tags",
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 85,
-              "column": 6
+              "line": 89,
+              "column": 8
             },
             "end": {
-              "line": 230,
-              "column": 5
+              "line": 233,
+              "column": 9
             }
           },
           "metadata": {},
           "params": [
             {
-              "name": "dom"
+              "name": "dom",
+              "description": "dom node"
             }
           ],
           "return": {
@@ -317,12 +213,12 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 232,
-              "column": 4
+              "line": 235,
+              "column": 8
             },
             "end": {
-              "line": 238,
-              "column": 5
+              "line": 241,
+              "column": 9
             }
           },
           "metadata": {},
@@ -337,23 +233,16 @@
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 6,
-          "column": 7
+          "line": 8,
+          "column": 11
         },
         "end": {
-          "line": 241,
-          "column": 2
+          "line": 242,
+          "column": 5
         }
       },
       "privacy": "public",
-      "name": "FBP",
-      "attributes": [],
-      "events": [],
-      "styling": {
-        "cssVariables": [],
-        "selectors": []
-      },
-      "slots": []
+      "superclass": "superClass"
     }
   ]
 }

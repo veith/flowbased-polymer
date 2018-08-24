@@ -5,8 +5,8 @@
     <title>flowbased-polymer test</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-    <script src="../../../@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
-    <script src="../../../wct-browser-legacy/browser.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
 
     <script type="module" src="../flow-bind.js"></script>
 </head>
@@ -30,9 +30,7 @@
 <script type="module">
 import '../flow-bind.js';
 suite('flowbased-polymer ', function () {
-
     test('click should call done on div', (done) => {
-
         const element = fixture('basic');
         console.dir(element)
         assert.equal(element.$.dd.innerText,"x");
@@ -40,10 +38,7 @@ suite('flowbased-polymer ', function () {
             done()
         };
         element.$.btn.click();
-
     });
-
-
 });
 </script>
 </body>

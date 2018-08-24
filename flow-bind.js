@@ -1,5 +1,5 @@
 import { DomBind } from '@polymer/polymer/lib/elements/dom-bind.js';
-import {FBP} from './fbp-mixin.js';
+import {FBP} from './fbp.js';
 /**
  * `flow-bind`
  *
@@ -22,7 +22,7 @@ import {FBP} from './fbp-mixin.js';
 class FlowBind extends FBP(DomBind) {
     connectedCallback() {
         super.connectedCallback();
-        this.__appendFBP(this.parentNode);
+        this._appendFBP(this.parentNode);
     }
 
     static get is() {

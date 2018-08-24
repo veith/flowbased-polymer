@@ -6,10 +6,8 @@
             "dir": "./coverage",
             "reporters": ["text-summary", "lcov"],
             "include": [
-                "/flow-bind.html",
-                "/mixin.html",
-                "/behaviour.html",
-                "/basic/stream-count.html"
+                "/flow-bind.js",
+                "/fbp.js"
             ],
             "exclude": []
         },

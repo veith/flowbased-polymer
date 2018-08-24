@@ -6,15 +6,15 @@
   from HTML and may be out of place here. Review them and
   then delete this comment!
 */
-import '../mixin.js';
 
 import '@polymer/polymer/polymer-legacy.js';
 import './count-points.js';
 import './receive-value.js';
 import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 import { PolymerElement } from '@polymer/polymer/polymer-element.js';
+import {FBP} from '../fbp.js';
 
-class FlowbasedPolymer extends FBPMixin(PolymerElement) {
+class FlowbasedPolymer extends FBP(PolymerElement) {
   static get template() {
     return html`
         <style>

@@ -26,10 +26,6 @@ In short, FBP combines events from one component `@-event` with methods from ano
 When the user clicks on the `paper-button`, the `left-drawer` is hidden and the `right-drawer` is displayed.
 The button does not need to know that there is a left-drawer or right-drawer. It only informs about the wire `--btnPropsClicked` that it was clicked.
 
-
-
-
-
 ## Further documentation
 Please read the [documentation page](https://veith.github.io/flowbased-polymer/wireing/overview/) for more information.
 
