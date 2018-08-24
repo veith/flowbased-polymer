@@ -23,13 +23,11 @@ class FlowBind extends FBP(DomBind) {
     connectedCallback() {
         super.connectedCallback();
         this.__appendFBP(this.parentNode);
-
     }
 
     static get is() {
         return 'flow-bind';
     }
-
 }
 
 window.customElements.define(FlowBind.is, FlowBind);
