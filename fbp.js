@@ -205,6 +205,7 @@ const FBPMixin = (superClass) => {
                     },
 
                     "fireBubble": function (e) {
+
                         if (match !== null && match.length > 1) {
                             let prop = match[1];
                             let theEvent = match[0];

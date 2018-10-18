@@ -21,6 +21,11 @@
                 <button id="btn" @-click="--clk"></button>
                 <div id="dd" ƒ-done="--clk" @-dummy="--clk">x</div>
                 <div id="xx" ƒ-dummy="--clk">dummy</div>
+
+                <button id="bubblebtn" @-click="--bubble"></button>
+
+                    <div id="bubble" ƒ-hit="--bubble"  @-hitted="((propp)),--raw(*), --data(id), ^prop(prop),^fire, ^^testEvent, ^^firebubble(id)" ƒ-sefl="oo">dummy</div>
+
                 <script>
                     console.dir(elem.$.dd)
                 </script>
@@ -31,79 +36,105 @@
 </test-fixture>
 
 <script type="module">
-import '../flow-bind.js';
-suite('hooks ', function () {
 
 
-    test('using a nonexistent wire should give a warning and return -1', () => {
-        const element = fixture('basic');
-        //text after clk should have changed
-        let r = element._FBPAddWireHook('--nonexist', (d) => {
-            assert.equal(element.$.dd.innerText, "x");
-            assert.equal(d, 0);
-
-        }, true);
-        assert.equal(r, -1);
-
-    });
+    suite('hooks ', function () {
 
 
-    test('hook should call callback BEFORE wire receivers are informed', (done) => {
-        const element = fixture('basic');
-        //text after clk should have changed
-        element._FBPAddWireHook('--clk', (d) => {
-            assert.equal(element.$.dd.innerText, "x");
-            assert.equal(d, 0);
-            done()
-        }, true);
+        test('click should bubble event', (done) => {
+
+            const element = fixture('basic');
 
 
-        assert.equal(element.$.dd.innerText, "x");
-        element.$.dd.done = function () {
-            element.$.dd.innerText = "done was called";
-        };
-        element.$.btn.click();
-    });
+            element.$.bubble.hit = function () {
+                 var customEvent = new Event('hitted', {composed: true, bubbles: true});
+                customEvent.detail = 3333;
+                this.dispatchEvent(customEvent);
 
-    test('hook should call callback after wire receivers are informed', (done) => {
-        const element = fixture('basic');
-        //text after clk should have changed
-        element._FBPAddWireHook('--clk', (d) => {
-            assert.equal(element.$.dd.innerText, "done was called");
-            assert.equal(d, 0);
-            done()
+            };
+
+            // element hat den event
+            element.addEventListener('testEvent', (e) => {
+                assert.equal(element.propp, 3333);
+                assert.equal(e.detail, 3333);
+                done();
+            });
+
+
+            element.$.bubblebtn.click();
+
         });
 
 
-        assert.equal(element.$.dd.innerText, "x");
-        element.$.dd.done = function () {
-            element.$.dd.innerText = "done was called";
-        };
-        element.$.btn.click();
+        test('using a nonexistent wire should give a warning and return -1', () => {
+            const element = fixture('basic');
+            //text after clk should have changed
+            let r = element._FBPAddWireHook('--nonexist', (d) => {
+                assert.equal(element.$.dd.innerText, "x");
+                assert.equal(d, 0);
+
+            }, true);
+            assert.equal(r, -1);
+
+        });
+
+
+        test('hook should call callback BEFORE wire receivers are informed', (done) => {
+            const element = fixture('basic');
+            //text after clk should have changed
+            element._FBPAddWireHook('--clk', (d) => {
+                assert.equal(element.$.dd.innerText, "x");
+                assert.equal(d, 0);
+                done()
+            }, true);
+
+
+            assert.equal(element.$.dd.innerText, "x");
+            element.$.dd.done = function () {
+                element.$.dd.innerText = "done was called";
+            };
+            element.$.btn.click();
+        });
+
+        test('hook should call callback after wire receivers are informed', (done) => {
+            const element = fixture('basic');
+            //text after clk should have changed
+            element._FBPAddWireHook('--clk', (d) => {
+                assert.equal(element.$.dd.innerText, "done was called");
+                assert.equal(d, 0);
+                done()
+            });
+
+
+            assert.equal(element.$.dd.innerText, "x");
+            element.$.dd.done = function () {
+                element.$.dd.innerText = "done was called";
+            };
+            element.$.btn.click();
+        });
+
+        test('click should call done on div', (done) => {
+
+            const element = fixture('basic');
+
+            assert.equal(element.$.dd.innerText, "x");
+            element.$.dd.done = function () {
+                done()
+            };
+            element.$.btn.click();
+
+        });
+
+
+        test('triggering an nonexistent wire should have no effect', () => {
+            const element = fixture('basic');
+            //text after clk should have changed
+            element._FBPTriggerWire('--nonexist', {a: 1});
+            assert.equal(element.$.dd.innerText, "x");
+
+        });
+
     });
-
-    test('click should call done on div', (done) => {
-
-        const element = fixture('basic');
-
-        assert.equal(element.$.dd.innerText, "x");
-        element.$.dd.done = function () {
-            done()
-        };
-        element.$.btn.click();
-
-    });
-
-
-    test('triggering an nonexistent wire should have no effect', () => {
-        const element = fixture('basic');
-        //text after clk should have changed
-        element._FBPTriggerWire('--nonexist', {a: 1});
-        assert.equal(element.$.dd.innerText, "x");
-
-    });
-
-});
 </script>
 </body>
 </html>

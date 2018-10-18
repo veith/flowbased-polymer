@@ -2,7 +2,7 @@
     "suites": ["test/*_test.html"],
     "verbose": true,
     "plugins": {
-        "istanbul": {
+        "istanbub": {
             "dir": "./coverage",
             "reporters": ["text-summary", "lcov"],
             "include": [
