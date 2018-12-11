@@ -195,12 +195,11 @@ const FBPMixin = (superClass) => {
                             let theEvent = match[0];
                             let customEvent = new Event(theEvent, {composed: true, bubbles: false});
                             customEvent.detail = Path.get(self, prop);
-
-                            self.dispatchEvent(customEvent);
+                            e.currentTarget.dispatchEvent(customEvent);
                         } else {
                             let customEvent = new Event(wire, {composed: true, bubbles: false});
                             customEvent.detail = e.detail;
-                            self.dispatchEvent(customEvent);
+                            e.currentTarget.dispatchEvent(customEvent);
                         }
                     },
 
@@ -211,11 +210,11 @@ const FBPMixin = (superClass) => {
                             let theEvent = match[0];
                             let customEvent = new Event(theEvent, {composed: true, bubbles: true});
                             customEvent.detail = Path.get(self, prop);
-                            self.dispatchEvent(customEvent);
+                            e.currentTarget.dispatchEvent(customEvent);
                         } else {
                             let customEvent = new Event(wire, {composed: true, bubbles: true});
                             customEvent.detail = e.detail;
-                            self.dispatchEvent(customEvent);
+                            e.currentTarget.dispatchEvent(customEvent);
                         }
                     },
                     "setValue": function (e) {

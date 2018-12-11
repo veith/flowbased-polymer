@@ -18,6 +18,7 @@
     <template>
         <flow-bind id="elem">
             <template>
+                <div id="hull">
                 <button id="btn" @-click="--clk"></button>
                 <div id="dd" ƒ-done="--clk" @-dummy="--clk">x</div>
                 <div id="xx" ƒ-dummy="--clk">dummy</div>
@@ -27,8 +28,9 @@
                     <div id="bubble" ƒ-hit="--bubble"  @-hitted="((propp)),--raw(*), --data(id), ^prop(prop),^fire, ^^testEvent, ^^firebubble(id)" ƒ-sefl="oo">dummy</div>
 
                 <script>
-                    console.dir(elem.$.dd)
+
                 </script>
+                </div>
             </template>
         </flow-bind>
 
@@ -46,19 +48,22 @@
             const element = fixture('basic');
 
 
+            // element hat den event
+            element.$.hull.addEventListener('testEvent', (e) => {
+                assert.equal(element.propp, 3333);
+                assert.equal(e.detail, 3333);
+                done();
+            });
+
+
             element.$.bubble.hit = function () {
+
                  var customEvent = new Event('hitted', {composed: true, bubbles: true});
                 customEvent.detail = 3333;
                 this.dispatchEvent(customEvent);
 
             };
 
-            // element hat den event
-            element.addEventListener('testEvent', (e) => {
-                assert.equal(element.propp, 3333);
-                assert.equal(e.detail, 3333);
-                done();
-            });
 
 
             element.$.bubblebtn.click();
