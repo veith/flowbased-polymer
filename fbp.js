@@ -127,6 +127,9 @@ const FBPMixin = (superClass) => {
                                     type = "setValue";
 
 
+                                } else if (trimmedWire.startsWith('-^')) {
+                                    wire = trimmedWire.substring(2);
+                                    type = "fireOnHost";
                                 } else if (trimmedWire.startsWith('^')) {
                                     wire = trimmedWire.substring(1);
                                     type = "fire";
@@ -135,6 +138,9 @@ const FBPMixin = (superClass) => {
                                         type = "fireBubble";
                                     }
 
+                                } else if (trimmedWire == ':STOP') {
+                                    type = "stop";
+                                    wire = "stop";
                                 } else {
                                     wire = trimmedWire;
                                     type = "call";
@@ -165,6 +171,11 @@ const FBPMixin = (superClass) => {
 
 
                 let handler = {
+
+                    "stop": function (e) {
+                        e.stopPropagation()
+                    },
+
                     "call": function (e) {
                         /**
                          * Prüfe ob die Funktion mit einem Wert aus dem Host oder mit den Details des Events ausgeführt werden soll.
@@ -193,13 +204,27 @@ const FBPMixin = (superClass) => {
                         if (match !== null && match.length > 1) {
                             let prop = match[1];
                             let theEvent = match[0];
-                            let customEvent = new Event(theEvent, {composed: true, bubbles: false});
+                            let customEvent = new Event(theEvent, {composed: false, bubbles: true});
                             customEvent.detail = Path.get(self, prop);
                             e.currentTarget.dispatchEvent(customEvent);
                         } else {
-                            let customEvent = new Event(wire, {composed: true, bubbles: false});
+                            let customEvent = new Event(wire, {composed: false, bubbles: true});
                             customEvent.detail = e.detail;
                             e.currentTarget.dispatchEvent(customEvent);
+                        }
+                    },
+
+                    "fireOnHost": function (e) {
+                        if (match !== null && match.length > 1) {
+                            let prop = match[1];
+                            let theEvent = match[0];
+                            let customEvent = new Event(theEvent, {composed: false, bubbles: true});
+                            customEvent.detail = Path.get(self, prop);
+                            self.dispatchEvent(customEvent);
+                        } else {
+                            let customEvent = new Event(wire, {composed: false, bubbles: true});
+                            customEvent.detail = e.detail;
+                            self.dispatchEvent(customEvent);
                         }
                     },
 
