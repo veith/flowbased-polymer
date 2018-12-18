@@ -163,7 +163,7 @@ const FBPMixin = (superClass) => {
             function registerEvent(eventname, type, wire, element) {
                 // find properties in wire
                 element.__atf = {};
-                let match = wire.match(/([a-z\-_*\.]+)/gi);
+                let match = wire.match(/([a-z0-9\-_*\.]+)/gi);
                 // store @-ƒ-attributes existence
                 for (let i = 0; i < element.attributes.length; i++) {
                     element.__atf[element.attributes[i].name] = true;
