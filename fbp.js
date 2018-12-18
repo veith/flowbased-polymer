@@ -171,8 +171,9 @@ const FBPMixin = (superClass) => {
 
 
                 let handler = {
-
+                    // prevent default and stop propagation
                     "stop": function (e) {
+                        e.preventDefault()
                         e.stopPropagation()
                     },
 
@@ -205,7 +206,16 @@ const FBPMixin = (superClass) => {
                             let prop = match[1];
                             let theEvent = match[0];
                             let customEvent = new Event(theEvent, {composed: false, bubbles: true});
-                            customEvent.detail = Path.get(self, prop);
+                            // send details with *.sub or *
+                            if (prop.startsWith("*")) {
+                                if (prop.length == 1) {
+                                    customEvent.detail = e;
+                                } else {
+                                    customEvent.detail = Path.get(e, prop.substr(2))
+                                }
+                            } else {
+                                customEvent.detail = Path.get(self, prop);
+                            }
                             e.currentTarget.dispatchEvent(customEvent);
                         } else {
                             let customEvent = new Event(wire, {composed: false, bubbles: true});
@@ -219,7 +229,16 @@ const FBPMixin = (superClass) => {
                             let prop = match[1];
                             let theEvent = match[0];
                             let customEvent = new Event(theEvent, {composed: false, bubbles: true});
-                            customEvent.detail = Path.get(self, prop);
+                            // send details with *.sub or *
+                            if (prop.startsWith("*")) {
+                                if (prop.length == 1) {
+                                    customEvent.detail = e;
+                                } else {
+                                    customEvent.detail = Path.get(e, prop.substr(2))
+                                }
+                            } else {
+                                customEvent.detail = Path.get(self, prop);
+                            }
                             self.dispatchEvent(customEvent);
                         } else {
                             let customEvent = new Event(wire, {composed: false, bubbles: true});
@@ -234,7 +253,16 @@ const FBPMixin = (superClass) => {
                             let prop = match[1];
                             let theEvent = match[0];
                             let customEvent = new Event(theEvent, {composed: true, bubbles: true});
-                            customEvent.detail = Path.get(self, prop);
+                            // send details with *.sub or *
+                            if (prop.startsWith("*")) {
+                                if (prop.length == 1) {
+                                    customEvent.detail = e;
+                                } else {
+                                    customEvent.detail = Path.get(e, prop.substr(2))
+                                }
+                            } else {
+                                customEvent.detail = Path.get(self, prop);
+                            }
                             e.currentTarget.dispatchEvent(customEvent);
                         } else {
                             let customEvent = new Event(wire, {composed: true, bubbles: true});
