@@ -15,7 +15,7 @@ bower install --save veith/flowbased-polymer
 
 
 
-The flowbased-polymer mixin offers you the possibility to **write your components or apps fully declaratively**. No more manual/imperative adding of eventlisteners in the source code and no more assignment of IDs to access the component you want.
+The flowbased-polymer mixin offers you the possibility to **write your components or apps fully declaratively**. No more manual/imperative adding of eventListeners in the source code and no searching for IDs to access the component you want.
 
 You can use it to simply save adding eventlisteners in your source or to write entire components and applications according to the FBP programming paradigm without using a single line of JS. It's up to you how far you want to go.
 
@@ -46,55 +46,44 @@ Please read the [documentation page](https://veith.github.io/flowbased-polymer/w
 
 
 
-## Usage
+## Usage 
 After importing the Mixin, extend your component with the **FBPMixin**. Thats all you have to do.
 
 
 ```
-<link rel="import" href="../polymer/polymer-element.html">
-// import the mixin
-<link rel="import" href="../flowbased-polymer/mixin.html">
-
-// import the components you want to use in your component
-<link rel="import" href="../paper-button/paper-button.html">
-<link rel="import" href="left-drawer.html">
-<link rel="import" href="right-drawer.html">
-
-<dom-module id="my-component">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-
-    <paper-button raised @-click="--btnPropsClicked">Show Props</paper-button>
-    <left-drawer ƒ-hide="--btnPropsClicked">Menu...</left-drawer>
-    <right-drawer ƒ-show="--btnPropsClicked">Props...</right-drawer>
-
-  </template>
-</dom-module>
+import {PolymerElement, html} from '@polymer/polymer';
+import {FBP} from "@furo/fbp";
+// ...
 
 
-<script>
-  /**
-   * `my-component`
-   *
-   *
-   * @customElement
-   * @polymer
-   * @demo demo/index.html
-   * @mixes FBPMixin
-   */
-  class MyComponent extends FBPMixin(Polymer.Element) {
-    static get is() {
-      return 'my-component';
-    }
+/**
+ * `my-component`
+ *
+ *
+ * @summary
+ * @customElement
+ * @polymer
+ * @mixes FBP
+ */
+class MyComponent extends FBP(PolymerElement) {
+    static get template() {
+    // language=HTML
+    return html`
+      <style>
+        :host {
+          display: block;
+        }
+      </style>
+      <paper-button raised @-click="--btnPropsClicked">Show Props</paper-button>
+      <left-drawer ƒ-hide="--btnPropsClicked">Menu...</left-drawer>
+      <right-drawer ƒ-show="--btnPropsClicked">Props...</right-drawer>
+
+    `;
   }
 
-  window.customElements.define(MyComponent.is, MyComponent);
+}
 
-</script>
+window.customElements.define('my-component', MyComponent);
 ```
 
 ## Detailed documentation
