@@ -19,17 +19,20 @@
         <flow-bind id="elem">
             <template>
                 <div id="hull">
-                <button id="btn" @-click="--clk"></button>
-                <div id="dd" ƒ-done="--clk" @-dummy="--clk">x</div>
-                <div id="xx" ƒ-dummy="--clk" ƒ-dummy-camel="--clk">dummy</div>
+                    <button id="btn" @-click="--clk"></button>
+                    <div id="dd" ƒ-done="--clk" @-dummy="--clk">x</div>
+                    <div id="xx" ƒ-dummy="--clk" ƒ-dummy-camel="--clk">dummy</div>
 
-                <button id="bubblebtn" @-click="--bubble"></button>
+                    <button id="bubblebtn" @-click="--bubble"></button>
 
-                    <div id="bubble" ƒ-hit="--bubble"  @-hitted="((propp)),--raw(*), --data(id), ^prop(prop),^fire, ^^testEvent,^^fireBubbleData(id), -^fire-on-host-with-data, -^fire-on-host-with-data(id),:STOP" ƒ-sefl="oo">dummy</div>
+                    <div id="bubble" ƒ-hit="--bubble"
+                         @-hitted="((propp)),--raw(*), --data(id), ^prop(prop),^fire, ^^testEvent,^^fireBubbleData(id), -^fire-on-host-with-data, -^fire-on-host-with-data(id),:STOP"
+                         ƒ-sefl="oo">dummy
+                    </div>
 
-                <script>
+                    <script>
 
-                </script>
+                    </script>
                 </div>
             </template>
         </flow-bind>
@@ -58,12 +61,11 @@
 
             element.$.bubble.hit = function () {
 
-                 var customEvent = new Event('hitted', {composed: true, bubbles: true});
+                var customEvent = new Event('hitted', {composed: true, bubbles: true});
                 customEvent.detail = 3333;
                 this.dispatchEvent(customEvent);
 
             };
-
 
 
             element.$.bubblebtn.click();
@@ -71,16 +73,16 @@
         });
 
 
-        test('using a nonexistent wire should give a warning and return -1', () => {
+        test('using a nonexistent wire should register it and return length of 1', (done) => {
             const element = fixture('basic');
             //text after clk should have changed
             let r = element._FBPAddWireHook('--nonexist', (d) => {
                 assert.equal(element.$.dd.innerText, "x");
-                assert.equal(d, 0);
-
+                assert.equal(d, 33);
+                done();
             }, true);
-            assert.equal(r, -1);
-
+            assert.equal(r, 1);
+            element._FBPTriggerWire('--nonexist', 33)
         });
 
 

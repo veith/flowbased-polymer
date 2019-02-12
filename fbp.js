@@ -1,7 +1,3 @@
-import * as Path from '@polymer/polymer/lib/utils/path.js';
-import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin.js';
-
-
 const FBPMixin = (superClass) => {
     /**
      * @polymerMixinClass
@@ -20,6 +16,12 @@ const FBPMixin = (superClass) => {
             super._attachDom(dom);
         }
 
+        // for lit elements
+        firstUpdated(changedProperties) {
+            this._appendFBP(this.shadowRoot);
+            super.firstUpdated();
+        }
+
         /**
          * Triggers a wire
          * @param wire (String) Name of the wire like --buttonClicked
@@ -28,6 +30,7 @@ const FBPMixin = (superClass) => {
          */
         _FBPTriggerWire(wire, detailData) {
             if (this.__wirebundle[wire]) {
+                let self = this;
                 this.__wirebundle[wire].forEach(function (receiver) {
                     // check for hooks
                     if (typeof receiver === 'function') {
@@ -46,6 +49,12 @@ const FBPMixin = (superClass) => {
                             customEvent.detail = response;
                             receiver.element.dispatchEvent(customEvent);
 
+                        } else if (receiver.property) {
+                            let data = detailData;
+                            if (receiver.path) {
+                                data = self._pathGet(detailData, receiver.path)
+                            }
+                            receiver.element[receiver.property] = data
                         } else {
                             console.warn(receiver.method + ' is neither a listener nor a function of ' + receiver.element.nodeName)
                         }
@@ -75,8 +84,8 @@ const FBPMixin = (superClass) => {
                 }
 
             } else {
-                console.warn(wire, 'does not exist on element', this);
-                return -1;
+                this.__wirebundle[wire] = [cb];
+                return 1;
             }
 
 
@@ -91,67 +100,103 @@ const FBPMixin = (superClass) => {
             let self = this;
             let wirebundle = this.__wirebundle;
             // get all elements which live in the host
-            dom.querySelectorAll('*').forEach(function (element) {
-                    for (let i = 0; i < element.attributes.length; i++) {
-                        // collect receiving tags
-                        if (element.attributes[i].name.startsWith('ƒ-')) {
-                            // get method name and convert to camel case
-                            let methodname = element.attributes[i].name.substr(2).replace(/-([a-z])/g, function (g) {
-                                return g[1].toUpperCase();
+            let nl = dom.querySelectorAll('*');
+            let l = nl.length - 1;
+            for (var x = l; x >= 0; --x) {
+                let element = nl[x];
+
+                for (let i = 0; i < element.attributes.length; i++) {
+
+                    // collect data receiver
+                    if (element.attributes[i].name.startsWith('ƒ-$')) {
+
+                        // get property name and convert to camel case
+                        let propertyname = element.attributes[i].name.substr(3).replace(/-([a-z])/g, function (g) {
+                            return g[1].toUpperCase();
+                        });
+
+
+                        // split multiple wires
+                        element.attributes[i].value.split(',').forEach(function (w) {
+                            // finde --wire(*.xx.yy)  => group1 = --wire  group2 = xx.yy
+                            //let match = w.trim().match(/(^[^\(]*)\(\*\.?([^\)]*)/);
+                            let match = w.trim().match(/(^[^\(]*)\(?\*?\.?([^\)]*)/);
+                            let receivingWire = match[1];
+                            let path = match[2]
+
+                            if (!wirebundle[receivingWire]) {
+                                wirebundle[receivingWire] = [];
+                            }
+                            wirebundle[receivingWire].push({
+                                "element": element,
+                                "property": propertyname,
+                                "path": path
                             });
+                        });
+                        continue;
+                    }
+
+                    // collect receiving tags
+                    if (element.attributes[i].name.startsWith('ƒ-')) {
+                        // get method name and convert to camel case
+                        let methodname = element.attributes[i].name.substr(2).replace(/-([a-z])/g, function (g) {
+                            return g[1].toUpperCase();
+                        });
 
 
-                            // collect receiver
-                            element.attributes[i].value.split(',').forEach(function (w) {
-                                let receivingWire = w.trim();
-                                if (!wirebundle[receivingWire]) {
-                                    wirebundle[receivingWire] = [];
-                                }
-                                wirebundle[receivingWire].push({"element": element, "method": methodname});
-                            });
-                        }
-
-                        // collect sending tags
-                        if (element.attributes[i].name.startsWith('@-')) {
-                            let eventname = element.attributes[i].name.substr(2);
-                            let wire;
+                        // collect receiver
+                        element.attributes[i].value.split(',').forEach(function (w) {
+                            let receivingWire = w.trim();
+                            if (!wirebundle[receivingWire]) {
+                                wirebundle[receivingWire] = [];
+                            }
+                            wirebundle[receivingWire].push({"element": element, "method": methodname});
+                        });
+                        continue;
+                    }
 
 
-                            let fwires = element.attributes[i].value;
-                            fwires.split(',').forEach(function (fwire) {
-                                let trimmedWire = fwire.trim();
-
-                                let type = "call";
-                                if (trimmedWire.startsWith('((')) {
-                                    wire = trimmedWire.substring(2, trimmedWire.length - 2);
-                                    type = "setValue";
+                    // collect sending tags
+                    if (element.attributes[i].name.startsWith('@-')) {
+                        let eventname = element.attributes[i].name.substr(2);
+                        let wire;
 
 
-                                } else if (trimmedWire.startsWith('-^')) {
+                        let fwires = element.attributes[i].value;
+                        fwires.split(',').forEach(function (fwire) {
+                            let trimmedWire = fwire.trim();
+
+                            let type = "call";
+                            if (trimmedWire.startsWith('((')) {
+                                wire = trimmedWire.substring(2, trimmedWire.length - 2);
+                                type = "setValue";
+
+
+                            } else if (trimmedWire.startsWith('-^')) {
+                                wire = trimmedWire.substring(2);
+                                type = "fireOnHost";
+                            } else if (trimmedWire.startsWith('^')) {
+                                wire = trimmedWire.substring(1);
+                                type = "fire";
+                                if (trimmedWire.startsWith('^^')) {
                                     wire = trimmedWire.substring(2);
-                                    type = "fireOnHost";
-                                } else if (trimmedWire.startsWith('^')) {
-                                    wire = trimmedWire.substring(1);
-                                    type = "fire";
-                                    if (trimmedWire.startsWith('^^')) {
-                                        wire = trimmedWire.substring(2);
-                                        type = "fireBubble";
-                                    }
-
-                                } else if (trimmedWire == ':STOP') {
-                                    type = "stop";
-                                    wire = "stop";
-                                } else {
-                                    wire = trimmedWire;
-                                    type = "call";
+                                    type = "fireBubble";
                                 }
 
-                                registerEvent(eventname, type, wire, element);
-                            });
-                        }
+                            } else if (trimmedWire == ':STOP') {
+                                type = "stop";
+                                wire = "stop";
+                            } else {
+                                wire = trimmedWire;
+                                type = "call";
+                            }
+
+                            registerEvent(eventname, type, wire, element);
+                        });
+                        continue;
                     }
                 }
-            );
+            }
 
 
             /**
@@ -161,6 +206,7 @@ const FBPMixin = (superClass) => {
              * @param wire
              */
             function registerEvent(eventname, type, wire, element) {
+
                 // find properties in wire
                 element.__atf = {};
                 let match = wire.match(/([a-z0-9\-_*\.]+)/gi);
@@ -191,7 +237,7 @@ const FBPMixin = (superClass) => {
                             if (match[1] === '*') {
                                 detailData = e;
                             } else {
-                                detailData = Path.get(self, match[1]);
+                                detailData = self._pathGet(self, match[1]);
                             }
                             effectiveWire = match[0];
                         }
@@ -211,10 +257,10 @@ const FBPMixin = (superClass) => {
                                 if (prop.length == 1) {
                                     customEvent.detail = e;
                                 } else {
-                                    customEvent.detail = Path.get(e, prop.substr(2))
+                                    customEvent.detail = self._pathGet(e, prop.substr(2))
                                 }
                             } else {
-                                customEvent.detail = Path.get(self, prop);
+                                customEvent.detail = self._pathGet(self, prop);
                             }
                             e.currentTarget.dispatchEvent(customEvent);
                         } else {
@@ -234,10 +280,10 @@ const FBPMixin = (superClass) => {
                                 if (prop.length == 1) {
                                     customEvent.detail = e;
                                 } else {
-                                    customEvent.detail = Path.get(e, prop.substr(2))
+                                    customEvent.detail = self._pathGet(e, prop.substr(2))
                                 }
                             } else {
-                                customEvent.detail = Path.get(self, prop);
+                                customEvent.detail = self._pathGet(self, prop);
                             }
                             self.dispatchEvent(customEvent);
                         } else {
@@ -258,10 +304,10 @@ const FBPMixin = (superClass) => {
                                 if (prop.length == 1) {
                                     customEvent.detail = e;
                                 } else {
-                                    customEvent.detail = Path.get(e, prop.substr(2))
+                                    customEvent.detail = self._pathGet(e, prop.substr(2))
                                 }
                             } else {
-                                customEvent.detail = Path.get(self, prop);
+                                customEvent.detail = self._pathGet(self, prop);
                             }
                             e.currentTarget.dispatchEvent(customEvent);
                         } else {
@@ -271,7 +317,10 @@ const FBPMixin = (superClass) => {
                         }
                     },
                     "setValue": function (e) {
-                        self.set(wire, e.detail, self);
+
+                        self._pathSet(self, wire, e.detail)
+
+                        //self.set(wire, e.detail, self);
                     }
                 };
 
@@ -293,7 +342,121 @@ const FBPMixin = (superClass) => {
                 e.element.removeEventListener(e.event, e.handler);
             })
         }
+
+        /**
+         * Reads a value from a path.  If any sub-property in the path is `undefined`,
+         * this method returns `undefined` (will never throw.
+         *
+         * @param {Object} root Object from which to dereference path from
+         * @param {string | !Array<string|number>} path Path to read
+         * @param {Object=} info If an object is provided to `info`, the normalized
+         *  (flattened) path will be set to `info.path`.
+         * @return {*} Value at path, or `undefined` if the path could not be
+         *  fully dereferenced.
+         */
+        _pathGet(root, path, info) {
+            let prop = root;
+            let parts = this._split(path);
+            // Loop over path parts[0..n-1] and dereference
+            for (let i = 0; i < parts.length; i++) {
+                if (!prop) {
+                    return;
+                }
+                let part = parts[i];
+                prop = prop[part];
+            }
+            if (info) {
+                info.path = parts.join('.');
+            }
+            return prop;
+        }
+
+        /**
+         * Sets a value to a path.  If any sub-property in the path is `undefined`,
+         * this method will no-op.
+         *
+         * @param {Object} root Object from which to dereference path from
+         * @param {string | !Array<string|number>} path Path to set
+         * @param {*} value Value to set to path
+         * @return {string | undefined} The normalized version of the input path
+         */
+        _pathSet(root, path, value) {
+            let prop = root;
+
+            let parts = this._split(path);
+            let last = parts[parts.length - 1];
+            if (parts.length > 1) {
+                // Loop over path parts[0..n-2] and dereference
+                for (let i = 0; i < parts.length - 1; i++) {
+                    let part = parts[i];
+                    prop = prop[part];
+                    if (!prop) {
+                        return;
+                    }
+                }
+                // Set value to object at end of path
+                prop[last] = value;
+                this.requestUpdate(parts[0])
+            } else {
+                // Simple property set
+                prop[path] = value;
+            }
+            return parts.join('.');
+        }
+
+
+        /**
+         * Splits a path into an array of property names. Accepts either arrays
+         * of path parts or strings.
+         *
+         * Example:
+         *
+         * ```
+         * split(['foo.bar', 0, 'baz'])  // ['foo', 'bar', '0', 'baz']
+         * split('foo.bar.0.baz')        // ['foo', 'bar', '0', 'baz']
+         * ```
+         *
+         * @param {string | !Array<string|number>} path Input path
+         * @return {!Array<string>} Array of path parts
+         * @suppress {checkTypes}
+         */
+        _split(path) {
+            if (Array.isArray(path)) {
+                return this._normalize(path).split('.');
+            }
+            return path.toString().split('.');
+        }
+
+        /**
+         * Converts array-based paths to flattened path.  String-based paths
+         * are returned as-is.
+         *
+         * Example:
+         *
+         * ```
+         * normalize(['foo.bar', 0, 'baz'])  // 'foo.bar.0.baz'
+         * normalize('foo.bar.0.baz')        // 'foo.bar.0.baz'
+         * ```
+         *
+         * @param {string | !Array<string|number>} path Input path
+         * @return {string} Flattened path
+         */
+        _normalize(path) {
+            if (Array.isArray(path)) {
+                let parts = [];
+                for (let i = 0; i < path.length; i++) {
+                    let args = path[i].toString().split('.');
+                    for (let j = 0; j < args.length; j++) {
+                        parts.push(args[j]);
+                    }
+                }
+                return parts.join('.');
+            } else {
+                return path;
+            }
+        }
     }
+
 
 };
 
@@ -340,4 +503,4 @@ const FBPMixin = (superClass) => {
  * @polymer
  * @mixinFunction FBP
  */
-export const FBP = dedupingMixin(FBPMixin);
+export const FBP = FBPMixin;
