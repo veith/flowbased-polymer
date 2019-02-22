@@ -1,0 +1,97 @@
+<!doctype html>
+
+<html>
+<head>
+    <title>flowbased-polymer test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+
+
+    <script type="module" src="../flow-bind.js"></script>
+</head>
+<body>
+
+<test-fixture id="basic">
+    <template>
+        <flow-bind id="elem">
+            <template>
+                <div id="hull">
+                    <div id="sender" @-new-data="--data-received, --sub, --rawEvent(*), --rawSub(*.other)" @-method-test="--method">sender</div>
+                    <div id="receiver" ƒ-$prop="--data-received" ƒ-$subprop="--sub(*.b)" ƒ-$raw="--rawEvent(*.other)" ƒ-$rawsub="--rawSub(*.yyyyy)" ƒ-method-test="--method(*.sub)">receiver</div>
+                </div>
+            </template>
+        </flow-bind>
+
+    </template>
+</test-fixture>
+
+<script type="module">
+
+
+    describe('property tests ', function () {
+
+        let element;
+
+        beforeEach(() => {
+            element = fixture('basic');
+        });
+
+
+        it('should set the property prop of receiver to e.detail', (done) => {
+            let customEvent = new Event('new-data', {composed:true, bubbles: true});
+            customEvent.detail = {a:1,b:4};
+            element.$.sender.dispatchEvent(customEvent);
+            assert.equal(element.$.receiver.prop.b, 4);
+            done()
+        });
+
+
+        it('should set the property subprop of receiver to e.detail.b', (done) => {
+            let customEvent = new Event('new-data', {composed:true, bubbles: true});
+            customEvent.detail = {a:1,b:4};
+            element.$.sender.dispatchEvent(customEvent);
+            assert.equal(element.$.receiver.subprop, 4);
+            done()
+        });
+
+        it('should set the property raw of receiver from raw event', (done) => {
+
+
+            let customEvent = new Event('new-data', {composed:true, bubbles: true});
+            customEvent.detail = {a:1,b:4};
+            customEvent.other = {xxxxx:1,yyyyy:4};
+            element.$.sender.dispatchEvent(customEvent);
+            assert.equal(element.$.receiver.raw.yyyyy, 4);
+            done()
+        });
+
+        it('should send e.other and set e.other.yyyyy to receiver', (done) => {
+            let customEvent = new Event('new-data', {composed:true, bubbles: true});
+            customEvent.detail = {a:1,b:4};
+            customEvent.other = {xxxxx:1,yyyyy:4};
+            element.$.sender.dispatchEvent(customEvent);
+            assert.equal(element.$.receiver.rawsub, 4);
+            done()
+        });
+
+        it('should send e.other and set e.other.yyyyy to receiver', (done) => {
+
+            element.$.receiver.methodTest = (e)=> {
+                assert.equal(e, "----");
+                done()
+            };
+
+            let customEvent = new Event('method-test', {composed:true, bubbles: true});
+            customEvent.detail = {sub:"----"};
+            element.$.sender.dispatchEvent(customEvent);
+
+
+        });
+
+    });
+</script>
+</body>
+</html>

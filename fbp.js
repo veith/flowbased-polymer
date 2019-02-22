@@ -30,8 +30,7 @@ const FBPMixin = (superClass) => {
          */
         _FBPTriggerWire(wire, detailData) {
             if (this.__wirebundle[wire]) {
-                let self = this;
-                this.__wirebundle[wire].forEach(function (receiver) {
+                this.__wirebundle[wire].map(  (receiver) =>{
                     // check for hooks
                     if (typeof receiver === 'function') {
                         receiver(detailData);
@@ -42,7 +41,11 @@ const FBPMixin = (superClass) => {
                             if (Array.isArray(detailData) && receiver.element[receiver.method].length > 1) {
                                 response = receiver.element[receiver.method].apply(receiver.element, detailData);
                             } else {
-                                response = receiver.element[receiver.method](detailData);
+                                let data = detailData;
+                                if (receiver.path) {
+                                    data = this._pathGet(detailData, receiver.path)
+                                }
+                                response = receiver.element[receiver.method](data);
                             }
                             // @-ƒ-function auslösen
                             let customEvent = new Event('ƒ-' + receiver.method, {composed: true, bubbles: false});
@@ -52,7 +55,7 @@ const FBPMixin = (superClass) => {
                         } else if (receiver.property) {
                             let data = detailData;
                             if (receiver.path) {
-                                data = self._pathGet(detailData, receiver.path)
+                                data = this._pathGet(detailData, receiver.path)
                             }
                             receiver.element[receiver.property] = data
                         } else {
@@ -91,6 +94,12 @@ const FBPMixin = (superClass) => {
 
         }
 
+        __toCamelCase(str) {
+            return str.replace(/-([a-z])/g, function (g) {
+                return g[1].toUpperCase();
+            });
+        }
+
         /**
          * parses the dom for flowbased programming tags
          * @param dom dom node
@@ -110,27 +119,17 @@ const FBPMixin = (superClass) => {
                     // collect data receiver
                     if (element.attributes[i].name.startsWith('ƒ-$')) {
 
-                        // get property name and convert to camel case
-                        let propertyname = element.attributes[i].name.substr(3).replace(/-([a-z])/g, function (g) {
-                            return g[1].toUpperCase();
-                        });
-
-
                         // split multiple wires
-                        element.attributes[i].value.split(',').forEach(function (w) {
-                            // finde --wire(*.xx.yy)  => group1 = --wire  group2 = xx.yy
-                            //let match = w.trim().match(/(^[^\(]*)\(\*\.?([^\)]*)/);
-                            let match = w.trim().match(/(^[^\(]*)\(?\*?\.?([^\)]*)/);
-                            let receivingWire = match[1];
-                            let path = match[2]
-
-                            if (!wirebundle[receivingWire]) {
-                                wirebundle[receivingWire] = [];
+                        element.attributes[i].value.split(',').map((w) => {
+                            let r = this.__resolveWireAndPath(w);
+                            // create empty if not exist
+                            if (!wirebundle[r.receivingWire]) {
+                                wirebundle[r.receivingWire] = [];
                             }
-                            wirebundle[receivingWire].push({
+                            wirebundle[r.receivingWire].push({
                                 "element": element,
-                                "property": propertyname,
-                                "path": path
+                                "property": this.__toCamelCase(element.attributes[i].name.substr(3)),
+                                "path": r.path
                             });
                         });
                         continue;
@@ -138,19 +137,21 @@ const FBPMixin = (superClass) => {
 
                     // collect receiving tags
                     if (element.attributes[i].name.startsWith('ƒ-')) {
-                        // get method name and convert to camel case
-                        let methodname = element.attributes[i].name.substr(2).replace(/-([a-z])/g, function (g) {
-                            return g[1].toUpperCase();
-                        });
 
 
                         // collect receiver
-                        element.attributes[i].value.split(',').forEach(function (w) {
-                            let receivingWire = w.trim();
-                            if (!wirebundle[receivingWire]) {
-                                wirebundle[receivingWire] = [];
+                        element.attributes[i].value.split(',').map((w) => {
+                            let r = this.__resolveWireAndPath(w);
+                            // create empty if not exist
+                            if (!wirebundle[r.receivingWire]) {
+                                wirebundle[r.receivingWire] = [];
                             }
-                            wirebundle[receivingWire].push({"element": element, "method": methodname});
+                            wirebundle[r.receivingWire].push({
+                                "element": element,
+                                "method": this.__toCamelCase(element.attributes[i].name.substr(2)),
+                                "path": r.path
+                            });
+
                         });
                         continue;
                     }
@@ -163,7 +164,7 @@ const FBPMixin = (superClass) => {
 
 
                         let fwires = element.attributes[i].value;
-                        fwires.split(',').forEach(function (fwire) {
+                        fwires.split(',').map(  (fwire) => {
                             let trimmedWire = fwire.trim();
 
                             let type = "call";
@@ -234,9 +235,18 @@ const FBPMixin = (superClass) => {
                         let detailData = e.detail;
                         if (match !== null && match.length > 1) {
                             // --wireName(*) sends the raw event
-                            if (match[1] === '*') {
-                                detailData = e;
+                            // --wireName(*.mouseX) sends property mouseX of the event
+
+                            if (match[1].startsWith("*")) {
+                                if (match[1].length === 1) {
+                                    // send raw event
+                                    detailData = e;
+                                } else {
+                                    // send event subprop with *.notDetail.xxx
+                                    detailData = self._pathGet(e, match[1].substr(2, match[1].length));
+                                }
                             } else {
+                                // send host property
                                 detailData = self._pathGet(self, match[1]);
                             }
                             effectiveWire = match[0];
@@ -333,6 +343,16 @@ const FBPMixin = (superClass) => {
                 });
 
             }
+        }
+
+        __resolveWireAndPath(w) {
+            // finde --wire(*.xx.yy)  => group1 = --wire  group2 = xx.yy
+
+            let match = w.trim().match(/(^[^\(]*)\(?\*?\.?([^\)]*)/);
+            let receivingWire = match[1];
+            let path = match[2];
+
+            return {receivingWire, path};
         }
 
         disconnectedCallback() {
