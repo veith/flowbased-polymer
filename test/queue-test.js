@@ -15,7 +15,6 @@ class QueueTest extends FBP(LitElement) {
         this.later = 333;
         this._FBPTriggerWire('--queue', 12);
         this._FBPAddWireHook('--queue', (e) => {
-            console.log(e)
             this.later = e;
         });
     }
