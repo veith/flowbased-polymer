@@ -68,6 +68,7 @@ const FBPMixin = (superClass) => {
                     });
                 }
             } else {
+
                 this.__enqueueTrigger(wire, detailData);
             }
         }

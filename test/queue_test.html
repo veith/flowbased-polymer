@@ -1,0 +1,55 @@
+<!doctype html>
+
+<html>
+<head>
+    <title>flowbased-polymer test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+
+
+    <script type="module" src="../flow-bind.js"></script>
+    <script type="module" src="./queue-test.js"></script>
+</head>
+<body>
+
+<test-fixture id="basic">
+    <template>
+        <flow-bind id="elem">
+            <template>
+                <queue-test id="queued"></queue-test>
+            </template>
+        </flow-bind>
+
+    </template>
+</test-fixture>
+
+<script type="module">
+
+
+    describe('property tests ', function () {
+
+        let element;
+
+        beforeEach(() => {
+            element = fixture('basic');
+        });
+
+
+        it('queue should be executed', (done) => {
+setTimeout(()=>{
+    assert.equal(element.$.queued.later , 12);
+    done()
+
+},10)
+
+        });
+
+
+
+    });
+</script>
+</body>
+</html>
