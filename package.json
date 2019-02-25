@@ -1,45 +1,46 @@
 {
-  "description": "Do flowbased programming with polymer.",
-  "keywords": [
-    "polymer",
-    "web-components",
-    "flow based programming",
-    "flowbased",
-    "flow"
-  ],
-  "homepage": "https://veith.github.io/flowbased-polymer/",
-  "name": "@furo/fbp",
-  "version": "4.3.1",
-  "resolutions": {
-    "inherits": "2.0.3",
-    "samsam": "1.1.3",
-    "supports-color": "3.1.2",
-    "type-detect": "1.0.0"
-  },
-  "main": "fbp.js",
-  "license": "MIT",
-  "dependencies": {
-    "@polymer/polymer": "^3.0.0"
-  },
-  "devDependencies": {
-    "@polymer/iron-component-page": "^3.0.0-pre.18",
-    "@polymer/iron-demo-helpers": "^3.0.0-pre.18",
-    "@webcomponents/webcomponentsjs": "^2.0.0",
-    "wct-browser-legacy": "^1.0.1"
-  },
-  "directories": {
-    "doc": "docs",
-    "test": "test"
-  },
-  "scripts": {
-    "test": "polymer test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/veith/flowbased-behaviour.git"
-  },
-  "author": "veith",
-  "bugs": {
-    "url": "https://github.com/veith/flowbased-behaviour/issues"
-  }
+    "description": "Declarative programming with web-components.",
+    "keywords": [
+        "polymer",
+        "web-components",
+        "flow based programming",
+        "flowbased",
+        "flow"
+    ],
+    "homepage": "https://veith.github.io/flowbased-polymer/",
+    "name": "@furo/fbp",
+    "version": "4.4.0",
+    "resolutions": {
+        "inherits": "2.0.3",
+        "samsam": "1.1.3",
+        "supports-color": "3.1.2",
+        "type-detect": "1.0.0"
+    },
+    "main": "fbp.js",
+    "license": "MIT",
+    "dependencies": {
+    },
+    "devDependencies": {
+        "@polymer/polymer": "^3.0.0",
+        "@polymer/iron-component-page": "^3.0.0-pre.18",
+        "@polymer/iron-demo-helpers": "^3.0.0-pre.18",
+        "@webcomponents/webcomponentsjs": "^2.0.0",
+        "wct-browser-legacy": "^1.0.1"
+    },
+    "directories": {
+        "doc": "docs",
+        "test": "test"
+    },
+    "scripts": {
+        "test": "polymer test"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/veith/flowbased-polymer.git"
+
+    },
+    "author": "veith",
+    "bugs": {
+        "url": "https://github.com/veith/flowbased-polymer/issues"
+    }
 }

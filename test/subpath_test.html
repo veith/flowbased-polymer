@@ -1,0 +1,92 @@
+<!doctype html>
+
+<html>
+<head>
+    <title>flowbased-polymer test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+
+
+    <script type="module" src="../flow-bind.js"></script>
+</head>
+<body>
+
+<test-fixture id="basic">
+    <template>
+        <flow-bind id="elem">
+            <template>
+                <div id="hull">
+                    <div id="sender" @-new-data="--fromSender(*.detail.a.b.c), --onReceiver" @-sendarray="--sendArray(*.detail.a.b.1.x.0)">sender</div>
+                    <div id="receiver" ƒ-test="--fromSender" ƒ-onreceiver="--onReceiver(*.a.b)" ƒ-onreceiverarray="--onReceiver(*.a.b.2)" ƒ-sendarray="--sendArray">receiver</div>
+                </div>
+            </template>
+        </flow-bind>
+
+    </template>
+</test-fixture>
+
+<script type="module">
+
+
+    describe('property tests ', function () {
+
+        let element;
+
+        beforeEach(() => {
+            element = fixture('basic');
+        });
+
+
+        it('should send subpath of event', (done) => {
+            element.$.receiver.test = (e) => {
+                assert.equal(e, 3);
+                done()
+            };
+
+            let customEvent = new Event('new-data');
+            customEvent.detail = {a: {b: {c: 3}}};
+            element.$.sender.dispatchEvent(customEvent);
+        });
+
+
+        it('should pass subpath on e.detail.a.b => (*.a.b)', (done) => {
+            element.$.receiver.onreceiver = (e) => {
+                assert.equal(e.c, 3);
+                done()
+            };
+
+            let customEvent = new Event('new-data');
+            customEvent.detail = {a: {b: {c: 3}}};
+            element.$.sender.dispatchEvent(customEvent);
+        });
+
+        it('should pass subpath  Array on e.detail.a.b => (*.a.b.2)', (done) => {
+            element.$.receiver.onreceiverarray = (e) => {
+                assert.equal(e, 10);
+                done()
+            };
+
+            let customEvent = new Event('new-data');
+            customEvent.detail = {a: {b: [8,9,10,11]}};
+            element.$.sender.dispatchEvent(customEvent);
+        });
+
+        it('should send subpath  Array on e.detail.a.b.1.x.0 => (*.a.b.1.x.0)', (done) => {
+            element.$.receiver.sendarray = (e) => {
+                assert.equal(e, 9);
+                done()
+            };
+
+            let customEvent = new Event('sendarray');
+            customEvent.detail = {a: {b: [8,{x:[9,10]},10,11]}};
+            element.$.sender.dispatchEvent(customEvent);
+        });
+
+
+    });
+</script>
+</body>
+</html>

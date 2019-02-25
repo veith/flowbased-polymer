@@ -1,0 +1,59 @@
+<!doctype html>
+
+<html>
+<head>
+    <title>flowbased-polymer test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+
+
+    <script type="module" src="../flow-bind.js"></script>
+</head>
+<body>
+
+<test-fixture id="basic">
+    <template>
+        <flow-bind id="elem">
+            <template>
+                <div id="hull">
+                    <div id="sender" @-new-data="--data-received">sender</div>
+                    <div id="receiver" ƒ-spread="--data-received">receiver</div>
+                </div>
+            </template>
+        </flow-bind>
+
+    </template>
+</test-fixture>
+
+<script type="module">
+
+
+    describe('property tests ', function () {
+
+        let element;
+
+        beforeEach(() => {
+            element = fixture('basic');
+        });
+
+
+        it('should spread array to receiver.spread()', (done) => {
+
+            element.$.receiver.spread = (a, b) => {
+                element.$.receiver.c = a * b;
+            };
+            let customEvent = new Event('new-data');
+            customEvent.detail = [4,6];
+            element.$.sender.dispatchEvent(customEvent);
+            assert.equal(element.$.receiver.c, 24);
+            done()
+        });
+
+
+    });
+</script>
+</body>
+</html>

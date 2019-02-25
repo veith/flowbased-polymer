@@ -7,6 +7,7 @@ const FBPMixin = (superClass) => {
             super();
             this.__FBPEventlistener = [];
             this.__wirebundle = {};
+            this.__wireQueue = [];
         }
 
 
@@ -29,41 +30,45 @@ const FBPMixin = (superClass) => {
          * @private
          */
         _FBPTriggerWire(wire, detailData) {
-            if (this.__wirebundle[wire]) {
-                this.__wirebundle[wire].map(  (receiver) =>{
-                    // check for hooks
-                    if (typeof receiver === 'function') {
-                        receiver(detailData);
-                    } else {
-                        if (typeof receiver.element[receiver.method] === 'function') {
-                            let response;
-                            // array spreaden
-                            if (Array.isArray(detailData) && receiver.element[receiver.method].length > 1) {
-                                response = receiver.element[receiver.method].apply(receiver.element, detailData);
-                            } else {
+            if (this.__fbp_ready) {
+                if (this.__wirebundle[wire]) {
+                    this.__wirebundle[wire].map((receiver) => {
+                        // check for hooks
+                        if (typeof receiver === 'function') {
+                            receiver(detailData);
+                        } else {
+                            if (typeof receiver.element[receiver.method] === 'function') {
+                                let response;
+                                // array spreaden
+                                if (Array.isArray(detailData) && receiver.element[receiver.method].length > 1) {
+                                    response = receiver.element[receiver.method].apply(receiver.element, detailData);
+                                } else {
+                                    let data = detailData;
+                                    if (receiver.path) {
+                                        data = this._pathGet(detailData, receiver.path)
+                                    }
+                                    response = receiver.element[receiver.method](data);
+                                }
+                                // @-ƒ-function auslösen
+                                let customEvent = new Event('ƒ-' + receiver.method, {composed: true, bubbles: false});
+                                customEvent.detail = response;
+                                receiver.element.dispatchEvent(customEvent);
+
+                            } else if (receiver.property) {
                                 let data = detailData;
                                 if (receiver.path) {
                                     data = this._pathGet(detailData, receiver.path)
                                 }
-                                response = receiver.element[receiver.method](data);
+                                receiver.element[receiver.property] = data
+                            } else {
+                                console.warn(receiver.method + ' is neither a listener nor a function of ' + receiver.element.nodeName)
                             }
-                            // @-ƒ-function auslösen
-                            let customEvent = new Event('ƒ-' + receiver.method, {composed: true, bubbles: false});
-                            customEvent.detail = response;
-                            receiver.element.dispatchEvent(customEvent);
-
-                        } else if (receiver.property) {
-                            let data = detailData;
-                            if (receiver.path) {
-                                data = this._pathGet(detailData, receiver.path)
-                            }
-                            receiver.element[receiver.property] = data
-                        } else {
-                            console.warn(receiver.method + ' is neither a listener nor a function of ' + receiver.element.nodeName)
                         }
-                    }
 
-                });
+                    });
+                }
+            } else {
+                this.__enqueueTrigger(wire, detailData);
             }
         }
 
@@ -164,7 +169,7 @@ const FBPMixin = (superClass) => {
 
 
                         let fwires = element.attributes[i].value;
-                        fwires.split(',').map(  (fwire) => {
+                        fwires.split(',').map((fwire) => {
                             let trimmedWire = fwire.trim();
 
                             let type = "call";
@@ -328,7 +333,7 @@ const FBPMixin = (superClass) => {
                     },
                     "setValue": function (e) {
 
-                        self._pathSet(self, wire, e.detail)
+                        self._pathSet(self, wire, e.detail);
 
                         //self.set(wire, e.detail, self);
                     }
@@ -341,8 +346,22 @@ const FBPMixin = (superClass) => {
                     "event": eventname,
                     "handler": handler[type]
                 });
-
             }
+
+            // queueing for _FBPTriggerWire
+            if (!this.__fbp_ready) {
+                this.__fbp_ready = true;
+                let l = this.__wireQueue.length;
+                for (let i = 0; i < l; i++) {
+                    let t = this.__wireQueue.shift();
+                    this._FBPTriggerWire(t.w, t.d);
+                }
+            }
+
+        }
+
+        __enqueueTrigger(wire, detailData) {
+            this.__wireQueue.push({"w": wire, "d": detailData});
         }
 
         __resolveWireAndPath(w) {
@@ -369,12 +388,10 @@ const FBPMixin = (superClass) => {
          *
          * @param {Object} root Object from which to dereference path from
          * @param {string | !Array<string|number>} path Path to read
-         * @param {Object=} info If an object is provided to `info`, the normalized
-         *  (flattened) path will be set to `info.path`.
          * @return {*} Value at path, or `undefined` if the path could not be
          *  fully dereferenced.
          */
-        _pathGet(root, path, info) {
+        _pathGet(root, path) {
             let prop = root;
             let parts = this._split(path);
             // Loop over path parts[0..n-1] and dereference
@@ -385,9 +402,7 @@ const FBPMixin = (superClass) => {
                 let part = parts[i];
                 prop = prop[part];
             }
-            if (info) {
-                info.path = parts.join('.');
-            }
+
             return prop;
         }
 
@@ -405,6 +420,7 @@ const FBPMixin = (superClass) => {
 
             let parts = this._split(path);
             let last = parts[parts.length - 1];
+            // used for @-event="((prop.sub))"
             if (parts.length > 1) {
                 // Loop over path parts[0..n-2] and dereference
                 for (let i = 0; i < parts.length - 1; i++) {
@@ -416,7 +432,8 @@ const FBPMixin = (superClass) => {
                 }
                 // Set value to object at end of path
                 prop[last] = value;
-                this.requestUpdate(parts[0])
+                // todo: check if something like requestUpdate is useful
+                //this.requestUpdate()
             } else {
                 // Simple property set
                 prop[path] = value;
@@ -441,40 +458,9 @@ const FBPMixin = (superClass) => {
          * @suppress {checkTypes}
          */
         _split(path) {
-            if (Array.isArray(path)) {
-                return this._normalize(path).split('.');
-            }
             return path.toString().split('.');
         }
 
-        /**
-         * Converts array-based paths to flattened path.  String-based paths
-         * are returned as-is.
-         *
-         * Example:
-         *
-         * ```
-         * normalize(['foo.bar', 0, 'baz'])  // 'foo.bar.0.baz'
-         * normalize('foo.bar.0.baz')        // 'foo.bar.0.baz'
-         * ```
-         *
-         * @param {string | !Array<string|number>} path Input path
-         * @return {string} Flattened path
-         */
-        _normalize(path) {
-            if (Array.isArray(path)) {
-                let parts = [];
-                for (let i = 0; i < path.length; i++) {
-                    let args = path[i].toString().split('.');
-                    for (let j = 0; j < args.length; j++) {
-                        parts.push(args[j]);
-                    }
-                }
-                return parts.join('.');
-            } else {
-                return path;
-            }
-        }
     }
 
 

@@ -19,8 +19,8 @@
         <flow-bind id="elem">
             <template>
                 <div id="hull">
-                    <div id="sender" @-new-data="--data-received, --sub, --rawEvent(*), --rawSub(*.other)" @-method-test="--method">sender</div>
-                    <div id="receiver" ƒ-$prop="--data-received" ƒ-$subprop="--sub(*.b)" ƒ-$raw="--rawEvent(*.other)" ƒ-$rawsub="--rawSub(*.yyyyy)" ƒ-method-test="--method(*.sub)">receiver</div>
+                    <div id="sender" @-new-data="--data-received, --sub, --rawEvent(*), --rawSub(*.other.yyyyy.0), ((some.yyyyy))" @-method-test="--method">sender</div>
+                    <div id="receiver" ƒ-$prop="--data-received" ƒ-$subprop="--sub(*.b)" ƒ-$raw="--rawEvent(*.other)" ƒ-$rawsub="--rawSub(*.a.2)" ƒ-method-test="--method(*.sub)">receiver</div>
                 </div>
             </template>
         </flow-bind>
@@ -69,11 +69,13 @@
         });
 
         it('should send e.other and set e.other.yyyyy to receiver', (done) => {
+            element.some = {};
             let customEvent = new Event('new-data', {composed:true, bubbles: true});
             customEvent.detail = {a:1,b:4};
-            customEvent.other = {xxxxx:1,yyyyy:4};
+            customEvent.other = {xxxxx:1,yyyyy:[{a:[11,12,13]},2,3,4]};
             element.$.sender.dispatchEvent(customEvent);
-            assert.equal(element.$.receiver.rawsub, 4);
+            assert.equal(element.$.receiver.rawsub, 13);
+            assert.equal(element.some.yyyyy.b, 4);
             done()
         });
 
