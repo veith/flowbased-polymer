@@ -120,6 +120,33 @@ const FBPMixin = (superClass) => {
             for (var x = l; x >= 0; --x) {
                 let element = nl[x];
 
+                // template is=flow-repeat..
+                if (element.tagName === "TEMPLATE") {
+                    if (element.getAttribute("is") === "flow-repeat") {
+                        let original = element;
+                        // Create a replacement tag of the desired type
+                        let replacement = document.createElement("flow-repeat");
+
+                        // Grab all of the original's attributes, and pass them to the replacement
+                        let l = original.attributes.length;
+                        for (let i = 0; i < l; ++i) {
+                            var nodeName = original.attributes.item(i).nodeName;
+                            var nodeValue = original.attributes.item(i).nodeValue;
+
+                            replacement.setAttribute(nodeName, nodeValue);
+                        }
+
+                        // Persist contents
+                        let tpl = document.createElement("template");
+                        tpl._templateInfo = original._templateInfo;
+                        replacement.appendChild(tpl);
+
+                        // Switch!
+                        original.parentNode.replaceChild(replacement, original);
+                        element = replacement
+
+                    }
+                }
                 for (let i = 0; i < element.attributes.length; i++) {
 
                     // collect data receiver
