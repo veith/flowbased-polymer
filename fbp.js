@@ -143,14 +143,14 @@ const FBPMixin = (superClass) => {
 
                         // Switch!
                         original.parentNode.replaceChild(replacement, original);
-                        element = replacement
+                        element = replacement;
 
                     }
                 }
                 for (let i = 0; i < element.attributes.length; i++) {
 
                     // collect data receiver
-                    if (element.attributes[i].name.startsWith('ƒ-$')) {
+                    if (element.attributes[i].name.startsWith('ƒ-.') || element.attributes[i].name.startsWith('ƒ-$')) {
 
                         // split multiple wires
                         element.attributes[i].value.split(',').map((w) => {
