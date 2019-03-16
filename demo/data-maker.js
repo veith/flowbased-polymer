@@ -27,10 +27,14 @@ class DataMaker extends FBP(LitElement) {
       <!-- Add a style block here -->
       <style>
         :host {
-          display: block;
+          display: inline;
+        }
+        span{
+        border:1px solid green;
+        padding: 8px;
         }
       </style>
-      <p @-click="^^data(data)">Make Data</p>
+      <span @-click="^^data(data)">Make ${this.data.length} Data</span>
     `;
   }
 

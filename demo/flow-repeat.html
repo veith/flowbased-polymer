@@ -9,13 +9,76 @@
     <script type="module" src="../../../@polymer/iron-demo-helpers/demo-pages-shared-styles.js"></script>
     <script type="module" src="../../../@polymer/iron-demo-helpers/demo-snippet.js"></script>
 
-    <script type="module" src="./repeat-help.js"></script>
+    <script type="module" src="../flow-bind.js"></script>
+
+    <script type="module" src="../flow-repeat.js"></script>
+    <script type="module" src="./data-maker.js"></script>
+    <script type="module" src="./rep-item.js"></script>
 
 
 </head>
 <body>
 
-                    <repeat-help></repeat-help>
+<div class="vertical-section-container centered">
+    <h3>&lt;flow-repeat &gt;</h3>
+    <p>Use flow-repeat to repeat Arrays </p>
+    <demo-snippet>
+        <template>
+            <flow-bind id="elem">
+                <template>
+
+                    <data-maker @-data="--newData"></data-maker>
+                    <data-maker @-data="--newData" data="[3,5,7,2]"></data-maker>
+
+                    <ul>
+                        <flow-repeat style="display: table-cell;" items="[[data]]" ƒ-inject-items="--newData"
+                                     internal-wire="--itemInjected">
+                            <template>
+                                <li>
+                                    <b>neu</b>
+                                    <rep-item ƒ-raw="--itemInjected" @-click="--xx"></rep-item>
+                                    <rep-item ƒ-index="--itemInjected(*.index)" ƒ-yy="--xx"></rep-item>
+                                </li>
+                            </template>
+                        </flow-repeat>
+                    </ul>
+                </template>
+            </flow-bind>
+        </template>
+
+    </demo-snippet>
+</div>
+
+
+<div class="vertical-section-container centered">
+    <h3>&lt;template is="flow-repeat" &gt;</h3>
+    <p>Use flow-repeat to repeat Arrays </p>
+    <demo-snippet>
+        <template>
+            <flow-bind id="elem">
+                <template>
+
+                    <data-maker @-data="--newData"></data-maker>
+                    <data-maker @-data="--newData" data="[3,5,7,2]"></data-maker>
+                    <hr>
+                    <table width="100%" border="1">
+                        <tbody>
+                            <tr>
+                                <template is="flow-repeat" ƒ-inject-items="--newData" internal-wire="--itemInjected">
+                                    <td>
+                                        <rep-item ƒ-raw="--itemInjected" @-click="--xx"></rep-item>
+                                        <rep-item ƒ-index="--itemInjected(*.index)" ƒ-yy="--xx"></rep-item>
+                                    </td>
+                                </template>
+                            </tr>
+                        </tbody>
+                    </table>
+                </template>
+            </flow-bind>
+        </template>
+
+    </demo-snippet>
+</div>
 
 
 </body>

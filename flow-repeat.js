@@ -2,15 +2,16 @@ import {FBP} from './fbp.js';
 
 /**
  * `flow-repeat`
- * Native element
  *
+ * Custom element to repeat Arrays
+ *
+ *
+ * @summary Custom element to allow using FBPs template features in repeated template
+ *
+ * @polymer
  * @customElement
- */
-
-
-/**
- *
- * @appliesMixin FBP
+ * @demo demo/flow-bind.html
+ * @mixes FBP
  */
 class FlowRepeat extends FBP(HTMLElement) {
 
@@ -61,7 +62,7 @@ class FlowRepeat extends FBP(HTMLElement) {
         let t = this.querySelector('template');
         this.template = t._templateInfo.content;
 
-        this._internalWire = this.getAttribute("internal-wire") || "--itemInjected"
+        this._internalWire = this.getAttribute("internal-wire") || "--itemInjected";
 
     }
 

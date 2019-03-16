@@ -35,7 +35,7 @@
     },
     "directories": {
         "doc": "docs",
-        "test": "./node_modules/polymer-cli/bin/polymer.js test"
+        "test": "test"
     },
     "scripts": {
         "test": "./node_modules/polymer-cli/bin/polymer.js test"
