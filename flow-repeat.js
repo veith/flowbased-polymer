@@ -60,7 +60,12 @@ class FlowRepeat extends FBP(HTMLElement) {
         // Create a shadow root to the element.
         this.attachShadow({mode: 'open'});
         let t = this.querySelector('template');
+        if(t.content.children.length > 0){
+            this.template = t.content;
+        }else{
         this.template = t._templateInfo.content;
+        }
+
 
         this._internalWire = this.getAttribute("internal-wire") || "--itemInjected";
 

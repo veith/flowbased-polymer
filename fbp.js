@@ -139,6 +139,10 @@ const FBPMixin = (superClass) => {
                         // Persist contents
                         let tpl = document.createElement("template");
                         tpl._templateInfo = original._templateInfo;
+                        if(tpl._templateInfo === undefined){
+                            tpl._templateInfo = {content : original.content};
+                        }
+
                         replacement.appendChild(tpl);
 
                         // Switch!
