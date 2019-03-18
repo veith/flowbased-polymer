@@ -84,6 +84,22 @@ class FlowRepeat extends FBP(HTMLElement) {
 
 
         this._internalWire = this.getAttribute("internal-wire") || "--itemInjected";
+    }
+
+
+    triggerFirst(e){
+        this._insertedItems[0].virtualElement._FBPTriggerWire("--trigger",e)
+    }
+
+    triggerLast(e){
+        this._insertedItems[this._insertedItems.length-1].virtualElement._FBPTriggerWire("--trigger",e)
+    }
+    triggerIndex(i, data){
+        if(this._insertedItems[i]){
+            this._insertedItems[i].virtualElement._FBPTriggerWire("--trigger",data)
+        }else{
+            console.warn("Out of index", this)
+        }
 
     }
 
