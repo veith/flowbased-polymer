@@ -155,7 +155,9 @@ const FBPMixin = (superClass) => {
 
                     // collect data receiver
                     if (element.attributes[i].name.startsWith('ƒ-.') || element.attributes[i].name.startsWith('ƒ-$')) {
-
+                        if(element.attributes[i].name[2] === "$"){
+                            console.warn("ƒ-$ is deprecated, use ƒ-. to set properties instead", this);
+                        }
                         // split multiple wires
                         element.attributes[i].value.split(',').map((w) => {
                             let r = this.__resolveWireAndPath(w);
@@ -407,7 +409,10 @@ const FBPMixin = (superClass) => {
         }
 
         disconnectedCallback() {
-            super.disconnectedCallback();
+            if(super.disconnectedCallback){
+                super.disconnectedCallback();
+            }
+
             /* remove event listeners*/
             this.__FBPEventlistener.forEach(function (e) {
                 e.element.removeEventListener(e.event, e.handler);

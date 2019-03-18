@@ -12,7 +12,7 @@ class DataMaker extends FBP(LitElement) {
 
   constructor() {
     super();
-    this.data = [{a:2},{a:1},{a:3},{a:23},{a:14},{a:35}];
+    this.data = [{a:2,arr:[1,2,3]},{a:1,arr:[12,2,3]},{a:3,arr:[41,2,3]},{a:23,arr:[71,2,3]},{a:14,arr:[1,42,3]},{a:35,arr:[13,2,3]}];
   }
 
     static get properties() {

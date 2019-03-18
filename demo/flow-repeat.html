@@ -28,16 +28,22 @@
                 <template>
 
                     <data-maker @-data="--newData"></data-maker>
-                    <data-maker @-data="--newData" data="[3,5,7,2]"></data-maker>
+
 
                     <ul>
-                        <flow-repeat style="display: table-cell;" items="[[data]]" ƒ-inject-items="--newData"
+                        <flow-repeat  ƒ-inject-items="--newData"
                                      internal-wire="--itemInjected">
                             <template>
                                 <li>
                                     <b>neu</b>
                                     <rep-item ƒ-raw="--itemInjected" @-click="--xx"></rep-item>
-                                    <rep-item ƒ-index="--itemInjected(*.index)" ƒ-yy="--xx"></rep-item>
+                                    <rep-item ƒ-index="--itemInjected(*.index)" ƒ-yy="--xx" ></rep-item>
+
+                                    <flow-repeat ƒ-inject-items="--itemInjected(*.item.arr)" internal-wire="--item">
+                                        <template>
+                                            <div ƒ-.inner-text="--item(*.item)"></div>
+                                        </template>
+                                    </flow-repeat>
                                 </li>
                             </template>
                         </flow-repeat>
@@ -68,6 +74,11 @@
                                     <td>
                                         <rep-item ƒ-raw="--itemInjected" @-click="--xx"></rep-item>
                                         <rep-item ƒ-index="--itemInjected(*.index)" ƒ-yy="--xx"></rep-item>
+                                        <flow-repeat ƒ-inject-items="--itemInjected(*.item.arr)" internal-wire="--item">
+                                            <template>
+                                                <span ƒ-.inner-text="--item(*.item)"></span>
+                                            </template>
+                                        </flow-repeat>
                                     </td>
                                 </template>
                             </tr>

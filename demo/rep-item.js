@@ -14,6 +14,7 @@ class RepItem extends FBP(LitElement) {
         super();
     }
 
+
     raw(data) {
         this._data = data.item;
         console.log("_data",this._data)
