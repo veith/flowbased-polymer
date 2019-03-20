@@ -37,6 +37,10 @@ class FlowRepeat extends FBP(HTMLElement) {
             elem.shadowRoot.appendChild(this.template.cloneNode(true));
             elem._appendFBP(elem.shadowRoot);
 
+
+            elem.item = e;
+            elem.index = i;
+
             let handle = {virtualElement: elem, children: [].slice.call(elem.shadowRoot.children)};
 
             // remove old entries
@@ -88,15 +92,18 @@ class FlowRepeat extends FBP(HTMLElement) {
 
 
     triggerFirst(e){
-        this._insertedItems[0].virtualElement._FBPTriggerWire("--trigger",e)
+        this._insertedItems[0].virtualElement._FBPTriggerWire("--trigger",e);
+        this._insertedItems[0].virtualElement._FBPTriggerWire("--triggerFirst",e);
     }
 
     triggerLast(e){
-        this._insertedItems[this._insertedItems.length-1].virtualElement._FBPTriggerWire("--trigger",e)
+        this._insertedItems[this._insertedItems.length-1].virtualElement._FBPTriggerWire("--trigger",e);
+        this._insertedItems[this._insertedItems.length-1].virtualElement._FBPTriggerWire("--triggerLast",e);
     }
     triggerIndex(i, data){
         if(this._insertedItems[i]){
-            this._insertedItems[i].virtualElement._FBPTriggerWire("--trigger",data)
+            this._insertedItems[i].virtualElement._FBPTriggerWire("--trigger",data);
+            this._insertedItems[i].virtualElement._FBPTriggerWire("--triggerIndex",data);
         }else{
             console.warn("Out of index", this)
         }
