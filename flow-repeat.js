@@ -23,6 +23,12 @@ class FlowRepeat extends FBP(HTMLElement) {
 
     }
 
+    /**
+     * Clear the list
+     */
+    clear(){
+        this.injectItems([])
+    }
 
     injectItems(items) {
         if (!Array.isArray(items)) {
@@ -64,6 +70,7 @@ class FlowRepeat extends FBP(HTMLElement) {
             }
 
             elem._FBPTriggerWire("--item", e);
+            elem._FBPTriggerWire("--host", this.parentNode.host);
             elem._FBPTriggerWire("--index", i);
         });
 
