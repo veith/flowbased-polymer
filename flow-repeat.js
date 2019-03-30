@@ -51,7 +51,7 @@ class FlowRepeat extends FBP(HTMLElement) {
             }
             this._insertedItems[i] = handle;
 
-            this.parentNode.appendChild(elem.shadowRoot);
+            this.parentNode.insertBefore(elem.shadowRoot, this);
 
             // trigger wires
             elem._FBPTriggerWire(this._internalWire, {item: e, index: i});
