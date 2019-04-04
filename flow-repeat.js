@@ -30,12 +30,21 @@ class FlowRepeat extends FBP(HTMLElement) {
         this.injectItems([])
     }
 
+    _findFirstHost(parent){
+        if(parent.host){
+            return parent.host;
+        }
+
+        return this._findFirstHost(parent.parentNode);
+
+    }
     injectItems(items) {
         if (!Array.isArray(items)) {
             console.error("Items is not an array ", items);
             return;
         }
 
+        this._firstHost = this._findFirstHost(this.parentNode);
         items.forEach((e, i, a) => {
             // build hidden elem
             let elem = document.createElement('empty-fbp-node');
@@ -70,7 +79,7 @@ class FlowRepeat extends FBP(HTMLElement) {
             }
 
             elem._FBPTriggerWire("--item", e);
-            elem._FBPTriggerWire("--host", this.parentNode.host);
+            elem._FBPTriggerWire("--host", this._firstHost);
             elem._FBPTriggerWire("--index", i);
         });
 
