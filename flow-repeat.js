@@ -40,8 +40,9 @@ class FlowRepeat extends FBP(HTMLElement) {
     }
     injectItems(items) {
         if (!Array.isArray(items)) {
-            console.error("Items is not an array ", items);
-            return;
+            console.warn("Items is not an array ", items, this);
+            // make the list empty
+            items =[];
         }
 
         this._firstHost = this._findFirstHost(this.parentNode);
