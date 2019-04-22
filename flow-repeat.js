@@ -42,7 +42,6 @@ class FlowRepeat extends FBP(HTMLElement) {
         this.deselect(this.selectedIndex);
       }
 
-
       this._insertedItems[index].virtualElement._FBPTriggerWire("--itemSelected");
       this.selectedIndex = index;
     }
@@ -50,12 +49,12 @@ class FlowRepeat extends FBP(HTMLElement) {
   }
 
   /**
-   * Triggers the wire --itemDeSelected on item
-   * @param index
+   * Triggers the wire --itemDeSelected on last selected item
    */
-  deselect(index) {
-    if (this._insertedItems[index]) {
-      this._insertedItems[index].virtualElement._FBPTriggerWire("--itemDeSelected");
+  deselect() {
+    if (this.selectedIndex !== undefined && this._insertedItems[this.selectedIndex]) {
+      this._insertedItems[this.selectedIndex].virtualElement._FBPTriggerWire("--itemDeSelected");
+        this.selectedIndex = undefined;
     }
   }
 
