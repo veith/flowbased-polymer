@@ -30,6 +30,36 @@ class FlowRepeat extends FBP(HTMLElement) {
         this.injectItems([])
     }
 
+  /**
+   * Triggers the wire --itemSelected on selected item and --itemDeSelected on last selected Item
+   * @param index
+   */
+  select(index) {
+    if (this._insertedItems[index]) {
+
+      // deselect the last selected
+      if (this.selectedIndex !== undefined) {
+        this.deselect(this.selectedIndex);
+      }
+
+
+      this._insertedItems[index].virtualElement._FBPTriggerWire("--itemSelected");
+      this.selectedIndex = index;
+    }
+
+  }
+
+  /**
+   * Triggers the wire --itemDeSelected on item
+   * @param index
+   */
+  deselect(index) {
+    if (this._insertedItems[index]) {
+      this._insertedItems[index].virtualElement._FBPTriggerWire("--itemDeSelected");
+    }
+  }
+
+
     _findFirstHost(parent){
         if(parent.host){
             return parent.host;
